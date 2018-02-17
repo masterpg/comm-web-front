@@ -61,7 +61,7 @@ gulp.task('build:resources', () => {
   return gulp.src([
     'src/**/*.js',
     'src/**/*.d.ts',
-    '!src/typings.d.ts',
+    '!src/types/**/*',
   ], { base: 'src' })
     .pipe(gulp.dest('lib'));
 });
