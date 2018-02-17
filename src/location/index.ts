@@ -35,17 +35,17 @@ namespace location {
       this.query = qs.parse(src.search.substring(1));
     }
 
-    url: string;
-    protocol: string;
-    domain: string;
-    port: string;
-    host: string;
-    path: string;
-    hash: string;
-    dir: string;
-    base: string;
-    ext: string;
-    query: any;
+    url: string = '';
+    protocol: string = '';
+    domain: string = '';
+    port: string = '';
+    host: string = '';
+    path: string = '';
+    hash: string = '';
+    dir: string = '';
+    base: string = '';
+    ext: string = '';
+    query: {} = {};
   }
 
   /**
@@ -119,9 +119,13 @@ namespace location {
 
   /**
    * 現在のワーキングディレクトリをパスで取得します。
+   * @param climbSteps ワーキングディレクトリをのぼるステップ数を指定します。
+   *   例: ワーキングディレクトが /root/foo/var で、引数に｢2｣を指定した場合、戻り値は /root になる。
    */
-  export function cwd(): string {
-    return getDir(parse(window.location.href).path);
+  export function cwd(climbSteps: number = 0): string {
+    let dir = getDir(parse(window.location.href).path);
+    dir = dir.replace(new RegExp(`(?:\\\/+[^\\\/]*){0,${climbSteps}}$`), '');
+    return dir;
   }
 
   /**

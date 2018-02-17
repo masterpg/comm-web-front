@@ -14,7 +14,7 @@ declare namespace location {
         dir: string;
         base: string;
         ext: string;
-        query: any;
+        query: {};
     }
     /**
      * ロケーションを変更します。
@@ -59,8 +59,10 @@ declare namespace location {
     function toPath(url: string): string;
     /**
      * 現在のワーキングディレクトリをパスで取得します。
+     * @param climbSteps ワーキングディレクトリをのぼるステップ数を指定します。
+     *   例: ワーキングディレクトが /root/foo/var で、引数に｢2｣を指定した場合、戻り値は /root になる。
      */
-    function cwd(): string;
+    function cwd(climbSteps?: number): string;
     /**
      * 指定されたパスを連結します。
      * @param args

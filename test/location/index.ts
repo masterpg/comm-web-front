@@ -1,3 +1,4 @@
+const assert = chai.assert;
 import location from '../../src/location';
 
 suite('location', () => {
@@ -15,7 +16,7 @@ suite('location', () => {
     assert.equal(actual.dir, '/foo/bar');
     assert.equal(actual.base, 'index.html');
     assert.equal(actual.ext, '.html');
-    assert.deepEqual(actual.query, {name: 'taro', age: '21'});
+    assert.deepEqual(actual.query, { name: 'taro', age: '21' });
   });
 
   test('parse(): 日本語', () => {
@@ -25,7 +26,7 @@ suite('location', () => {
     assert.equal(actual.dir, '/ホゲ/フガ');
     assert.equal(actual.base, 'インデックス.html');
     assert.equal(actual.ext, '.html');
-    assert.deepEqual(actual.query, {name: '太郎', age: '21'});
+    assert.deepEqual(actual.query, { name: '太郎', age: '21' });
   });
 
   test('parse(): 日本語(エスケープ)', () => {
@@ -35,22 +36,22 @@ suite('location', () => {
     assert.equal(actual.dir, '/ホゲ/フガ');
     assert.equal(actual.base, 'インデックス.html');
     assert.equal(actual.ext, '.html');
-    assert.deepEqual(actual.query, {name: '太郎', age: '21'});
+    assert.deepEqual(actual.query, { name: '太郎', age: '21' });
   });
 
   test('parse(): クエリにスペースを含んだ場合', () => {
     const actual = location.parse('/index.html?a=b c');
-    assert.deepEqual(actual.query, {a: 'b c'});
+    assert.deepEqual(actual.query, { a: 'b c' });
   });
 
   test('parse(): クエリにスペース(エスケープ)を含んだ場合', () => {
     const actual = location.parse('/index.html?a=b%20c');
-    assert.deepEqual(actual.query, {a: 'b c'});
+    assert.deepEqual(actual.query, { a: 'b c' });
   });
 
   test('parse(): クエリに"+"を含んだ場合', () => {
     const actual = location.parse('/index.html?a=b+c');
-    assert.deepEqual(actual.query, {a: 'b c'});
+    assert.deepEqual(actual.query, { a: 'b c' });
   });
 
   test('getBase()', () => {
@@ -82,14 +83,16 @@ suite('location', () => {
   });
 
   test('getDir()', () => {
+    const cwd = location.cwd();
+
     const actual1 = location.getDir('./');
-    assert.equal(actual1, '/test');
+    assert.equal(actual1, `${cwd}`);
 
     const actual2 = location.getDir('foo/bar/index.html');
-    assert.equal(actual2, '/test/foo/bar');
+    assert.equal(actual2, `${cwd}/foo/bar`);
 
     const actual3 = location.getDir('foo/bar/index.html');
-    assert.equal(actual3, '/test/foo/bar');
+    assert.equal(actual3, `${cwd}/foo/bar`);
 
     const actual4 = location.getDir('/foo/bar/index.min.html');
     assert.equal(actual4, '/foo/bar');
@@ -98,10 +101,11 @@ suite('location', () => {
     assert.equal(actual5, '/foo');
 
     const actual6 = location.getDir('../../css/style.css');
-    assert.equal(actual6, '/css');
+    const twoStepsCwd = location.cwd(2);
+    assert.equal(actual6, `${twoStepsCwd}/css`);
 
     const actual7 = location.getDir('./js/main.min.js');
-    assert.equal(actual7, '/test/js');
+    assert.equal(actual7, `${cwd}/js`);
 
     const actual8 = location.getDir('http://localhost:5000/test/foo/bar/index.html');
     assert.equal(actual8, '/test/foo/bar');
@@ -109,7 +113,8 @@ suite('location', () => {
 
   test('toPath()', () => {
     const actual1 = location.toPath(('foo/bar/index.html'));
-    assert.equal(actual1, '/test/foo/bar/index.html');
+    const cwd = location.cwd();
+    assert.equal(actual1, `${cwd}/foo/bar/index.html`);
 
     const actual2 = location.toPath(('/foo/bar/index.html'));
     assert.equal(actual2, '/foo/bar/index.html');
@@ -124,7 +129,8 @@ suite('location', () => {
 
     // "/test/../css/style.css"がノーマライズされ"/css/style.css"になる
     const actual2 = location.join('../css/style.css');
-    assert.equal(actual2, '/css/style.css');
+    const oneStepCwd = location.cwd(1);
+    assert.equal(actual2, `${oneStepCwd}/css/style.css`);
 
     const actual3 = location.join('http://example.com', 'bar/foo', '../css/style.css');
     assert.equal(actual3, 'http://example.com/bar/css/style.css');

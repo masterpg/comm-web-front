@@ -15,4 +15,3 @@ declare module qs {
     strictNullHandling?: boolean,
   }): any;
 }
-
