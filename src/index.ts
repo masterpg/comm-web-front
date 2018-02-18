@@ -1,3 +1,3 @@
 import * as location from './location';
 
-export {location};
+export { location };

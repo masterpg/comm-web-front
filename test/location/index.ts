@@ -1,5 +1,5 @@
 const assert = chai.assert;
-import location from '../../src/location';
+import * as location from '../../src/location';
 
 suite('location', () => {
 
