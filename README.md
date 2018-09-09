@@ -1,4 +1,4 @@
-# lived-js-front
+# lived-web-front
 
 ## 環境構築
 

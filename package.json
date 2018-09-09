@@ -1,5 +1,5 @@
 {
-  "name": "lived-js-front",
+  "name": "lived-web-front",
   "version": "0.0.1",
   "license": "BSD-3-Clause",
   "author": "masterpg",
@@ -8,7 +8,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/masterpg/lived-js-front.git"
+    "url": "git+https://github.com/masterpg/lived-web-front.git"
   },
   "dependencies": {
     "@types/lodash": "^4.14.85",
