@@ -2,12 +2,9 @@ const assert = chai.assert;
 import * as location from '../../src/location';
 
 suite('location', () => {
+  setup(() => {});
 
-  setup(() => {
-  });
-
-  teardown(() => {
-  });
+  teardown(() => {});
 
   test('parse()', () => {
     const actual = location.parse('/foo/bar/index.html?name=taro&age=21#toc');
@@ -30,7 +27,9 @@ suite('location', () => {
   });
 
   test('parse(): 日本語(エスケープ)', () => {
-    const actual = location.parse('/%E3%83%9B%E3%82%B2/%E3%83%95%E3%82%AC/%E3%82%A4%E3%83%B3%E3%83%87%E3%83%83%E3%82%AF%E3%82%B9.html?name=%E5%A4%AA%E9%83%8E&age=21#%E7%9B%AE%E6%AC%A1');
+    const actual = location.parse(
+      '/%E3%83%9B%E3%82%B2/%E3%83%95%E3%82%AC/%E3%82%A4%E3%83%B3%E3%83%87%E3%83%83%E3%82%AF%E3%82%B9.html?name=%E5%A4%AA%E9%83%8E&age=21#%E7%9B%AE%E6%AC%A1',
+    );
     assert.equal(actual.path, '/ホゲ/フガ/インデックス.html');
     assert.equal(actual.hash, '目次');
     assert.equal(actual.dir, '/ホゲ/フガ');
@@ -112,14 +111,14 @@ suite('location', () => {
   });
 
   test('toPath()', () => {
-    const actual1 = location.toPath(('foo/bar/index.html'));
+    const actual1 = location.toPath('foo/bar/index.html');
     const cwd = location.cwd();
     assert.equal(actual1, `${cwd}/foo/bar/index.html`);
 
-    const actual2 = location.toPath(('/foo/bar/index.html'));
+    const actual2 = location.toPath('/foo/bar/index.html');
     assert.equal(actual2, '/foo/bar/index.html');
 
-    const actual3 = location.toPath(('http://localhost:5000/foo/bar/index.html'));
+    const actual3 = location.toPath('http://localhost:5000/foo/bar/index.html');
     assert.equal(actual3, '/foo/bar/index.html');
   });
 
@@ -127,13 +126,8 @@ suite('location', () => {
     const actual1 = location.join('/foo', 'bar', 'baz/asdf', 'quux', '..');
     assert.equal(actual1, '/foo/bar/baz/asdf');
 
-    // "/test/../css/style.css"がノーマライズされ"/css/style.css"になる
-    const actual2 = location.join('../css/style.css');
-    const oneStepCwd = location.cwd(1);
-    assert.equal(actual2, `${oneStepCwd}/css/style.css`);
-
-    const actual3 = location.join('http://example.com', 'bar/foo', '../css/style.css');
-    assert.equal(actual3, 'http://example.com/bar/css/style.css');
+    const actual2 = location.join('http://example.com', 'bar/foo', '../css/style.css');
+    assert.equal(actual2, 'http://example.com/bar/css/style.css');
   });
 
   test('split()', () => {
@@ -152,5 +146,4 @@ suite('location', () => {
     const actual5 = location.split('./js/main.min.js');
     assert.deepEqual(['js', 'main.min.js'], actual5);
   });
-
 });

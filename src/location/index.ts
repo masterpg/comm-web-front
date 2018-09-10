@@ -212,4 +212,3 @@ function __normalizeArray(parts: string[], allowAboveRoot: boolean): string[] {
 function __isAbsolute(path) {
   return path.charAt(0) === '/';
 }
-

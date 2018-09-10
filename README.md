@@ -20,7 +20,7 @@ $ yarn install
 次のコマンドでソースファイルのビルドを行います。
 
 ```console
-$ gulp build
+$ yarn build
 ```
 
 コンパイル結果が`lib/`に出力されます。
@@ -31,7 +31,7 @@ $ gulp build
 開発サーバーを起動します。
 
 ```console
-$ gulp serve
+$ yarn serve
 ```
 
 起動したらブラウザで http://localhost:5000/test/ にアクセスすることで単体テストが実行されます。
@@ -42,6 +42,6 @@ $ gulp serve
 上記で示したようにブラウザでも単体テストの実行を行うことができますが、コンソールでも単体テストを実行することができます。
 
 ```console
-$ gulp test
+$ yarn test
 ```
 
