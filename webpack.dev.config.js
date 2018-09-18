@@ -39,7 +39,8 @@ const config = {
   stats,
 
   entry: {
-    test: path.resolve(__dirname, './test/test.ts'),
+    demo: path.resolve(__dirname, './demo/index.ts'),
+    test: path.resolve(__dirname, './test/index.ts'),
   },
 
   output: {
@@ -74,13 +75,34 @@ const config = {
         // ローダーの処理対象から外すディレクトリ
         exclude: [/node_modules/],
       },
+      {
+        test: /demo\/index\.pcss$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              config: {
+                path: path.resolve(__dirname, 'postcss.config.js'),
+              },
+            },
+          },
+        ],
+      },
     ],
   },
 
   plugins: [
     new HtmlWebpackPlugin({
+      filename: 'demo.html', // パスは`output.path`を基準
+      template: './demo/index.html',
+      inject: false,
+      bundledScript: 'demo.bundle.js',
+    }),
+
+    new HtmlWebpackPlugin({
       filename: 'test.html', // パスは`output.path`を基準
-      template: './test/test.html',
+      template: './test/index.html',
       inject: false,
       bundledScript: 'test.bundle.js',
     }),
@@ -90,6 +112,10 @@ const config = {
       { from: 'node_modules/mocha/mocha.css', to: 'node_modules/mocha' },
       { from: 'node_modules/mocha/mocha.js', to: 'node_modules/mocha' },
       { from: 'node_modules/chai/chai.js', to: 'node_modules/chai' },
+      {
+        from: path.resolve(__dirname, 'node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js'),
+        to: 'node_modules/@webcomponents/webcomponentsjs',
+      },
     ]),
   ],
 
