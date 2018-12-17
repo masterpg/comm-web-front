@@ -1,2 +1,2 @@
 import './index.pcss';
-import './app-view';
+import './views';
