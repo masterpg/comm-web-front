@@ -49,9 +49,6 @@ class AppView extends PolymerElement {
         .link:hover {
           @apply(--comm-pseudo-link-hover);
         }
-        comm-image {
-          --comm-image-max-width: 400px;
-        }
       </style>
 
       <app-drawer-layout responsive-width="960px">

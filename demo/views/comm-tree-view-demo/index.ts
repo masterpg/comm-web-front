@@ -12,23 +12,27 @@ class CommTreeViewDemo extends PolymerElement {
   static get template() {
     return html`
       <style include="base-styles">
-        :host {
+        .main-container {
+          padding: 48px;
+        }
+        .tree-container {
+          width: 100%;
+          padding: 12px;
           /*--comm-tree-node-distance: 100px;*/
           /*--comm-tree-node-indent: 30px;*/
-          --comm-tree-item-font-size: 14px;
+          --comm-tree-item-font-size: 13px;
         }
-
-        .tree-container {
-          width: 80%;
+        *.tree-container:not(:first-child) {
+          margin-top: 48px;
         }
       </style>
 
-      <div class="layout vertical center">
-        <paper-card class="comm-mx-48 comm-mt-48 comm-pa-12 tree-container">
+      <div class="layout vertical center main-container">
+        <paper-card class="tree-container">
           <comm-tree-view id="regularTree" on-item-selected="m_treeNodeOnItemSelected">
             <comm-tree-node slot="child">
               <comm-tree-item slot="item">Item 1</comm-tree-item>
-              <comm-tree-node slot="child">
+              <comm-tree-node slot="child" opened>
                 <comm-tree-item slot="item">Item 1-1</comm-tree-item>
                 <comm-tree-node slot="child">
                   <custom-tree-item slot="item">Item 1-1-1</custom-tree-item>
@@ -38,7 +42,7 @@ class CommTreeViewDemo extends PolymerElement {
                 </comm-tree-node>
               </comm-tree-node>
               <comm-tree-node slot="child">
-                <comm-tree-item slot="item">Item 1-2</comm-tree-item>
+                <comm-tree-item slot="item" unselectable>Item 1-2</comm-tree-item>
                 <comm-tree-node slot="child">
                   <comm-tree-item slot="item">Item 1-2-1</comm-tree-item>
                 </comm-tree-node>
@@ -50,7 +54,7 @@ class CommTreeViewDemo extends PolymerElement {
           </comm-tree-view>
         </paper-card>
 
-        <paper-card class="comm-mx-48 comm-mt-48 comm-pa-12 tree-container">
+        <paper-card class="tree-container">
           <comm-tree-view id="customTree" on-item-selected="m_treeNodeOnItemSelected" on-item-checkbox-changed="m_treeNodeOnItemCheckboxChanged"></comm-tree-view>
         </paper-card>
       </div>

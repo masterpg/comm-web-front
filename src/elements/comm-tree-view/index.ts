@@ -91,8 +91,8 @@ export class CommTreeView extends GestureEventListeners(PolymerElement) {
     for (const eventName of itemEvents) {
       this.m_addAnyEventListener(eventName);
     }
-    for (const structureItem of tree) {
-      this.f_recursiveBuildTree(itemClasses, structureItem, this);
+    for (const structureNode of tree) {
+      this.f_recursiveBuildTree(itemClasses, structureNode, this);
     }
   }
 
@@ -210,6 +210,7 @@ export class CommTreeNode extends GestureEventListeners(PolymerElement) {
           padding-top: var(--comm-tree-node-distance, 10px);
         }
         .toggle-icon {
+          margin-right: 2px;
           color: var(--comm-grey-800);
           cursor: pointer;
         }
@@ -343,13 +344,16 @@ export class CommTreeNode extends GestureEventListeners(PolymerElement) {
   }
 
   /**
-   * 現ノードと子ノードの上下間隔を設定します。
+   * 現ノードと隣接するノードの上下間隔を設定します。
    */
   m_setDistance(): void {
-    // 親ノードがない場合、上下間隔は0pxに設定する
-    const parentNode = this.m_getParentNode();
-    if (!parentNode) {
-      this.m_itemContainer.style.setProperty('--comm-tree-node-distance', '0px');
+    // 現ノードが親から見た最初の子の場合、上下間隔は0pxに設定する
+    const parent = this.m_getParent();
+    if (parent) {
+      const children = Array.prototype.slice.call(parent.children);
+      if (children.length && children[0] === this) {
+        this.m_itemContainer.style.setProperty('--comm-tree-node-distance', '0px');
+      }
     }
 
     // 現ノードと子ノードの上下間隔を設定する
@@ -362,11 +366,11 @@ export class CommTreeNode extends GestureEventListeners(PolymerElement) {
   }
 
   /**
-   * 親ノードを取得します。
+   * 親エレメントを取得します。
    */
-  m_getParentNode(): CommTreeNode | undefined {
-    if (this.parentElement instanceof CommTreeNode) {
-      return this.parentElement as CommTreeNode;
+  m_getParent(): CommTreeView | CommTreeNode | undefined {
+    if (this.parentElement instanceof CommTreeView || this.parentElement instanceof CommTreeNode) {
+      return this.parentElement;
     }
     return undefined;
   }
