@@ -14,6 +14,27 @@ export interface TreeStructureNode<T extends TreeStructureNode = TreeStructureNo
     children?: T[];
 }
 declare const CommTreeView_base: typeof PolymerElement & import("@polymer/polymer/lib/mixins/gesture-event-listeners").GestureEventListenersConstructor;
+/**
+ * # comm-tree-view
+ *
+ * ## Description
+ *
+ * ツリーコンポーネントです。
+ *
+ * ## Styling
+ *
+ * Custom property | Description | Default
+ * ----------------|-------------|----------
+ * `--comm-tree-node-distance` | ノードとノードの縦の間隔です | `10px`
+ * `--comm-tree-node-indent` | ノードの左インデントです | `12px`
+ * `--comm-tree-item-font-size` | ノードアイテムのフォントサイズです | `16px`
+ * `--comm-tree-item-font-weight` | ノードアイテムのフォントの太さです | `500`
+ * `--comm-tree-item-line-height` | ノードアイテムの行の高さです | `24px`
+ * `--comm-tree-item` |  | `{}`
+ * `--comm-tree-item-link-color` | ノードアイテムのリンクカラーです | `var(--comm-indigo-800)`
+ * `--comm-tree-item-selected-color` | ノードアイテムの選択時のカラーです | `var(--comm-pink-500)`
+ * `--comm-tree-item-unselectable-color` | ノードアイテムが非選択ノードの場合のカラー | `var(--comm-grey900)`
+ */
 export declare class CommTreeView extends CommTreeView_base {
     static readonly template: HTMLTemplateElement;
     m_selectedItem?: CommTreeItem;
@@ -82,13 +103,13 @@ export declare class CommTreeNode extends CommTreeNode_base {
      */
     m_setupAppropriateIcon(): void;
     /**
-     * 現ノードと子ノードの上下間隔を設定します。
+     * 現ノードと隣接するノードの上下間隔を設定します。
      */
     m_setDistance(): void;
     /**
-     * 親ノードを取得します。
+     * 親エレメントを取得します。
      */
-    m_getParentNode(): CommTreeNode | undefined;
+    m_getParent(): CommTreeView | CommTreeNode | undefined;
     /**
      * 子ノードを取得します。
      */

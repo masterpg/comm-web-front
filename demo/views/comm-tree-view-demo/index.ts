@@ -18,9 +18,11 @@ class CommTreeViewDemo extends PolymerElement {
         .tree-container {
           width: 100%;
           padding: 12px;
-          /*--comm-tree-node-distance: 100px;*/
+          /*--comm-tree-node-distance: 0px;*/
           /*--comm-tree-node-indent: 30px;*/
-          --comm-tree-item-font-size: 13px;
+          --comm-tree-item: {
+            @apply(--comm-font-code1);
+          }
         }
         *.tree-container:not(:first-child) {
           margin-top: 48px;

@@ -19,6 +19,27 @@ export interface TreeStructureNode<T extends TreeStructureNode = TreeStructureNo
   children?: T[];
 }
 
+/**
+ * # comm-tree-view
+ *
+ * ## Description
+ *
+ * ツリーコンポーネントです。
+ *
+ * ## Styling
+ *
+ * Custom property | Description | Default
+ * ----------------|-------------|----------
+ * `--comm-tree-node-distance` | ノードとノードの縦の間隔です | `10px`
+ * `--comm-tree-node-indent` | ノードの左インデントです | `12px`
+ * `--comm-tree-item-font-size` | ノードアイテムのフォントサイズです | `16px`
+ * `--comm-tree-item-font-weight` | ノードアイテムのフォントの太さです | `500`
+ * `--comm-tree-item-line-height` | ノードアイテムの行の高さです | `24px`
+ * `--comm-tree-item` |  | `{}`
+ * `--comm-tree-item-link-color` | ノードアイテムのリンクカラーです | `var(--comm-indigo-800)`
+ * `--comm-tree-item-selected-color` | ノードアイテムの選択時のカラーです | `var(--comm-pink-500)`
+ * `--comm-tree-item-unselectable-color` | ノードアイテムが非選択ノードの場合のカラー | `var(--comm-grey900)`
+ */
 @customElement('comm-tree-view')
 export class CommTreeView extends GestureEventListeners(PolymerElement) {
   static get template() {
@@ -211,17 +232,17 @@ export class CommTreeNode extends GestureEventListeners(PolymerElement) {
         }
         .toggle-icon {
           margin-right: 2px;
-          color: var(--comm-grey-800);
+          color: var(--comm-grey-600);
           cursor: pointer;
         }
         #collapse > div {
           padding-left: var(--comm-tree-node-indent, 12px);
         }
       </style>
-      <div id="itemContainer" class="layout horizontal center-center">
+      <div id="itemContainer" class="layout horizontal center">
         <iron-icon id="toggleIcon" class="toggle-icon" icon="[[m_toggleIconKind]]" on-tap="m_toggleIconOnTap"></iron-icon>
         <svg id="pointIcon" width="24" height="24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-          <circle cx="12" cy="12" r="3" stroke="blue" fill="#424242" stroke-width="0"/>
+          <circle cx="12" cy="12" r="3" stroke="blue" fill="#9b9b9b" stroke-width="0"/>
         </svg>
         <div class="flex"><slot id="itemSlot" name="item"></slot></div>
       </div>
@@ -412,7 +433,9 @@ export class CommTreeItem extends GestureEventListeners(PolymerElement) {
           font-size: var(--comm-tree-item-font-size, 16px);
           color: var(--comm-tree-item-link-color, var(--comm-indigo-800));
           font-weight: var(--comm-tree-item-font-weight, 500);
+          line-height: var(--comm-tree-item-line-height, 24px);
           cursor: pointer;
+          @apply(--comm-tree-item);
         }
         .item:hover {
           text-decoration: underline;
@@ -421,7 +444,7 @@ export class CommTreeItem extends GestureEventListeners(PolymerElement) {
           color: var(--comm-tree-item-selected-color, var(--comm-pink-500));
         }
         :host([unselectable]) .item {
-          color: var(--comm-tree-item-unselected-color, var(--comm-grey900));
+          color: var(--comm-tree-item-unselectable-color, var(--comm-grey900));
           cursor: default;
         }
         :host([unselectable]) .item:hover {
