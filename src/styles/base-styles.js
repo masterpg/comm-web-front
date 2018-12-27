@@ -12,9 +12,6 @@ const template = html`
 <dom-module id="base-styles">
   <template>
     <style include="comm-spacing iron-flex iron-flex-alignment iron-flex-reverse iron-flex-factors iron-positioning">
-      .aaa {
-        color: yellow;
-      }
     </style>
   </template>
 </dom-module>

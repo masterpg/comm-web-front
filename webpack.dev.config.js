@@ -76,7 +76,7 @@ const config = {
         exclude: [/node_modules/],
       },
       {
-        test: /demo\/index\.pcss$/,
+        test: /demo\/index\.css$/,
         use: [
           'style-loader',
           {
@@ -112,10 +112,7 @@ const config = {
       { from: 'node_modules/mocha/mocha.css', to: 'node_modules/mocha' },
       { from: 'node_modules/mocha/mocha.js', to: 'node_modules/mocha' },
       { from: 'node_modules/chai/chai.js', to: 'node_modules/chai' },
-      {
-        from: path.resolve(__dirname, 'node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js'),
-        to: 'node_modules/@webcomponents/webcomponentsjs',
-      },
+      { from: 'node_modules/@webcomponents/webcomponentsjs/**/*.js' },
     ]),
   ],
 

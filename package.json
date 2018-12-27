@@ -8,17 +8,17 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/masterpg/lived-web-front.git"
+    "url": "https://masterpg@bitbucket.org/masterpg/lived-web-front.git"
   },
   "scripts": {
-    "build:styles": "node_modules/.bin/cpx \"src/styles/**/*.{pcss,js}\" lib/styles",
-    "watch:styles": "node_modules/.bin/cpx \"src/styles/**/*.{pcss,js}\" lib/styles --watch",
-    "build:ts": "node_modules/.bin/tslint -p tslint.json & node_modules/.bin/tsc --project tsconfig.json --declaration",
-    "watch:ts": "node_modules/.bin/tslint -p tslint.json & node_modules/.bin/tsc --project tsconfig.json --declaration --watch",
+    "build:styles": "cpx \"src/styles/*.css\" lib/styles & cpx \"src/styles/**/*.js\" lib/styles & postcss --config postcss.config.js src/styles/base-styles.css --base src --dir lib",
+    "watch:styles": "cpx \"src/styles/*.css\" lib/styles --watch & cpx \"src/styles/base-styles.css\" lib/styles --watch --command \"postcss --config postcss.config.js src/styles/base-styles.css --base src --dir lib --watch\" & cpx \"src/styles/**/*.js\" lib/styles --watch",
+    "build:ts": "tslint -p tslint.json & tsc --project tsconfig.json --declaration",
+    "watch:ts": "tslint -p tslint.json & tsc --project tsconfig.json --declaration --watch",
     "build": "npm run build:styles & npm run build:ts",
     "watch": "npm run watch:styles & npm run watch:ts",
-    "dev": "npm run watch & node_modules/.bin/webpack-dev-server --config webpack.dev.config.js",
-    "test": "node_modules/.bin/webpack --config webpack.dev.config.js && node_modules/.bin/mocha-chrome .dist/test.html"
+    "dev": "npm run watch & webpack-dev-server --config webpack.dev.config.js",
+    "test": "webpack --config webpack.dev.config.js && mocha-chrome .dist/test.html"
   },
   "dependencies": {
     "@polymer/app-layout": "^3.0.2",
@@ -41,6 +41,7 @@
     "@types/chai": "^4.1.4",
     "@types/lodash": "^4.14.116",
     "@types/mocha": "^5.2.5",
+    "autoprefixer": "^9.4.3",
     "chai": "^4.1.2",
     "copy-webpack-plugin": "^4.5.2",
     "cpx": "^1.5.0",
@@ -53,7 +54,6 @@
     "postcss-for": "^2.1.1",
     "postcss-import": "^12.0.0",
     "postcss-loader": "^3.0.0",
-    "postcss-media-variables": "^2.0.1",
     "postcss-mixins": "^6.2.0",
     "postcss-nesting": "^6.0.0",
     "prettier": "^1.14.2",

@@ -581,6 +581,17 @@ atob@^2.1.1:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
 
+autoprefixer@^9.4.3:
+  version "9.4.3"
+  resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-9.4.3.tgz#c97384a8fd80477b78049163a91bbc725d9c41d9"
+  dependencies:
+    browserslist "^4.3.6"
+    caniuse-lite "^1.0.30000921"
+    normalize-range "^0.1.2"
+    num2fraction "^1.2.2"
+    postcss "^7.0.6"
+    postcss-value-parser "^3.3.1"
+
 babel-code-frame@^6.22.0, babel-code-frame@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-code-frame/-/babel-code-frame-6.26.0.tgz#63fd43f7dc1e3bb7ce35947db8fe369a3f58c74b"
@@ -1215,6 +1226,14 @@ browserslist@^3.2.6:
     caniuse-lite "^1.0.30000844"
     electron-to-chromium "^1.3.47"
 
+browserslist@^4.3.6:
+  version "4.3.6"
+  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.3.6.tgz#0f9d9081afc66b36f477c6bdf3813f784f42396a"
+  dependencies:
+    caniuse-lite "^1.0.30000921"
+    electron-to-chromium "^1.3.92"
+    node-releases "^1.1.1"
+
 buffer-equal@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/buffer-equal/-/buffer-equal-1.0.0.tgz#59616b498304d556abd466966b22eeda3eca5fbe"
@@ -1313,6 +1332,10 @@ camelcase@^4.1.0:
 caniuse-lite@^1.0.30000844:
   version "1.0.30000885"
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000885.tgz#e889e9f8e7e50e769f2a49634c932b8aee622984"
+
+caniuse-lite@^1.0.30000921:
+  version "1.0.30000923"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30000923.tgz#148f9bda508024b5ce957b463ae2e8302b451bb2"
 
 chai@^4.1.2:
   version "4.1.2"
@@ -1988,6 +2011,10 @@ ee-first@1.1.1:
 electron-to-chromium@^1.3.47:
   version "1.3.68"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.68.tgz#bb3ccbadcdd06de2afea8fb73e31a60b6558de1f"
+
+electron-to-chromium@^1.3.92:
+  version "1.3.96"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.96.tgz#25770ec99b8b07706dedf3a5f43fa50cb54c4f9a"
 
 elliptic@^6.0.0:
   version "6.4.1"
@@ -3781,6 +3808,12 @@ node-pre-gyp@^0.10.0:
     semver "^5.3.0"
     tar "^4"
 
+node-releases@^1.1.1:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.2.tgz#93c17fba5eec8650ad908de5433fa8763baebe4d"
+  dependencies:
+    semver "^5.3.0"
+
 nopt@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/nopt/-/nopt-4.0.1.tgz#d0d4685afd5415193c8c7505602d0d17cd64474d"
@@ -3802,6 +3835,10 @@ normalize-path@^2.0.0, normalize-path@^2.0.1, normalize-path@^2.1.1:
   resolved "https://registry.yarnpkg.com/normalize-path/-/normalize-path-2.1.1.tgz#1ab28b556e198363a8c1a6f7e6fa20137fe6aed9"
   dependencies:
     remove-trailing-separator "^1.0.1"
+
+normalize-range@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/normalize-range/-/normalize-range-0.1.2.tgz#2d10c06bdfd312ea9777695a4d28439456b75942"
 
 now-and-later@^2.0.0:
   version "2.0.0"
@@ -3840,6 +3877,10 @@ nth-check@~1.0.1:
   resolved "https://registry.yarnpkg.com/nth-check/-/nth-check-1.0.1.tgz#9929acdf628fc2c41098deab82ac580cf149aae4"
   dependencies:
     boolbase "~1.0.0"
+
+num2fraction@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/num2fraction/-/num2fraction-1.2.2.tgz#6f682b6a027a4e9ddfa4564cd2589d1d4e669ede"
 
 number-is-nan@^1.0.0:
   version "1.0.1"
@@ -4230,12 +4271,6 @@ postcss-loader@^3.0.0:
     postcss-load-config "^2.0.0"
     schema-utils "^1.0.0"
 
-postcss-media-variables@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/postcss-media-variables/-/postcss-media-variables-2.0.1.tgz#d91d9040a51063421cfc53b15c6af7e0111c9407"
-  dependencies:
-    postcss "^6.0.0"
-
 postcss-mixins@^6.2.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/postcss-mixins/-/postcss-mixins-6.2.0.tgz#fa9d2c2166b2ae7745956c727ab9dd2de4b96a40"
@@ -4277,6 +4312,10 @@ postcss-value-parser@^3.2.3:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/postcss-value-parser/-/postcss-value-parser-3.3.0.tgz#87f38f9f18f774a4ab4c8a232f5c5ce8872a9d15"
 
+postcss-value-parser@^3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/postcss-value-parser/-/postcss-value-parser-3.3.1.tgz#9ff822547e2893213cf1c30efa51ac5fd1ba8281"
+
 postcss@^5.0.0, postcss@^5.0.21, postcss@^5.0.4:
   version "5.2.18"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-5.2.18.tgz#badfa1497d46244f6390f58b319830d9107853c5"
@@ -4286,7 +4325,7 @@ postcss@^5.0.0, postcss@^5.0.21, postcss@^5.0.4:
     source-map "^0.5.6"
     supports-color "^3.2.3"
 
-postcss@^6.0.0, postcss@^6.0.1, postcss@^6.0.11, postcss@^6.0.13, postcss@^6.0.14, postcss@^6.0.22, postcss@^6.0.8, postcss@^6.0.9:
+postcss@^6.0.1, postcss@^6.0.11, postcss@^6.0.13, postcss@^6.0.14, postcss@^6.0.22, postcss@^6.0.8, postcss@^6.0.9:
   version "6.0.23"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-6.0.23.tgz#61c82cc328ac60e677645f979054eb98bc0e3324"
   dependencies:
@@ -4301,6 +4340,14 @@ postcss@^7.0.0, postcss@^7.0.1:
     chalk "^2.4.1"
     source-map "^0.6.1"
     supports-color "^5.4.0"
+
+postcss@^7.0.6:
+  version "7.0.7"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-7.0.7.tgz#2754d073f77acb4ef08f1235c36c5721a7201614"
+  dependencies:
+    chalk "^2.4.1"
+    source-map "^0.6.1"
+    supports-color "^5.5.0"
 
 preserve@^0.2.0:
   version "0.2.0"
@@ -5134,7 +5181,7 @@ supports-color@^3.2.3:
   dependencies:
     has-flag "^1.0.0"
 
-supports-color@^5.1.0, supports-color@^5.3.0, supports-color@^5.4.0:
+supports-color@^5.1.0, supports-color@^5.3.0, supports-color@^5.4.0, supports-color@^5.5.0:
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-5.5.0.tgz#e2e69a44ac8772f78a1ec0b35b689df6530efc8f"
   dependencies:
