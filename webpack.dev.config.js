@@ -44,7 +44,7 @@ const config = {
   },
 
   output: {
-    path: path.resolve(__dirname, '.dist'),
+    path: path.resolve(__dirname, 'dist'),
     filename: '[name].bundle.js',
   },
 
@@ -119,7 +119,7 @@ const config = {
   devtool: 'source-map',
 
   devServer: {
-    contentBase: path.resolve(__dirname, '.dist'),
+    contentBase: path.resolve(__dirname, 'dist'),
     port: 5000,
     host: '0.0.0.0',
     disableHostCheck: true,
