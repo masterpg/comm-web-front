@@ -31,10 +31,13 @@ $ yarn build
 開発サーバーを起動します。
 
 ```console
-$ yarn serve
+$ yarn dev
 ```
 
-起動したらブラウザで http://localhost:5000/test/ にアクセスすることで単体テストが実行されます。
+起動したらブラウザで下記URLにアクセスすることで各画面を確認できます。
+
+* コンポーネントのデモ画面: http://localhost:5000/demo.html
+* 単体テスト実行画面: http://localhost:5000/test.html
 
 
 ## 単体テスト
