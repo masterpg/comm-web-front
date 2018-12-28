@@ -2,7 +2,7 @@ import { PolymerElement, html } from '@polymer/polymer/polymer-element';
 import { customElement, observe, property, query, listen } from '@polymer/decorators';
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class';
 import { IronResizableBehavior } from '@polymer/iron-resizable-behavior';
-import { TimelineLite } from 'gsap';
+import * as anime from 'animejs';
 import '../../styles/base-styles';
 
 @customElement('comm-image')
@@ -61,56 +61,52 @@ export class CommImage extends mixinBehaviors([IronResizableBehavior], PolymerEl
           max-height: var(--comm-image-max-height);
         }
 
-        .spinner {
-          margin: 80px auto;
+        .loader {
+          position: relative;
+          display: inline-block;
           width: 20px;
           height: 20px;
-          position: relative;
-          text-align: center;
-
-          animation: sk-rotate 2.0s infinite linear;
+          border: 2px solid #0cf;
+          border-radius: 50%;
+          animation: spin 0.75s infinite linear;
         }
 
-        .dot1, .dot2 {
-          width: 60%;
-          height: 60%;
-          display: inline-block;
+        .loader::before,
+        .loader::after {
+          left: -2px;
+          top: -2px;
+          display: none;
           position: absolute;
-          top: 0;
-          background-color: var(--comm-grey-500);
-          border-radius: 100%;
-
-          animation: sk-bounce 2.0s infinite ease-in-out;
+          content: '';
+          width: inherit;
+          height: inherit;
+          border: inherit;
+          border-radius: inherit;
         }
 
-        .dot2 {
-          top: auto;
-          bottom: 0;
-          animation-delay: -1.0s;
+        .loader-type-one,
+        .loader-type-one::before {
+          display: inline-block;
+          border-color: transparent;
+          border-top-color: var(--comm-grey-500);
+        }
+        .loader-type-one::before {
+          animation: spin 1.5s infinite ease;
         }
 
-        @keyframes sk-rotate {
-          100% {
+        @keyframes spin {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
             transform: rotate(360deg);
-          }
-        }
-
-        @keyframes sk-bounce {
-          0%, 100% {
-            transform: scale(0.0);
-          }
-          50% {
-            transform: scale(1.0);
           }
         }
       </style>
 
       <div id="container">
         <div id="loading" class="layout vertical center-center">
-          <div class="spinner">
-            <div class="dot1"></div>
-            <div class="dot2"></div>
-          </div>
+          <div class="loader loader-type-one"></div>
         </div>
         <img id="img" on-load="m_imgOnLoad">
       </div>
@@ -143,16 +139,21 @@ export class CommImage extends mixinBehaviors([IronResizableBehavior], PolymerEl
 
   @observe('src')
   m_srcChanged(newValue, oldValue) {
-    this.src = newValue ? newValue : '';
-    if (this.m_img) {
+    this.src = newValue || '';
+
+    if (this.src) {
       this.m_loading.hidden = false;
       this.m_loading.style.opacity = '1';
       this.m_img.hidden = false;
       this.m_img.style.opacity = '0';
-      this.m_img.style.width = 'initial';
-      this.m_img.style.height = 'initial';
-      this.m_img.src = this.src;
+    } else {
+      this.m_loading.hidden = true;
+      this.m_img.hidden = true;
     }
+
+    this.m_img.style.width = 'initial';
+    this.m_img.style.height = 'initial';
+    this.m_img.src = this.src;
   }
 
   @property({ type: String })
@@ -288,17 +289,21 @@ export class CommImage extends mixinBehaviors([IronResizableBehavior], PolymerEl
   m_imgOnLoad(event) {
     this.m_resize();
 
-    const timeline = new TimelineLite();
-    timeline.to(this.m_img, 1, { opacity: 1 }).to(
-      this.m_loading,
-      1,
-      {
-        opacity: 0,
-        onComplete: () => {
-          this.m_loading.hidden = true;
-        },
+    anime({
+      targets: this.m_img,
+      opacity: 1,
+      duration: 1000,
+      easing: 'easeInOutQuad',
+    });
+
+    anime({
+      targets: this.m_loading,
+      opacity: 0,
+      duration: 500,
+      easing: 'easeInOutQuad',
+      complete: () => {
+        this.m_loading.hidden = true;
       },
-      0,
-    );
+    });
   }
 }
