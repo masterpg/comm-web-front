@@ -10,6 +10,8 @@ export declare class CommImage extends CommImage_base {
     m_srcChanged(newValue: any, oldValue: any): void;
     alt: string;
     m_altChanged(newValue: any, oldValue: any): void;
+    hAlign: 'start' | 'center' | 'end';
+    vAlign: 'start' | 'center' | 'end';
     ready(): void;
     /**
      * コンポーネントのリサイズ処理を行います。
