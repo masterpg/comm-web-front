@@ -10,35 +10,39 @@ export class CommImage extends mixinBehaviors([IronResizableBehavior], PolymerEl
   static get template() {
     return html`
       <style include="base-styles">
-        /* デフォルト配置は左詰め */
-        :host {
-          --comm-image-align: {
-            @apply(--layout-vertical);
-            @apply(--layout-start);
+        :host([h-align="start"]) {
+          --comm-image-h-align: {
+            @apply(--layout-start-justified);
+          };
+        }
+
+        :host([h-align="center"]) {
+          --comm-image-h-align: {
             @apply(--layout-center-justified);
           };
         }
 
-        :host([align="left"]) {
-          --comm-image-align: {
-            @apply(--layout-vertical);
+        :host([h-align="end"]) {
+          --comm-image-h-align: {
+            @apply(--layout-end-justified);
+          };
+        }
+
+        :host([v-align="start"]) {
+          --comm-image-v-align: {
             @apply(--layout-start);
-            @apply(--layout-center-justified);
           };
         }
 
-        :host([align="center"]) {
-          --comm-image-align: {
-            @apply(--layout-vertical);
-            @apply(--layout-center-center);
+        :host([v-align="center"]) {
+          --comm-image-v-align: {
+            @apply(--layout-center);
           };
         }
 
-        :host([align="right"]) {
-          --comm-image-align: {
-            @apply(--layout-vertical);
+        :host([v-align="end"]) {
+          --comm-image-v-align: {
             @apply(--layout-end);
-            @apply(--layout-center-justified);
           };
         }
 
@@ -46,7 +50,9 @@ export class CommImage extends mixinBehaviors([IronResizableBehavior], PolymerEl
           box-sizing: border-box;
           height: 100%;
           position: relative;
-          @apply(--comm-image-align);
+          @apply(--layout-horizontal);
+          @apply(--comm-image-h-align);
+          @apply(--comm-image-v-align);
         }
 
         #loading {
@@ -166,6 +172,12 @@ export class CommImage extends mixinBehaviors([IronResizableBehavior], PolymerEl
       this.m_img.alt = newValue;
     }
   }
+
+  @property({ type: String, reflectToAttribute: true })
+  hAlign: 'start' | 'center' | 'end' = 'center';
+
+  @property({ type: String, reflectToAttribute: true })
+  vAlign: 'start' | 'center' | 'end' = 'center';
 
   //----------------------------------------------------------------------
   //
