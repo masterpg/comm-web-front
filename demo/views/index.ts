@@ -1,5 +1,6 @@
 import '../../lib/elements/comm-tree-view';
 import '../../lib/styles/base-styles';
+import './comm-awesome-element-demo';
 import './comm-collapse-view-demo';
 import './comm-image-demo';
 import './comm-tree-view-demo';
@@ -62,10 +63,10 @@ class AppView extends PolymerElement {
           </div>
         </app-drawer>
         <iron-pages selected="[[m_pageName]]" attr-for-selected="page-name" fallback-selection="fallback">
+          <comm-awesome-element-demo page-name="comm-awesome-element-demo"></comm-awesome-element-demo>
           <comm-tree-view-demo page-name="comm-tree-view-demo"></comm-tree-view-demo>
           <comm-image-demo page-name="comm-image-demo"></comm-image-demo>
           <comm-collapse-view-demo page-name="comm-collapse-view-demo"></comm-collapse-view-demo>
-          <!--<div page-name="comm-tree-view-demo">Page 0</div>-->
           <div page-name="">Page 1</div>
           <div page-name="">Page 2</div>
           <div page-name="">Page 3</div>
@@ -102,6 +103,10 @@ class AppView extends PolymerElement {
     super.ready();
 
     this.m_treeView.buildTree([
+      {
+        itemHTML: 'comm-awesome-element',
+        selectedValue: 'comm-awesome-element-demo',
+      },
       {
         itemHTML: 'comm-tree-view',
         selectedValue: 'comm-tree-view-demo',
