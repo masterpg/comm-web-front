@@ -16,6 +16,7 @@
 "@polymer/app-layout@^3.0.2":
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/@polymer/app-layout/-/app-layout-3.0.2.tgz#8a6f3c87b405635fd3547db82db8dbb6c51b6bf9"
+  integrity sha512-qKcQHj72uGxGoetjnNQ7pg4F6Da4U5jKBzZy0VRmDuZMUPDmtIqHaIgC5K6B4y+xUag0gkV9ce72Q3hNaK9y+g==
   dependencies:
     "@polymer/iron-flex-layout" "^3.0.0-pre.26"
     "@polymer/iron-media-query" "^3.0.0-pre.26"
@@ -26,6 +27,7 @@
 "@polymer/decorators@^3.0.0":
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/@polymer/decorators/-/decorators-3.0.0.tgz#e4212ac976d9abd1210f560b6e1be4165c1c0183"
+  integrity sha512-qh+VID9nDV9q3ABvIfWgm7/+udl7v2HKsMLPXFm8tj1fI7qr7yWJMFwS3xWBkMmuNPtmkS8MDP0vqLAQIEOWzg==
   dependencies:
     "@polymer/polymer" "^3.0.5"
 
@@ -57,6 +59,7 @@
 "@polymer/iron-collapse@^3.0.1":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@polymer/iron-collapse/-/iron-collapse-3.0.1.tgz#6417c84f5405ed909187765d9242e3b87ba4626f"
+  integrity sha512-yg6q5ZyckQR9VL9VmLrSTkSFXWy9AcJC8KtnD5cg0EHRPbakE8I9S/gVAgeP4nMWV2a/BjLLC4IBygcCMDhAGw==
   dependencies:
     "@polymer/iron-resizable-behavior" "^3.0.0-pre.26"
     "@polymer/polymer" "^3.0.0"
@@ -76,6 +79,7 @@
 "@polymer/iron-icon@^3.0.0-pre.26", "@polymer/iron-icon@^3.0.1":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@polymer/iron-icon/-/iron-icon-3.0.1.tgz#93211c39d8825fe4965a68419566036c1df291eb"
+  integrity sha512-QLPwirk+UPZNaLnMew9VludXA4CWUCenRewgEcGYwdzVgDPCDbXxy6vRJjmweZobMQv/oVLppT2JZtJFnPxX6g==
   dependencies:
     "@polymer/iron-flex-layout" "^3.0.0-pre.26"
     "@polymer/iron-meta" "^3.0.0-pre.26"
@@ -84,6 +88,7 @@
 "@polymer/iron-icons@^3.0.1":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@polymer/iron-icons/-/iron-icons-3.0.1.tgz#c1bd31d8483afbdb5422cdc384081e19c9267cfe"
+  integrity sha512-xtEI8erH2GIBiF3QxEMyW81XuVjguu6Le5WjEEpX67qd9z7jjmc4T/ke3zRUlnDydex9p8ytcwVpMIKcyvjYAQ==
   dependencies:
     "@polymer/iron-icon" "^3.0.0-pre.26"
     "@polymer/iron-iconset-svg" "^3.0.0-pre.26"
@@ -126,6 +131,7 @@
 "@polymer/iron-pages@^3.0.1":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@polymer/iron-pages/-/iron-pages-3.0.1.tgz#b0c3639a4d51e405464c8b8bcccbe055fab401c0"
+  integrity sha512-PQe8S1JKHPcsIvFOaQP+9+AXmqUIL9fPqC6xT63OAZQxYCeZJDKgT9GKBx+VRryYBUlj2FLEXkUVpG+PTotdjg==
   dependencies:
     "@polymer/iron-resizable-behavior" "^3.0.0-pre.26"
     "@polymer/iron-selector" "^3.0.0-pre.26"
@@ -175,6 +181,7 @@
 "@polymer/paper-button@^3.0.1":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@polymer/paper-button/-/paper-button-3.0.1.tgz#f13b019137e3f6ccc4d04d0b1f27f4830ea5774d"
+  integrity sha512-JRNBc+Oj9EWnmyLr7FcCr8T1KAnEHPh6mosln9BUdkM+qYaYsudSICh3cjTIbnj6AuF5OJidoLkM1dlyj0j6Zg==
   dependencies:
     "@polymer/iron-flex-layout" "^3.0.0-pre.26"
     "@polymer/paper-behaviors" "^3.0.0-pre.27"
@@ -184,6 +191,7 @@
 "@polymer/paper-card@^3.0.1":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@polymer/paper-card/-/paper-card-3.0.1.tgz#fb5960b3e55fab56d20b7c1c3dee08f0d052ff2a"
+  integrity sha512-ZYzfA4kzP9niRO22wSOBL2RS+URZNUP5XmUCwN91fYPIGO0Qbimh7d1O2HpJD4cRCZhvGYn2CJMDMVmDm35vIg==
   dependencies:
     "@polymer/iron-flex-layout" "^3.0.0-pre.26"
     "@polymer/iron-image" "^3.0.0-pre.26"
@@ -193,6 +201,7 @@
 "@polymer/paper-checkbox@^3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@polymer/paper-checkbox/-/paper-checkbox-3.1.0.tgz#66b903ae5814db237d027deb4a3f3430f48d905b"
+  integrity sha512-kXm6yDG1tT8if0XuJ2cc9NF+g8Ev4wG+rnf0a+Sx+O7J6fn1jcnBlYn72FlrfjVjDQZDBFmT6nynhD5PvFw8iQ==
   dependencies:
     "@polymer/iron-a11y-keys-behavior" "^3.0.0-pre.26"
     "@polymer/iron-checked-element-behavior" "^3.0.0-pre.26"
@@ -214,6 +223,7 @@
 "@polymer/paper-radio-group@^3.0.1":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@polymer/paper-radio-group/-/paper-radio-group-3.0.1.tgz#f1a1bc34ad5a9579b59287f2144e29b92073bb21"
+  integrity sha512-VYUWj6Y7/1sJncbtKJ4+aKJ0U98cLPXWu6mTgMREoA2jOKrb41JxtnKNrKMjs+lBHCZj4wvtmHwzeS//HFULfA==
   dependencies:
     "@polymer/iron-a11y-keys-behavior" "^3.0.0-pre.26"
     "@polymer/iron-menu-behavior" "^3.0.0-pre.26"
@@ -406,9 +416,10 @@
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/@webcomponents/shadycss/-/shadycss-1.5.2.tgz#ad72f43000c39ba4ac61e625131f34f4b7cfe55f"
 
-"@webcomponents/webcomponentsjs@^2.1.3":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@webcomponents/webcomponentsjs/-/webcomponentsjs-2.2.0.tgz#52f3415a259ef3abc2599ee7520d151bee6037a1"
+"@webcomponents/webcomponentsjs@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@webcomponents/webcomponentsjs/-/webcomponentsjs-2.2.1.tgz#bf28cdad466aaf85d88ee56aebed32c83f4c1328"
+  integrity sha512-lZZ+Lkke6JhsJcQQqSVk1Pny6/8y4qhJ98LO7a/MwBSRO8WqHqK1X2vscfeL8vOnYGFnmBUyVG95lwYv/AXyLQ==
 
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
@@ -459,6 +470,7 @@ ajv@^6.1.0:
 animejs@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/animejs/-/animejs-2.2.0.tgz#35eefdfc535b81949c9cb06f0b3e60c02e6fdc80"
+  integrity sha1-Ne79/FNbgZScnLBvCz5gwC5v3IA=
 
 ansi-colors@^3.0.0:
   version "3.0.5"
@@ -3293,7 +3305,7 @@ lodash.debounce@^4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
 
-lodash@^4.17.10, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.17.5:
+lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.17.5:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
 
@@ -4360,8 +4372,8 @@ qs@6.5.1:
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.1.tgz#349cdf6eef89ec45c12d7d5eb3fc0c870343a6d8"
 
 "qs@github:ljharb/qs":
-  version "6.5.2"
-  resolved "https://codeload.github.com/ljharb/qs/tar.gz/97ad64721009555f83d093172199a3c482e3a958"
+  version "6.6.0"
+  resolved "https://codeload.github.com/ljharb/qs/tar.gz/61b8d4ea5402868e026a42dffec1a6885999d636"
 
 querystring-es3@^0.2.0:
   version "0.2.1"
