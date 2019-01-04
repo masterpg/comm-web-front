@@ -5,7 +5,7 @@ import { PolymerElement, html } from '@polymer/polymer/polymer-element';
 import { customElement, property, query } from '@polymer/decorators';
 
 import '../../../lib/elements/comm-image';
-import '../../../lib/styles/base-styles';
+import '../../../lib/styles/polymer/base-styles';
 import { CommImage } from '../../../lib/elements/comm-image';
 
 @customElement('comm-image-demo')

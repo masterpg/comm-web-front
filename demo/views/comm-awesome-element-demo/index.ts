@@ -1,5 +1,6 @@
 import { LitElement, html } from '@polymer/lit-element';
-import '../../../lib/styles/base-styles';
+
+import '../../../lib/styles/polymer/base-styles';
 import '../../../lib/elements/comm-awesome-element';
 
 export class CommAwesomeElementDemo extends LitElement {

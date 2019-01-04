@@ -1,8 +1,9 @@
-import '../../styles/base-styles';
 import { CommCollapseItem } from './comm-collapse-item';
 import { FlattenedNodesObserver } from '@polymer/polymer/lib/utils/flattened-nodes-observer';
 import { PolymerElement, html } from '@polymer/polymer/polymer-element';
 import { customElement, observe, property, query, listen } from '@polymer/decorators';
+
+import '../../styles/polymer/base-styles';
 
 /**
  * # comm-collapse-view

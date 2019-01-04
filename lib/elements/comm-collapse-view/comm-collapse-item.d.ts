@@ -1,10 +1,10 @@
-import '../../styles/base-styles';
 import '@polymer/iron-collapse/iron-collapse';
 import '@polymer/iron-flex-layout/iron-flex-layout';
 import '@polymer/iron-flex-layout/iron-flex-layout-classes';
 import '@polymer/iron-icon/iron-icon';
 import '@polymer/iron-icons/iron-icons';
 import { PolymerElement } from '@polymer/polymer/polymer-element';
+import '../../styles/polymer/base-styles';
 declare const CommCollapseItem_base: typeof PolymerElement & import("@polymer/polymer/lib/mixins/gesture-event-listeners").GestureEventListenersConstructor;
 export declare class CommCollapseItem extends CommCollapseItem_base {
     static readonly template: HTMLTemplateElement;

@@ -1,4 +1,3 @@
-import '../../styles/base-styles';
 import '@polymer/iron-collapse/iron-collapse';
 import '@polymer/iron-flex-layout/iron-flex-layout';
 import '@polymer/iron-flex-layout/iron-flex-layout-classes';
@@ -7,6 +6,8 @@ import '@polymer/iron-icons/iron-icons';
 import { GestureEventListeners } from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import { PolymerElement, html } from '@polymer/polymer/polymer-element';
 import { customElement, observe, property, query, listen } from '@polymer/decorators';
+
+import '../../styles/polymer/base-styles';
 
 @customElement('comm-collapse-item')
 export class CommCollapseItem extends GestureEventListeners(PolymerElement) {

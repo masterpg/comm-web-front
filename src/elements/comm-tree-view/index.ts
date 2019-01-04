@@ -1,4 +1,3 @@
-import '../../styles/base-styles';
 import '@polymer/iron-collapse/iron-collapse';
 import '@polymer/iron-flex-layout/iron-flex-layout';
 import '@polymer/iron-flex-layout/iron-flex-layout-classes';
@@ -9,6 +8,8 @@ import { FlattenedNodesObserver } from '@polymer/polymer/lib/utils/flattened-nod
 import { GestureEventListeners } from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import { PolymerElement, html } from '@polymer/polymer/polymer-element';
 import { customElement, observe, property, query, listen } from '@polymer/decorators';
+
+import '../../styles/polymer/base-styles';
 
 export interface TreeStructureNode<T extends TreeStructureNode = TreeStructureNode<any>> {
   itemClass?: string;

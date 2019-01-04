@@ -1,5 +1,5 @@
 import { PolymerElement } from '@polymer/polymer/polymer-element';
-import '../../styles/base-styles';
+import '../../styles/polymer/base-styles';
 declare const CommImage_base: new () => PolymerElement;
 export declare class CommImage extends CommImage_base {
     static readonly template: HTMLTemplateElement;

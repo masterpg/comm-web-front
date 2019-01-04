@@ -1,10 +1,10 @@
-import '../../styles/base-styles';
 import '@polymer/iron-collapse/iron-collapse';
 import '@polymer/iron-flex-layout/iron-flex-layout';
 import '@polymer/iron-flex-layout/iron-flex-layout-classes';
 import '@polymer/iron-icon/iron-icon';
 import '@polymer/iron-icons/iron-icons';
 import { PolymerElement } from '@polymer/polymer/polymer-element';
+import '../../styles/polymer/base-styles';
 export interface TreeStructureNode<T extends TreeStructureNode = TreeStructureNode<any>> {
     itemClass?: string;
     itemHTML: string;

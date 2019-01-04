@@ -1,8 +1,9 @@
-import '../../../lib/elements/comm-collapse-view';
-import '../../../lib/styles/base-styles';
 import '@polymer/paper-card/paper-card';
 import { PolymerElement, html } from '@polymer/polymer/polymer-element';
 import { customElement, property, query } from '@polymer/decorators';
+
+import '../../../lib/elements/comm-collapse-view';
+import '../../../lib/styles/polymer/base-styles';
 
 @customElement('comm-collapse-view-demo')
 class CommCollapseViewDemo extends PolymerElement {

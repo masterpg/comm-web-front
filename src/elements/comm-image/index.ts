@@ -3,7 +3,8 @@ import { customElement, observe, property, query, listen } from '@polymer/decora
 import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class';
 import { IronResizableBehavior } from '@polymer/iron-resizable-behavior';
 import * as anime from 'animejs';
-import '../../styles/base-styles';
+
+import '../../styles/polymer/base-styles';
 
 @customElement('comm-image')
 export class CommImage extends mixinBehaviors([IronResizableBehavior], PolymerElement) {

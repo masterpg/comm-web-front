@@ -76,16 +76,11 @@ const config = {
         exclude: [/node_modules/],
       },
       {
-        test: /demo\/index\.css$/,
+        test: /\.css$/,
         use: [
           'style-loader',
           {
             loader: 'postcss-loader',
-            options: {
-              config: {
-                path: path.resolve(__dirname, 'postcss.config.js'),
-              },
-            },
           },
         ],
       },

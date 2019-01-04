@@ -11,8 +11,8 @@
     "url": "https://masterpg@bitbucket.org/masterpg/lived-web-front.git"
   },
   "scripts": {
-    "build:styles": "cpx \"src/styles/*.css\" lib/styles & cpx \"src/styles/**/*.js\" lib/styles & postcss --config postcss.config.js src/styles/base-styles.css --base src --dir lib",
-    "watch:styles": "cpx \"src/styles/*.css\" lib/styles --watch & cpx \"src/styles/base-styles.css\" lib/styles --watch --command \"postcss --config postcss.config.js src/styles/base-styles.css --base src --dir lib --watch\" & cpx \"src/styles/**/*.js\" lib/styles --watch",
+    "build:styles": "cpx \"src/styles/placeholder/*.css\" lib/styles/placeholder & cpx \"src/styles/variables/*.css\" lib/styles/variables & cpx \"src/styles/polymer/**/*.js\" lib/styles/polymer & postcss --config postcss.config.js src/styles/classes/**/*.css --base src --dir lib",
+    "watch:styles": "cpx \"src/styles/placeholder/*.css\" lib/styles/placeholder --watch & cpx \"src/styles/variables/*.css\" lib/styles/variables --watch & cpx \"src/styles/polymer/**/*.js\" lib/styles/polymer --watch & postcss --config postcss.config.js src/styles/classes/**/*.css --base src --dir lib --watch",
     "build:ts": "tslint -p tslint.json & tsc --project tsconfig.json --declaration",
     "watch:ts": "tslint -p tslint.json & tsc --project tsconfig.json --declaration --watch",
     "build": "npm run build:styles & npm run build:ts",

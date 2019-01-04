@@ -1,6 +1,6 @@
-import '../../styles/base-styles';
 import { CommCollapseItem } from './comm-collapse-item';
 import { PolymerElement } from '@polymer/polymer/polymer-element';
+import '../../styles/polymer/base-styles';
 /**
  * # comm-collapse-view
  *

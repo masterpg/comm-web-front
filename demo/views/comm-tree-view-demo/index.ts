@@ -1,11 +1,12 @@
-import '../../../lib/elements/comm-tree-view';
-import '../../../lib/styles/base-styles';
 import '@polymer/paper-checkbox/paper-checkbox';
 import '@polymer/paper-card/paper-card';
 import { CommTreeItem, CommTreeView } from '../../../lib/elements/comm-tree-view';
 import { PaperCheckboxElement } from '@polymer/paper-checkbox/paper-checkbox';
 import { PolymerElement, html } from '@polymer/polymer/polymer-element';
 import { customElement, property, query } from '@polymer/decorators';
+
+import '../../../lib/elements/comm-tree-view';
+import '../../../lib/styles/polymer/base-styles';
 
 @customElement('comm-tree-view-demo')
 class CommTreeViewDemo extends PolymerElement {

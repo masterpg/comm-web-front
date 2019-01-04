@@ -1,9 +1,3 @@
-import '../../lib/elements/comm-tree-view';
-import '../../lib/styles/base-styles';
-import './comm-awesome-element-demo';
-import './comm-collapse-view-demo';
-import './comm-image-demo';
-import './comm-tree-view-demo';
 import '@polymer/app-layout/app-drawer-layout/app-drawer-layout';
 import '@polymer/app-layout/app-drawer/app-drawer';
 import '@polymer/app-layout/app-header-layout/app-header-layout';
@@ -13,6 +7,13 @@ import '@polymer/iron-pages/iron-pages';
 import { CommTreeItem, CommTreeView } from '../../lib/elements/comm-tree-view';
 import { PolymerElement, html } from '@polymer/polymer/polymer-element';
 import { customElement, property, query } from '@polymer/decorators';
+
+import '../../lib/elements/comm-tree-view';
+import '../../lib/styles/polymer/base-styles';
+import './comm-awesome-element-demo';
+import './comm-collapse-view-demo';
+import './comm-image-demo';
+import './comm-tree-view-demo';
 
 @customElement('app-view')
 class AppView extends PolymerElement {
