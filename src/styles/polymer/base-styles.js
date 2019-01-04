@@ -10,11 +10,22 @@ import './_shadows.js';
 import './_spacing.js';
 import './_typography.js';
 
+/**
+ * 指定されたShared StylesのIDからスタイル部分を抽出し、文字列として取得します。
+ * コーディングは次のURLを参照: https://github.com/Polymer/lit-element/issues/100#issuecomment-396793641
+ * @param ids
+ * @returns {string}
+ */
 function generateStyleString(ids) {
   let result = '';
   ids.forEach((id) => {
     const styleTemplate = DomModule.import(id, 'template');
-    result += `\n${styleTemplate.content.firstElementChild.textContent}`;
+    if (styleTemplate.content.firstElementChild) {
+      result += `\n${styleTemplate.content.firstElementChild.textContent}`;
+    } else {
+      // for IE11
+      result += `\n${styleTemplate.content.textContent}`;
+    }
   });
   return result;
 }
@@ -48,6 +59,12 @@ template.setAttribute('style', 'display: none;');
 document.head.appendChild(template.content);
 
 const baseStylesTemplate = DomModule.import('base-styles', 'template');
-const baseStyles = baseStylesTemplate.content.firstElementChild.textContent;
+let baseStyles;
+if (baseStylesTemplate.content.firstElementChild) {
+  baseStyles = baseStylesTemplate.content.firstElementChild.textContent;
+} else {
+  // for IE11
+  baseStyles = baseStylesTemplate.content.textContent;
+}
 
 export { baseStyles };

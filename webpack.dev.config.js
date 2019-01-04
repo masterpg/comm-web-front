@@ -56,6 +56,32 @@ const config = {
   module: {
     rules: [
       {
+        test: /\.js$/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                [
+                  '@babel/preset-env',
+                  {
+                    targets: {
+                      browsers: [
+                        // Best practice: https://github.com/babel/babel/issues/7789
+                        '>=1%',
+                        'not op_mini all',
+                        'ie 11',
+                      ],
+                    },
+                    useBuiltIns: 'entry',
+                  },
+                ],
+              ],
+            },
+          },
+        ],
+      },
+      {
         test: /\.tsx?$/,
         enforce: 'pre',
         loader: 'tslint-loader',
