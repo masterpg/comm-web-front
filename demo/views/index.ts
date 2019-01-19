@@ -4,22 +4,25 @@ import '@polymer/app-layout/app-header-layout/app-header-layout';
 import '@polymer/app-layout/app-header/app-header';
 import '@polymer/app-layout/app-toolbar/app-toolbar';
 import '@polymer/iron-pages/iron-pages';
-import { CommTreeItem, CommTreeView } from '../../lib/elements/comm-tree-view';
-import { PolymerElement, html } from '@polymer/polymer/polymer-element';
-import { customElement, property, query } from '@polymer/decorators';
+import { html, query, property } from 'lit-element';
 
 import '../../lib/elements/comm-tree-view';
-import '../../lib/styles/polymer/base-styles';
 import './comm-awesome-element-demo';
 import './comm-collapse-view-demo';
 import './comm-image-demo';
 import './comm-tree-view-demo';
+import { CommBaseElement } from '../../lib/elements/comm-base-element';
+import { CommResizableMixin } from '../../lib/elements/mixins/comm-resizable-mixin';
+import { CommTreeItem, CommTreeView } from '../../lib/elements/comm-tree-view';
+import { baseStyles } from '../../lib/styles/polymer/base-styles';
+import { mix } from '../../lib';
 
-@customElement('app-view')
-class AppView extends PolymerElement {
-  static get template() {
+class AppView extends mix(CommBaseElement).with(CommResizableMixin) {
+  render() {
     return html`
-      <style include="base-styles">
+      <style>
+        ${baseStyles}
+
         app-drawer-layout {
           --app-drawer-width: 256px;
         }
@@ -45,13 +48,6 @@ class AppView extends PolymerElement {
         .tree-view-wrapper {
           padding: 8px 16px;
         }
-
-        .link {
-          @apply(--comm-pseudo-link);
-        }
-        .link:hover {
-          @apply(--comm-pseudo-link-hover);
-        }
       </style>
 
       <app-drawer-layout responsive-width="960px">
@@ -60,10 +56,10 @@ class AppView extends PolymerElement {
             <div main-title class="comm-ml-8">DEMO</div>
           </app-toolbar>
           <div class="tree-view-wrapper">
-            <comm-tree-view id="treeView" on-item-selected="m_treeNodeOnItemSelected"></comm-tree-view>
+            <comm-tree-view id="treeView" @item-selected="${this.m_treeViewOnItemSelected}"></comm-tree-view>
           </div>
         </app-drawer>
-        <iron-pages selected="[[m_pageName]]" attr-for-selected="page-name" fallback-selection="fallback">
+        <iron-pages selected="${this.m_pageName}" attr-for-selected="page-name" fallback-selection="fallback">
           <comm-awesome-element-demo page-name="comm-awesome-element-demo"></comm-awesome-element-demo>
           <comm-tree-view-demo page-name="comm-tree-view-demo"></comm-tree-view-demo>
           <comm-image-demo page-name="comm-image-demo"></comm-image-demo>
@@ -85,6 +81,7 @@ class AppView extends PolymerElement {
   //
   //----------------------------------------------------------------------
 
+  @property({ type: String })
   m_pageName: string = '';
 
   //--------------------------------------------------
@@ -100,27 +97,29 @@ class AppView extends PolymerElement {
   //
   //----------------------------------------------------------------------
 
-  ready() {
-    super.ready();
+  connectedCallback(): void {
+    super.connectedCallback();
 
-    this.m_treeView.buildTree([
-      {
-        itemHTML: 'comm-awesome-element',
-        selectedValue: 'comm-awesome-element-demo',
-      },
-      {
-        itemHTML: 'comm-tree-view',
-        selectedValue: 'comm-tree-view-demo',
-      },
-      {
-        itemHTML: 'comm-image',
-        selectedValue: 'comm-image-demo',
-      },
-      {
-        itemHTML: 'comm-collapse-view',
-        selectedValue: 'comm-collapse-view-demo',
-      },
-    ]);
+    setTimeout(() => {
+      this.m_treeView.buildTree([
+        {
+          itemHTML: 'comm-awesome-element',
+          selectedValue: 'comm-awesome-element-demo',
+        },
+        {
+          itemHTML: 'comm-tree-view',
+          selectedValue: 'comm-tree-view-demo',
+        },
+        {
+          itemHTML: 'comm-image',
+          selectedValue: 'comm-image-demo',
+        },
+        {
+          itemHTML: 'comm-collapse-view',
+          selectedValue: 'comm-collapse-view-demo',
+        },
+      ]);
+    });
   }
 
   //----------------------------------------------------------------------
@@ -131,8 +130,10 @@ class AppView extends PolymerElement {
 
   m_treeNodeOnToggleNode(e) {}
 
-  m_treeNodeOnItemSelected(e) {
+  m_treeViewOnItemSelected(e) {
     const item = e.detail.item as CommTreeItem;
     this.m_pageName = item.selectedValue;
+    this.f_async(this.notifyResize);
   }
 }
+customElements.define('app-view', AppView);

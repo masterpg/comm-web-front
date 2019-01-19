@@ -1,6 +1,5 @@
+import { CommBaseElement } from '../comm-base-element';
 import { CommCollapseItem } from './comm-collapse-item';
-import { PolymerElement } from '@polymer/polymer/polymer-element';
-import '../../styles/polymer/base-styles';
 /**
  * # comm-collapse-view
  *
@@ -25,12 +24,12 @@ import '../../styles/polymer/base-styles';
  * `--comm-collapse-title` | アイテムタイトルのミックスインです | `{}`
  * `--comm-collapse-transition-duration` | 展開/収縮アニメーションの時間です | `300ms`
  */
-export declare class CommCollapseView extends PolymerElement {
-    static readonly template: HTMLTemplateElement;
+export declare class CommCollapseView extends CommBaseElement {
+    protected render(): import("lit-html/lib/template-result").TemplateResult;
     m_toggleCollapseItemListeners: WeakMap<CommCollapseItem, EventListener>;
-    m_initialDividerStyle: string;
+    m_initialDividerStyle: string | null;
     m_slot: HTMLSlotElement;
-    ready(): void;
+    constructor();
     /**
      * アイテム間のボーダーを設定します。
      */
@@ -40,8 +39,13 @@ export declare class CommCollapseView extends PolymerElement {
      */
     m_getCollapseItems(): CommCollapseItem[];
     /**
-     * アイテムが開閉された際のハンドラです。
-     * @param event
+     * slotにノードが配置(削除含む)された際のハンドラです。
+     * @param e
      */
-    m_collapseItemOnToggleCollapseItem(event: any): void;
+    m_slotOnSlotChange(e: any): void;
+    /**
+     * アイテムが開閉された際のハンドラです。
+     * @param e
+     */
+    m_collapseItemOnToggleCollapseItem(e: any): void;
 }

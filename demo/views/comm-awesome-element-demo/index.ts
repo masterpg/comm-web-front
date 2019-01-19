@@ -1,12 +1,19 @@
-import { LitElement, html } from '@polymer/lit-element';
+import { html } from 'lit-element';
 
 import '../../../lib/styles/polymer/base-styles';
 import '../../../lib/elements/comm-awesome-element';
 
-export class CommAwesomeElementDemo extends LitElement {
+import { CommBaseElement } from '../../../lib/elements/comm-base-element';
+import { CommResizableMixin } from '../../../lib/elements/mixins/comm-resizable-mixin';
+import { baseStyles } from '../../../lib/styles/polymer/base-styles';
+import { mix } from '../../../lib';
+
+export class CommAwesomeElementDemo extends mix(CommBaseElement).with(CommResizableMixin) {
   render() {
     return html`
       <style>
+        ${baseStyles}
+
         :host {
           display: block;
           padding: 48px;
@@ -17,5 +24,4 @@ export class CommAwesomeElementDemo extends LitElement {
     `;
   }
 }
-
 customElements.define('comm-awesome-element-demo', CommAwesomeElementDemo);

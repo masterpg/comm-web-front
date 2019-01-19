@@ -3,8 +3,8 @@ import '@polymer/iron-flex-layout/iron-flex-layout';
 import '@polymer/iron-flex-layout/iron-flex-layout-classes';
 import '@polymer/iron-icon/iron-icon';
 import '@polymer/iron-icons/iron-icons';
-import { PolymerElement } from '@polymer/polymer/polymer-element';
-import '../../styles/polymer/base-styles';
+import { PropertyValues } from 'lit-element';
+import { CommBaseElement } from '../comm-base-element';
 export interface TreeStructureNode<T extends TreeStructureNode = TreeStructureNode<any>> {
     itemClass?: string;
     itemHTML: string;
@@ -13,7 +13,6 @@ export interface TreeStructureNode<T extends TreeStructureNode = TreeStructureNo
     opened?: boolean;
     children?: T[];
 }
-declare const CommTreeView_base: typeof PolymerElement & import("@polymer/polymer/lib/mixins/gesture-event-listeners").GestureEventListenersConstructor;
 /**
  * # comm-tree-view
  *
@@ -35,11 +34,11 @@ declare const CommTreeView_base: typeof PolymerElement & import("@polymer/polyme
  * `--comm-tree-item-selected-color` | ノードアイテムの選択時のカラーです | `var(--comm-pink-500)`
  * `--comm-tree-item-unselectable-color` | ノードアイテムが非選択ノードの場合のカラー | `var(--comm-grey900)`
  */
-export declare class CommTreeView extends CommTreeView_base {
-    static readonly template: HTMLTemplateElement;
+export declare class CommTreeView extends CommBaseElement {
+    render(): import("lit-html/lib/template-result").TemplateResult;
     m_selectedItem?: CommTreeItem;
     m_slot: HTMLSlotElement;
-    ready(): void;
+    constructor();
     /**
      * ツリービューを指定されたツリーデータで構築します。
      * @param tree ツリービューを構築するためのデータ
@@ -77,12 +76,15 @@ export declare class CommTreeView extends CommTreeView_base {
      * 子ノードを取得します。
      */
     m_getChildNodes(): CommTreeNode[];
+    /**
+     * slotにノードが配置(削除含む)された際のハンドラです。
+     * @param e
+     */
+    m_slotOnSlotChange(e: any): void;
 }
-declare const CommTreeNode_base: typeof PolymerElement & import("@polymer/polymer/lib/mixins/gesture-event-listeners").GestureEventListenersConstructor;
-export declare class CommTreeNode extends CommTreeNode_base {
-    static readonly template: HTMLTemplateElement;
+export declare class CommTreeNode extends CommBaseElement {
+    render(): import("lit-html/lib/template-result").TemplateResult;
     m_toggleIconKind: string;
-    m_computeToggleIconKind(opened: boolean): "icons:expand-more" | "icons:chevron-right";
     m_itemContainer: HTMLElement;
     m_itemSlot: HTMLSlotElement;
     m_childSlot: HTMLSlotElement;
@@ -93,7 +95,9 @@ export declare class CommTreeNode extends CommTreeNode_base {
      */
     opened: boolean;
     constructor();
-    ready(): void;
+    connectedCallback(): void;
+    protected updated(changedProperties: PropertyValues): void;
+    m_openedChanged(newValue: boolean, oldValue: boolean): void;
     /**
      * 表示関連の設定処理を行います。
      */
@@ -115,15 +119,24 @@ export declare class CommTreeNode extends CommTreeNode_base {
      */
     m_getChildNodes(): CommTreeNode[];
     /**
-     * トグルアイコンがタップされた際のハンドラです。
+     * アイテムスロットにノードが配置(削除含む)された際のハンドラです。
      * @param e
      */
-    m_toggleIconOnTap(e: any): void;
+    m_itemSlotOnSlotChange(e: any): void;
+    /**
+     * チャイルドスロットにノードが配置(削除含む)された際のハンドラです。
+     * @param e
+     */
+    m_childSlotOnSlotChange(e: any): void;
+    /**
+     * トグルアイコンがクリックされた際のハンドラです。
+     * @param e
+     */
+    m_toggleIconOnClick(e: any): void;
 }
-declare const CommTreeItem_base: typeof PolymerElement & import("@polymer/polymer/lib/mixins/gesture-event-listeners").GestureEventListenersConstructor;
-export declare class CommTreeItem extends CommTreeItem_base {
-    static readonly template: HTMLTemplateElement;
-    ready(): void;
+export declare class CommTreeItem extends CommBaseElement {
+    render(): import("lit-html/lib/template-result").TemplateResult;
+    constructor();
     /**
      * 選択されているか否かです。
      */
@@ -137,15 +150,14 @@ export declare class CommTreeItem extends CommTreeItem_base {
      */
     unselectable: boolean;
     /**
-     * 本クラスを継承した際に拡張可能なHTMLテンプレートです。
+     * 本クラスを継承した際に拡張可能なCSSです。
      * 継承した際は必要に応じてスタイルを変更することができます。
      */
-    static f_extendedStyle: HTMLTemplateElement;
+    f_extraStyle: import("lit-html/lib/template-result").TemplateResult;
     /**
      * 本クラスを継承した際に拡張可能なHTMLテンプレートです。
      * 継承した際は必要に応じてHTMLテンプレートを変更することができます。
      */
-    static f_extendedTemplate: HTMLTemplateElement;
-    f_itemOnTap(e: any): void;
+    f_itemTemplate: import("lit-html/lib/template-result").TemplateResult;
+    f_itemOnClick(e: any): void;
 }
-export {};

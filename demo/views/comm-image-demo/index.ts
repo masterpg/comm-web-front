@@ -1,18 +1,20 @@
 import '@polymer/paper-card/paper-card';
 import '@polymer/paper-button/paper-button';
 import '@polymer/paper-radio-group/paper-radio-group';
-import { PolymerElement, html } from '@polymer/polymer/polymer-element';
-import { customElement, property, query } from '@polymer/decorators';
+import { html, property, query } from 'lit-element';
 
 import '../../../lib/elements/comm-image';
 import '../../../lib/styles/polymer/base-styles';
+import { CommBaseElement } from '../../../lib/elements/comm-base-element';
 import { CommImage } from '../../../lib/elements/comm-image';
+import { baseStyles } from '../../../lib/styles/polymer/base-styles';
 
-@customElement('comm-image-demo')
-class CommImageDemo extends PolymerElement {
-  static get template() {
+class CommImageDemo extends CommBaseElement {
+  render() {
     return html`
-      <style include="base-styles">
+      <style>
+        ${baseStyles}
+
         .main-container {
           padding: 48px;
         }
@@ -34,25 +36,31 @@ class CommImageDemo extends PolymerElement {
       <div class="layout vertical center main-container">
         <div class="layout vertical center-center comm-mb-20 settings-container">
           <div class="layout horizontal center">
-            <label>h-align:</label>
-            <paper-radio-group selected="{{m_hAlignSelected}}">
+            <label>halign:</label>
+            <paper-radio-group selected="${this.m_hAlignSelected}" @selected-changed="${this.m_hAlignGroupOnSelectedChanged}">
               <paper-radio-button name="start">start</paper-radio-button>
               <paper-radio-button name="center">center</paper-radio-button>
               <paper-radio-button name="end">end</paper-radio-button>
             </paper-radio-group>
           </div>
           <div class="layout horizontal center">
-            <label>v-align:</label>
-            <paper-radio-group selected="{{m_vAlignSelected}}">
+            <label>valign:</label>
+            <paper-radio-group selected="${this.m_vAlignSelected}" @selected-changed="${this.m_vAlignGroupOnSelectedChanged}">
               <paper-radio-button name="start">start</paper-radio-button>
               <paper-radio-button name="center">center</paper-radio-button>
               <paper-radio-button name="end">end</paper-radio-button>
             </paper-radio-group>
           </div>
-          <paper-button on-click="m_reloadButtonOnClick">Reload</paper-button>
+          <paper-button @click="${this.m_reloadButtonOnClick}">Reload</paper-button>
         </div>
         <div class="image-container">
-          <comm-image id="commImage" h-align="[[m_hAlignSelected]]" v-align="[[m_vAlignSelected]]" src="https://dummyimage.com/300x200/000/fff"></comm-image>
+          <comm-image
+            id="commImage"
+            halign="${this.m_hAlignSelected}"
+            valign="${this.m_vAlignSelected}"
+            src="https://dummyimage.com/300x200/000/fff"
+            alt="Dummy Image"
+          ></comm-image>
         </div>
       </div>
     `;
@@ -61,12 +69,25 @@ class CommImageDemo extends PolymerElement {
   @query('#commImage')
   m_commImage!: CommImage;
 
+  @property({ type: String })
   m_hAlignSelected: string = 'center';
 
+  @property({ type: String })
   m_vAlignSelected: string = 'center';
 
   m_reloadButtonOnClick() {
     this.m_commImage.src = '';
-    this.m_commImage.src = 'https://dummyimage.com/300x200/000/fff';
+    setTimeout(() => {
+      this.m_commImage.src = 'https://dummyimage.com/300x200/000/fff';
+    });
+  }
+
+  m_hAlignGroupOnSelectedChanged(e) {
+    this.m_hAlignSelected = e.detail.value;
+  }
+
+  m_vAlignGroupOnSelectedChanged(e) {
+    this.m_vAlignSelected = e.detail.value;
   }
 }
+customElements.define('comm-image-demo', CommImageDemo);

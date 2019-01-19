@@ -1,18 +1,21 @@
-import { PolymerElement } from '@polymer/polymer/polymer-element';
-import '../../styles/polymer/base-styles';
-declare const CommImage_base: new () => PolymerElement;
+import { PropertyValues } from 'lit-element';
+import { CommBaseElement } from '../comm-base-element';
+declare type AlignType = 'start' | 'center' | 'end';
+declare const CommImage_base: import("src/base").Constructor<CommBaseElement> & import("src/base").Constructor<import("src/elements/mixins/comm-resizable-mixin").CommResizableElement>;
 export declare class CommImage extends CommImage_base {
-    static readonly template: HTMLTemplateElement;
+    protected render(): import("lit-html/lib/template-result").TemplateResult;
     m_container: HTMLDivElement;
     m_img: HTMLImageElement;
     m_loading: HTMLDivElement;
     src: string;
-    m_srcChanged(newValue: any, oldValue: any): void;
     alt: string;
-    m_altChanged(newValue: any, oldValue: any): void;
-    hAlign: 'start' | 'center' | 'end';
-    vAlign: 'start' | 'center' | 'end';
-    ready(): void;
+    hAlign: AlignType;
+    vAlign: AlignType;
+    constructor();
+    protected updated(changedProperties: PropertyValues): void;
+    m_srcChanged(newValue: string, oldValue: string | undefined): void;
+    m_hAlignChanged(newValue: AlignType, oldValue: AlignType | undefined): void;
+    m_vAlignChanged(newValue: AlignType, oldValue: AlignType | undefined): void;
     /**
      * コンポーネントのリサイズ処理を行います。
      */
@@ -28,7 +31,7 @@ export declare class CommImage extends CommImage_base {
     m_getWidth(element: HTMLElement): number;
     m_getHeight(element: HTMLElement): number;
     m_parseInt(value: any): number;
-    m_onIronResize(event: any): void;
-    m_imgOnLoad(event: any): void;
+    m_onCommResize(e: any): void;
+    m_imgOnLoad(e: any): void;
 }
 export {};

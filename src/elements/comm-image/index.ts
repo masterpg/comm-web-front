@@ -1,65 +1,30 @@
-import { PolymerElement, html } from '@polymer/polymer/polymer-element';
-import { customElement, observe, property, query, listen } from '@polymer/decorators';
-import { mixinBehaviors } from '@polymer/polymer/lib/legacy/class';
-import { IronResizableBehavior } from '@polymer/iron-resizable-behavior';
+import { html, property, query, PropertyValues } from 'lit-element';
 import * as anime from 'animejs';
 
-import '../../styles/polymer/base-styles';
+import { baseStyles } from '../../styles/polymer/base-styles';
+import { mix } from '../../base';
+import { CommResizableMixin } from '../mixins/comm-resizable-mixin';
+import { CommBaseElement } from '../comm-base-element';
 
-@customElement('comm-image')
-export class CommImage extends mixinBehaviors([IronResizableBehavior], PolymerElement) {
-  static get template() {
+type AlignType = 'start' | 'center' | 'end';
+
+export class CommImage extends mix(CommBaseElement).with(CommResizableMixin) {
+  protected render() {
     return html`
-      <style include="base-styles">
-        :host([h-align="start"]) {
-          --comm-image-h-align: {
-            @apply(--layout-start-justified);
-          };
-        }
-
-        :host([h-align="center"]) {
-          --comm-image-h-align: {
-            @apply(--layout-center-justified);
-          };
-        }
-
-        :host([h-align="end"]) {
-          --comm-image-h-align: {
-            @apply(--layout-end-justified);
-          };
-        }
-
-        :host([v-align="start"]) {
-          --comm-image-v-align: {
-            @apply(--layout-start);
-          };
-        }
-
-        :host([v-align="center"]) {
-          --comm-image-v-align: {
-            @apply(--layout-center);
-          };
-        }
-
-        :host([v-align="end"]) {
-          --comm-image-v-align: {
-            @apply(--layout-end);
-          };
-        }
+      <style>
+        ${baseStyles}
 
         #container {
           box-sizing: border-box;
           height: 100%;
           position: relative;
-          @apply(--layout-horizontal);
-          @apply(--comm-image-h-align);
-          @apply(--comm-image-v-align);
         }
 
         #loading {
           width: 100%;
           height: 100%;
           top: 0;
+          left: 0;
           position: absolute;
         }
 
@@ -111,11 +76,9 @@ export class CommImage extends mixinBehaviors([IronResizableBehavior], PolymerEl
         }
       </style>
 
-      <div id="container">
-        <div id="loading" class="layout vertical center-center">
-          <div class="loader loader-type-one"></div>
-        </div>
-        <img id="img" on-load="m_imgOnLoad">
+      <div id="container" class="layout horizontal">
+        <div id="loading" class="layout vertical center-center"><div class="loader loader-type-one"></div></div>
+        <img id="img" src="${this.src}" alt="${this.alt}" @load="${this.m_imgOnLoad}" />
       </div>
     `;
   }
@@ -125,6 +88,10 @@ export class CommImage extends mixinBehaviors([IronResizableBehavior], PolymerEl
   //  Variables
   //
   //----------------------------------------------------------------------
+
+  //--------------------------------------------------
+  //  Elements
+  //--------------------------------------------------
 
   @query('#container')
   m_container!: HTMLDivElement;
@@ -141,11 +108,53 @@ export class CommImage extends mixinBehaviors([IronResizableBehavior], PolymerEl
   //
   //----------------------------------------------------------------------
 
-  @property({ type: String })
+  @property({ type: String, reflect: true })
   src: string = '';
 
-  @observe('src')
-  m_srcChanged(newValue, oldValue) {
+  @property({ type: String, reflect: true })
+  alt: string = '';
+
+  @property({ type: String, reflect: true })
+  hAlign: AlignType = 'center';
+
+  @property({ type: String, reflect: true })
+  vAlign: AlignType = 'center';
+
+  //----------------------------------------------------------------------
+  //
+  //  Lifecycle hooks
+  //
+  //----------------------------------------------------------------------
+
+  constructor() {
+    super();
+
+    this.addEventListener('comm-resize', (e) => this.m_onCommResize(e));
+  }
+
+  protected updated(changedProperties: PropertyValues): void {
+    changedProperties.forEach((oldValue, propName) => {
+      switch (propName) {
+        case 'src':
+          this.m_srcChanged(this.src, oldValue as string);
+          break;
+        case 'hAlign':
+          this.m_hAlignChanged(this.hAlign, oldValue as AlignType | undefined);
+          break;
+        case 'vAlign':
+          this.m_vAlignChanged(this.vAlign, oldValue as AlignType | undefined);
+          break;
+      }
+    });
+  }
+
+  //----------------------------------------------------------------------
+  //
+  //  Internal methods
+  //
+  //----------------------------------------------------------------------
+
+  m_srcChanged(newValue: string, oldValue: string | undefined) {
     this.src = newValue || '';
 
     if (this.src) {
@@ -158,49 +167,26 @@ export class CommImage extends mixinBehaviors([IronResizableBehavior], PolymerEl
       this.m_img.hidden = true;
     }
 
-    this.m_img.style.width = 'initial';
-    this.m_img.style.height = 'initial';
-    this.m_img.src = this.src;
+    this.m_img.style.width = 'auto';
+    this.m_img.style.height = 'auto';
   }
 
-  @property({ type: String })
-  alt: string = '';
-
-  @observe('alt')
-  m_altChanged(newValue, oldValue) {
-    this.alt = newValue;
-    if (this.m_img) {
-      this.m_img.alt = newValue;
+  m_hAlignChanged(newValue: AlignType, oldValue: AlignType | undefined) {
+    const toClass = (position: AlignType) => {
+      return `${position}-justified`;
+    };
+    if (oldValue) {
+      this.m_container.classList.remove(toClass(oldValue));
     }
+    this.m_container.classList.add(toClass(newValue));
   }
 
-  @property({ type: String, reflectToAttribute: true })
-  hAlign: 'start' | 'center' | 'end' = 'center';
-
-  @property({ type: String, reflectToAttribute: true })
-  vAlign: 'start' | 'center' | 'end' = 'center';
-
-  //----------------------------------------------------------------------
-  //
-  //  Lifecycle hooks
-  //
-  //----------------------------------------------------------------------
-
-  ready() {
-    super.ready();
-
-    this.addEventListener('iron-resize', (e) => this.m_onIronResize(e));
-
-    this.m_loading.hidden = true;
-    this.m_img.alt = this.alt;
-    this.m_img.src = this.src;
+  m_vAlignChanged(newValue: AlignType, oldValue: AlignType | undefined) {
+    if (oldValue) {
+      this.m_container.classList.remove(oldValue);
+    }
+    this.m_container.classList.add(newValue);
   }
-
-  //----------------------------------------------------------------------
-  //
-  //  Internal methods
-  //
-  //----------------------------------------------------------------------
 
   /**
    * コンポーネントのリサイズ処理を行います。
@@ -223,8 +209,8 @@ export class CommImage extends mixinBehaviors([IronResizableBehavior], PolymerEl
         //   '&& containerHeight:', containerHeight, '>= img.naturalHeight:', this.m_img.naturalHeight);
 
         // imgを画像本来のサイズに設定
-        this.m_img.style.width = 'initial';
-        this.m_img.style.height = 'initial';
+        this.m_img.style.width = 'auto';
+        this.m_img.style.height = 'auto';
         return;
       }
     }
@@ -241,10 +227,10 @@ export class CommImage extends mixinBehaviors([IronResizableBehavior], PolymerEl
       if (x <= containerHeight) {
         // console.log('② - 1:', 'container.height(x)', x, '<= container.height', containerHeight);
         this.m_img.style.width = '100%';
-        this.m_img.style.height = 'initial';
+        this.m_img.style.height = 'auto';
       } else {
         // console.log('② - 2:', 'container.height(x)', x, '> container.height', containerHeight);
-        this.m_img.style.width = 'initial';
+        this.m_img.style.width = 'auto';
         this.m_img.style.height = '100%';
       }
     }
@@ -295,11 +281,11 @@ export class CommImage extends mixinBehaviors([IronResizableBehavior], PolymerEl
   //
   //----------------------------------------------------------------------
 
-  m_onIronResize(event) {
+  m_onCommResize(e) {
     this.m_resize();
   }
 
-  m_imgOnLoad(event) {
+  m_imgOnLoad(e) {
     this.m_resize();
 
     anime({
@@ -320,3 +306,4 @@ export class CommImage extends mixinBehaviors([IronResizableBehavior], PolymerEl
     });
   }
 }
+customElements.define('comm-image', CommImage);

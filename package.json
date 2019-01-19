@@ -21,16 +21,15 @@
     "test": "webpack --config webpack.dev.config.js && mocha-chrome dist/test.html"
   },
   "dependencies": {
-    "@polymer/decorators": "^3.0.0",
     "@polymer/iron-collapse": "^3.0.1",
     "@polymer/iron-flex-layout": "^3.0.1",
     "@polymer/iron-icon": "^3.0.1",
     "@polymer/iron-icons": "^3.0.1",
     "@polymer/iron-resizable-behavior": "^3.0.1",
-    "@polymer/lit-element": "^0.6.5",
     "@polymer/polymer": "~3.0.5",
     "@webcomponents/webcomponentsjs": "2.1.2",
     "animejs": "^2.2.0",
+    "lit-element": "^2.0.0-rc.2",
     "lodash": "^4.17.11",
     "qs": "github:ljharb/qs"
   },
@@ -45,17 +44,17 @@
     "@polymer/paper-checkbox": "^3.1.0",
     "@polymer/paper-radio-group": "^3.0.1",
     "@types/chai": "^4.1.7",
-    "@types/lodash": "^4.14.119",
+    "@types/lodash": "^4.14.120",
     "@types/mocha": "^5.2.5",
-    "autoprefixer": "^9.4.3",
+    "autoprefixer": "^9.4.5",
     "babel-loader": "^8.0.5",
     "chai": "^4.2.0",
     "copy-webpack-plugin": "^4.6.0",
     "cpx": "^1.5.0",
     "html-webpack-plugin": "^3.2.0",
     "mocha": "^5.2.0",
-    "mocha-chrome": "^1.1.0",
-    "postcss-cli": "^6.1.0",
+    "mocha-chrome": "^2.0.0",
+    "postcss-cli": "^6.1.1",
     "postcss-each": "^0.10.0",
     "postcss-extend": "^1.0.5",
     "postcss-for": "^2.1.1",
@@ -70,9 +69,9 @@
     "tslint": "^5.11.0",
     "tslint-loader": "^3.6.0",
     "typescript": "^3.0.3",
-    "webpack": "^4.28.3",
-    "webpack-cli": "^3.1.2",
+    "webpack": "^4.28.4",
+    "webpack-cli": "^3.2.1",
     "webpack-dev-server": "^3.1.14",
-    "webpack-merge": "^4.1.5"
+    "webpack-merge": "^4.2.1"
   }
 }

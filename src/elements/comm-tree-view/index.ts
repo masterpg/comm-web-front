@@ -3,13 +3,10 @@ import '@polymer/iron-flex-layout/iron-flex-layout';
 import '@polymer/iron-flex-layout/iron-flex-layout-classes';
 import '@polymer/iron-icon/iron-icon';
 import '@polymer/iron-icons/iron-icons';
-import * as Gestures from '@polymer/polymer/lib/utils/gestures.js';
-import { FlattenedNodesObserver } from '@polymer/polymer/lib/utils/flattened-nodes-observer';
-import { GestureEventListeners } from '@polymer/polymer/lib/mixins/gesture-event-listeners';
-import { PolymerElement, html } from '@polymer/polymer/polymer-element';
-import { customElement, observe, property, query, listen } from '@polymer/decorators';
+import { html, property, query, PropertyValues } from 'lit-element';
 
-import '../../styles/polymer/base-styles';
+import { baseStyles } from '../../styles/polymer/base-styles';
+import { CommBaseElement } from '../comm-base-element';
 
 export interface TreeStructureNode<T extends TreeStructureNode = TreeStructureNode<any>> {
   itemClass?: string;
@@ -41,11 +38,10 @@ export interface TreeStructureNode<T extends TreeStructureNode = TreeStructureNo
  * `--comm-tree-item-selected-color` | ノードアイテムの選択時のカラーです | `var(--comm-pink-500)`
  * `--comm-tree-item-unselectable-color` | ノードアイテムが非選択ノードの場合のカラー | `var(--comm-grey900)`
  */
-@customElement('comm-tree-view')
-export class CommTreeView extends GestureEventListeners(PolymerElement) {
-  static get template() {
+export class CommTreeView extends CommBaseElement {
+  render() {
     return html`
-      <slot id="slot" name="child"></slot>
+      <slot id="slot" name="child" @slotchange="${this.m_slotOnSlotChange}"></slot>
     `;
   }
 
@@ -70,22 +66,11 @@ export class CommTreeView extends GestureEventListeners(PolymerElement) {
   //
   //----------------------------------------------------------------------
 
-  ready() {
-    super.ready();
+  constructor() {
+    super();
 
     // ノードアイテムのイベント設定
     this.m_addItemSelectedEventListener();
-
-    // スロットの監視処理
-    new FlattenedNodesObserver(this.m_slot, (info: any) => {
-      // 追加されたアイテムの処理
-      for (const addedItem of info.addedNodes as CommTreeNode[]) {
-        if (!(addedItem instanceof HTMLElement)) continue;
-        if (!(addedItem instanceof CommTreeNode)) {
-          throw new Error('Light DOM must be CommTreeNode.');
-        }
-      }
-    });
   }
 
   //----------------------------------------------------------------------
@@ -221,34 +206,72 @@ export class CommTreeView extends GestureEventListeners(PolymerElement) {
       return node instanceof CommTreeNode;
     }) as CommTreeNode[];
   }
-}
 
-@customElement('comm-tree-node')
-export class CommTreeNode extends GestureEventListeners(PolymerElement) {
-  static get template() {
+  //----------------------------------------------------------------------
+  //
+  //  Event handlers
+  //
+  //----------------------------------------------------------------------
+
+  /**
+   * slotにノードが配置(削除含む)された際のハンドラです。
+   * @param e
+   */
+  m_slotOnSlotChange(e) {
+    const diff = this.f_getDistributedChildDiff(this.m_slot);
+
+    // 追加されたアイテムの処理
+    for (const addedItem of diff.added) {
+      if (!(addedItem instanceof HTMLElement)) continue;
+      if (!(addedItem instanceof CommTreeNode)) {
+        throw new Error('Light DOM must be CommTreeNode.');
+      }
+    }
+  }
+}
+customElements.define('comm-tree-view', CommTreeView);
+
+export class CommTreeNode extends CommBaseElement {
+  render() {
     return html`
-      <style include="base-styles">
+      <style>
+        ${baseStyles}
+
         #itemContainer {
           padding-top: var(--comm-tree-node-distance, 10px);
         }
+
         .toggle-icon {
           margin-right: 2px;
           color: var(--comm-grey-600);
           cursor: pointer;
         }
+
         #collapse > div {
           padding-left: var(--comm-tree-node-indent, 12px);
         }
       </style>
+
       <div id="itemContainer" class="layout horizontal center">
-        <iron-icon id="toggleIcon" class="toggle-icon" icon="[[m_toggleIconKind]]" on-tap="m_toggleIconOnTap"></iron-icon>
-        <svg id="pointIcon" width="24" height="24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-          <circle cx="12" cy="12" r="3" stroke="blue" fill="#9b9b9b" stroke-width="0"/>
+        <iron-icon
+          id="toggleIcon"
+          class="toggle-icon"
+          icon="${this.m_toggleIconKind}"
+          @click="${this.m_toggleIconOnClick}"
+        ></iron-icon>
+        <svg
+          id="pointIcon"
+          width="24"
+          height="24"
+          xmlns="http://www.w3.org/2000/svg"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+        >
+          <circle cx="12" cy="12" r="3" stroke="blue" fill="#9b9b9b" stroke-width="0" />
         </svg>
-        <div class="flex"><slot id="itemSlot" name="item"></slot></div>
+        <div class="flex"><slot id="itemSlot" name="item" @slotchange="${this.m_itemSlotOnSlotChange}"></slot></div>
       </div>
-      <iron-collapse id="collapse" opened="{{opened}}">
-        <div><slot id="childSlot" name="child"></slot></div>
+      <iron-collapse id="collapse" ?opened="${this.opened}">
+        <div><slot id="childSlot" name="child" @slotchange="${this.m_childSlotOnSlotChange}"></slot></div>
       </iron-collapse>
     `;
   }
@@ -259,12 +282,8 @@ export class CommTreeNode extends GestureEventListeners(PolymerElement) {
   //
   //----------------------------------------------------------------------
 
-  @property({ type: String, computed: 'm_computeToggleIconKind(opened)' })
+  @property({ type: String })
   m_toggleIconKind: string = '';
-
-  m_computeToggleIconKind(opened: boolean) {
-    return opened ? 'icons:expand-more' : 'icons:chevron-right';
-  }
 
   //--------------------------------------------------
   //  Elements
@@ -294,7 +313,7 @@ export class CommTreeNode extends GestureEventListeners(PolymerElement) {
   /**
    * アイテムの開閉です。
    */
-  @property({ type: Boolean, reflectToAttribute: true })
+  @property({ type: Boolean, reflect: true })
   opened: boolean = false;
 
   //----------------------------------------------------------------------
@@ -307,33 +326,22 @@ export class CommTreeNode extends GestureEventListeners(PolymerElement) {
     super();
   }
 
-  ready() {
-    super.ready();
+  connectedCallback(): void {
+    super.connectedCallback();
 
-    // 表示関連の設定処理
-    this.m_setupDisplay();
-
-    // アイテムスロットの監視処理
-    new FlattenedNodesObserver(this.m_itemSlot, (info: any) => {
-      // 追加されたアイテムの処理
-      for (const addedItem of info.addedNodes as CommTreeNode[]) {
-        if (!(addedItem instanceof HTMLElement)) continue;
-        if (addedItem instanceof CommTreeItem) {
-        }
-      }
-    });
-
-    // 子ノードスロットの監視処理
-    new FlattenedNodesObserver(this.m_childSlot, (info: any) => {
-      // 追加されたアイテムの処理
-      for (const addedItem of info.addedNodes as CommTreeNode[]) {
-        if (!(addedItem instanceof HTMLElement)) continue;
-        if (!(addedItem instanceof CommTreeNode)) {
-          throw new Error('Light DOM must be CommTreeNode.');
-        }
-      }
+    setTimeout(() => {
       // 表示関連の設定処理
       this.m_setupDisplay();
+    });
+  }
+
+  protected updated(changedProperties: PropertyValues): void {
+    changedProperties.forEach((oldValue, propName) => {
+      switch (propName) {
+        case 'opened':
+          this.m_openedChanged(this.opened, oldValue as boolean);
+          break;
+      }
     });
   }
 
@@ -342,6 +350,10 @@ export class CommTreeNode extends GestureEventListeners(PolymerElement) {
   //  Internal methods
   //
   //----------------------------------------------------------------------
+
+  m_openedChanged(newValue: boolean, oldValue: boolean): void {
+    this.m_toggleIconKind = newValue ? 'icons:expand-more' : 'icons:chevron-right';
+  }
 
   /**
    * 表示関連の設定処理を行います。
@@ -413,22 +425,59 @@ export class CommTreeNode extends GestureEventListeners(PolymerElement) {
   //----------------------------------------------------------------------
 
   /**
-   * トグルアイコンがタップされた際のハンドラです。
+   * アイテムスロットにノードが配置(削除含む)された際のハンドラです。
    * @param e
    */
-  m_toggleIconOnTap(e) {
+  m_itemSlotOnSlotChange(e) {
+    const diff = this.f_getDistributedChildDiff(this.m_itemSlot);
+
+    // 追加されたアイテムの処理
+    for (const addedItem of diff.added) {
+      if (!(addedItem instanceof HTMLElement)) continue;
+      if (addedItem instanceof CommTreeItem) {
+      }
+    }
+  }
+
+  /**
+   * チャイルドスロットにノードが配置(削除含む)された際のハンドラです。
+   * @param e
+   */
+  m_childSlotOnSlotChange(e) {
+    const diff = this.f_getDistributedChildDiff(this.m_childSlot);
+
+    // 追加されたアイテムの処理
+    for (const addedItem of diff.added) {
+      if (!(addedItem instanceof HTMLElement)) continue;
+      if (!(addedItem instanceof CommTreeNode)) {
+        throw new Error('Light DOM must be CommTreeNode.');
+      }
+    }
+
+    // 表示関連の設定処理
+    this.m_setupDisplay();
+  }
+
+  /**
+   * トグルアイコンがクリックされた際のハンドラです。
+   * @param e
+   */
+  m_toggleIconOnClick(e) {
     this.opened = !this.opened;
     this.dispatchEvent(new CustomEvent('toggle-node'));
   }
 }
+customElements.define('comm-tree-node', CommTreeNode);
 
-@customElement('comm-tree-item')
-export class CommTreeItem extends GestureEventListeners(PolymerElement) {
-  static get template() {
+export class CommTreeItem extends CommBaseElement {
+  render() {
     return html`
-      <style include="base-styles">
+      <style>
+        ${baseStyles}
+
         ::slotted(*) {
         }
+
         .item {
           @apply(--comm-font-common-base);
           font-size: var(--comm-tree-item-font-size, 16px);
@@ -438,22 +487,27 @@ export class CommTreeItem extends GestureEventListeners(PolymerElement) {
           cursor: pointer;
           @apply(--comm-tree-item);
         }
+
         .item:hover {
           text-decoration: underline;
         }
+
         :host([selected]) .item {
           color: var(--comm-tree-item-selected-color, var(--comm-pink-500));
         }
+
         :host([unselectable]) .item {
           color: var(--comm-tree-item-unselectable-color, var(--comm-grey900));
           cursor: default;
         }
+
         :host([unselectable]) .item:hover {
           text-decoration: none;
         }
-        ${this.f_extendedStyle}
+
+        ${this.f_extraStyle}
       </style>
-      <span class="item" on-tap="f_itemOnTap">${this.f_extendedTemplate}</span>
+      <span class="item" @click="${this.f_itemOnClick}">${this.f_itemTemplate}</span>
     `;
   }
 
@@ -463,8 +517,8 @@ export class CommTreeItem extends GestureEventListeners(PolymerElement) {
   //
   //----------------------------------------------------------------------
 
-  ready() {
-    super.ready();
+  constructor() {
+    super();
   }
 
   //----------------------------------------------------------------------
@@ -476,7 +530,7 @@ export class CommTreeItem extends GestureEventListeners(PolymerElement) {
   /**
    * 選択されているか否かです。
    */
-  @property({ type: Boolean, reflectToAttribute: true })
+  @property({ type: Boolean, reflect: true })
   selected: boolean = false;
 
   /**
@@ -488,7 +542,7 @@ export class CommTreeItem extends GestureEventListeners(PolymerElement) {
   /**
    * 選択不可フラグです。
    */
-  @property({ type: Boolean, reflectToAttribute: true })
+  @property({ type: Boolean, reflect: true })
   unselectable: boolean = false;
 
   //----------------------------------------------------------------------
@@ -498,16 +552,18 @@ export class CommTreeItem extends GestureEventListeners(PolymerElement) {
   //----------------------------------------------------------------------
 
   /**
-   * 本クラスを継承した際に拡張可能なHTMLテンプレートです。
+   * 本クラスを継承した際に拡張可能なCSSです。
    * 継承した際は必要に応じてスタイルを変更することができます。
    */
-  static f_extendedStyle = html``;
+  f_extraStyle = html``;
 
   /**
    * 本クラスを継承した際に拡張可能なHTMLテンプレートです。
    * 継承した際は必要に応じてHTMLテンプレートを変更することができます。
    */
-  static f_extendedTemplate = html`<slot></slot>`;
+  f_itemTemplate = html`
+    <slot></slot>
+  `;
 
   //----------------------------------------------------------------------
   //
@@ -515,10 +571,11 @@ export class CommTreeItem extends GestureEventListeners(PolymerElement) {
   //
   //----------------------------------------------------------------------
 
-  f_itemOnTap(e) {
+  f_itemOnClick(e) {
     this.selected = true;
     if (!this.unselectable) {
       this.dispatchEvent(new CustomEvent('item-selected', { bubbles: true, composed: true }));
     }
   }
 }
+customElements.define('comm-tree-item', CommTreeItem);
