@@ -1,20 +1,20 @@
-import '@polymer/iron-collapse/iron-collapse';
-import '@polymer/iron-flex-layout/iron-flex-layout';
-import '@polymer/iron-flex-layout/iron-flex-layout-classes';
-import '@polymer/iron-icon/iron-icon';
-import '@polymer/iron-icons/iron-icons';
-import { html, property, query, PropertyValues } from 'lit-element';
+import '@polymer/iron-collapse/iron-collapse'
+import '@polymer/iron-flex-layout/iron-flex-layout'
+import '@polymer/iron-flex-layout/iron-flex-layout-classes'
+import '@polymer/iron-icon/iron-icon'
+import '@polymer/iron-icons/iron-icons'
+import { html, property, query, PropertyValues } from 'lit-element'
 
-import { baseStyles } from '../../styles/polymer/base-styles';
-import { CommBaseElement } from '../comm-base-element';
+import { baseStyles } from '../../styles/polymer/base-styles'
+import { CommBaseElement } from '../comm-base-element'
 
 export interface TreeStructureNode {
-  itemClass?: string;
-  itemHTML: string;
-  selectedValue?: string;
-  unselectable?: boolean;
-  opened?: boolean;
-  children?: TreeStructureNode[];
+  itemClass?: string
+  itemHTML: string
+  selectedValue?: string
+  unselectable?: boolean
+  opened?: boolean
+  children?: TreeStructureNode[]
 }
 
 /**
@@ -42,7 +42,7 @@ export class CommTreeView extends CommBaseElement {
   render() {
     return html`
       <slot id="slot" name="child" @slotchange="${this.m_slotOnSlotChange}"></slot>
-    `;
+    `
   }
 
   //----------------------------------------------------------------------
@@ -51,14 +51,14 @@ export class CommTreeView extends CommBaseElement {
   //
   //----------------------------------------------------------------------
 
-  m_selectedItem?: CommTreeItem;
+  m_selectedItem?: CommTreeItem
 
   //--------------------------------------------------
   //  Elements
   //--------------------------------------------------
 
   @query('#slot')
-  m_slot!: HTMLSlotElement;
+  m_slot!: HTMLSlotElement
 
   //----------------------------------------------------------------------
   //
@@ -67,10 +67,10 @@ export class CommTreeView extends CommBaseElement {
   //----------------------------------------------------------------------
 
   constructor() {
-    super();
+    super()
 
     // ノードアイテムのイベント設定
-    this.m_addItemSelectedEventListener();
+    this.m_addItemSelectedEventListener()
   }
 
   //----------------------------------------------------------------------
@@ -90,16 +90,16 @@ export class CommTreeView extends CommBaseElement {
     tree: T[],
     options?: { itemClasses?: { [index: string]: object }; itemEvents?: string[] },
   ): void {
-    options = options || {};
+    options = options || {}
 
-    const itemClasses = Object.assign({ CommTreeItem }, options.itemClasses);
-    const itemEvents = options.itemEvents ? options.itemEvents : [];
+    const itemClasses = Object.assign({ CommTreeItem }, options.itemClasses)
+    const itemEvents = options.itemEvents ? options.itemEvents : []
 
     for (const eventName of itemEvents) {
-      this.m_addAnyEventListener(eventName);
+      this.m_addAnyEventListener(eventName)
     }
     for (const structureNode of tree) {
-      this.f_recursiveBuildTree(itemClasses, structureNode, this);
+      this.f_recursiveBuildTree(itemClasses, structureNode, this)
     }
   }
 
@@ -121,32 +121,32 @@ export class CommTreeView extends CommBaseElement {
     parentOfNode: CommTreeView | CommTreeNode,
   ): void {
     // ノードアイテムエレメントの作成
-    const itemClassName = item.itemClass ? item.itemClass : 'CommTreeItem';
-    const itemClass = itemClasses[itemClassName];
+    const itemClassName = item.itemClass ? item.itemClass : 'CommTreeItem'
+    const itemClass = itemClasses[itemClassName]
     // @ts-ignore
-    const nodeItem = new itemClass();
-    nodeItem.setAttribute('slot', 'item');
-    nodeItem.selectedValue = item.selectedValue;
-    nodeItem.unselectable = Boolean(item.unselectable);
-    const el = document.createElement('span');
-    el.innerHTML = item.itemHTML;
-    nodeItem.appendChild(el);
+    const nodeItem = new itemClass()
+    nodeItem.setAttribute('slot', 'item')
+    nodeItem.selectedValue = item.selectedValue
+    nodeItem.unselectable = Boolean(item.unselectable)
+    const el = document.createElement('span')
+    el.innerHTML = item.itemHTML
+    nodeItem.appendChild(el)
 
     // ノードエレメントの作成
-    const node = new CommTreeNode();
-    node.opened = Boolean(item.opened);
-    node.setAttribute('slot', 'child');
-    node.appendChild(nodeItem);
+    const node = new CommTreeNode()
+    node.opened = Boolean(item.opened)
+    node.setAttribute('slot', 'child')
+    node.appendChild(nodeItem)
 
     // ノードエレメントの子ノードを作成
     if (item.children) {
       for (const childStructureItem of item.children) {
-        this.f_recursiveBuildTree(itemClasses, childStructureItem, node);
+        this.f_recursiveBuildTree(itemClasses, childStructureItem, node)
       }
     }
 
     // ノードの親に上記で作成したノードエレメントを追加
-    parentOfNode.appendChild(node);
+    parentOfNode.appendChild(node)
   }
 
   /**
@@ -160,15 +160,15 @@ export class CommTreeView extends CommBaseElement {
       (e) => {
         if (e.target instanceof CommTreeItem) {
           // 選択されたノードアイテムを取得
-          const item = e.target as CommTreeItem;
+          const item = e.target as CommTreeItem
           // ノードアイテムのイベントを伝搬しないようここでストップする
-          e.stopImmediatePropagation();
+          e.stopImmediatePropagation()
           // ツリービューが代わりにそのイベントを発火
-          this.dispatchEvent(new CustomEvent(eventName, { detail: { item } }));
+          this.dispatchEvent(new CustomEvent(eventName, { detail: { item } }))
         }
       },
       true,
-    );
+    )
   }
 
   /**
@@ -176,26 +176,26 @@ export class CommTreeView extends CommBaseElement {
    * 登録されたリスナーではイベントを集約し、ツリービューが代わりにそのイベントを発火します。
    */
   m_addItemSelectedEventListener() {
-    const EVENT_ITEM_SELECTED = 'item-selected';
+    const EVENT_ITEM_SELECTED = 'item-selected'
     this.addEventListener(
       EVENT_ITEM_SELECTED,
       (e) => {
         if (e.target instanceof CommTreeItem) {
           // 選択されたノードアイテムを取得
-          const item = e.target as CommTreeItem;
+          const item = e.target as CommTreeItem
           // 選択されたノードアイテム以外の選択を解除
           if (this.m_selectedItem && this.m_selectedItem !== item) {
-            this.m_selectedItem.selected = false;
+            this.m_selectedItem.selected = false
           }
-          this.m_selectedItem = item;
+          this.m_selectedItem = item
           // ノードアイテムのイベントを伝搬しないようここでストップする
-          e.stopImmediatePropagation();
+          e.stopImmediatePropagation()
           // ツリービューが代わりにそのイベントを発火
-          this.dispatchEvent(new CustomEvent(EVENT_ITEM_SELECTED, { detail: { item } }));
+          this.dispatchEvent(new CustomEvent(EVENT_ITEM_SELECTED, { detail: { item } }))
         }
       },
       true,
-    );
+    )
   }
 
   /**
@@ -203,8 +203,8 @@ export class CommTreeView extends CommBaseElement {
    */
   m_getChildNodes(): CommTreeNode[] {
     return this.m_slot.assignedNodes().filter((node) => {
-      return node instanceof CommTreeNode;
-    }) as CommTreeNode[];
+      return node instanceof CommTreeNode
+    }) as CommTreeNode[]
   }
 
   //----------------------------------------------------------------------
@@ -218,18 +218,18 @@ export class CommTreeView extends CommBaseElement {
    * @param e
    */
   m_slotOnSlotChange(e) {
-    const diff = this.f_getDistributedChildDiff(this.m_slot);
+    const diff = this.f_getDistributedChildDiff(this.m_slot)
 
     // 追加されたアイテムの処理
     for (const addedItem of diff.added) {
-      if (!(addedItem instanceof HTMLElement)) continue;
+      if (!(addedItem instanceof HTMLElement)) continue
       if (!(addedItem instanceof CommTreeNode)) {
-        throw new Error('Light DOM must be CommTreeNode.');
+        throw new Error('Light DOM must be CommTreeNode.')
       }
     }
   }
 }
-customElements.define('comm-tree-view', CommTreeView);
+customElements.define('comm-tree-view', CommTreeView)
 
 export class CommTreeNode extends CommBaseElement {
   render() {
@@ -273,7 +273,7 @@ export class CommTreeNode extends CommBaseElement {
       <iron-collapse id="collapse" ?opened="${this.opened}">
         <div><slot id="childSlot" name="child" @slotchange="${this.m_childSlotOnSlotChange}"></slot></div>
       </iron-collapse>
-    `;
+    `
   }
 
   //----------------------------------------------------------------------
@@ -283,26 +283,26 @@ export class CommTreeNode extends CommBaseElement {
   //----------------------------------------------------------------------
 
   @property({ type: String })
-  m_toggleIconKind: string = '';
+  m_toggleIconKind: string = ''
 
   //--------------------------------------------------
   //  Elements
   //--------------------------------------------------
 
   @query('#itemContainer')
-  m_itemContainer!: HTMLElement;
+  m_itemContainer!: HTMLElement
 
   @query('#itemSlot')
-  m_itemSlot!: HTMLSlotElement;
+  m_itemSlot!: HTMLSlotElement
 
   @query('#childSlot')
-  m_childSlot!: HTMLSlotElement;
+  m_childSlot!: HTMLSlotElement
 
   @query('#toggleIcon')
-  m_toggleIcon!: HTMLElement;
+  m_toggleIcon!: HTMLElement
 
   @query('#pointIcon')
-  m_pointIcon!: HTMLElement;
+  m_pointIcon!: HTMLElement
 
   //----------------------------------------------------------------------
   //
@@ -314,7 +314,7 @@ export class CommTreeNode extends CommBaseElement {
    * アイテムの開閉です。
    */
   @property({ type: Boolean, reflect: true })
-  opened: boolean = false;
+  opened: boolean = false
 
   //----------------------------------------------------------------------
   //
@@ -323,26 +323,26 @@ export class CommTreeNode extends CommBaseElement {
   //----------------------------------------------------------------------
 
   constructor() {
-    super();
+    super()
   }
 
   connectedCallback(): void {
-    super.connectedCallback();
+    super.connectedCallback()
 
     setTimeout(() => {
       // 表示関連の設定処理
-      this.m_setupDisplay();
-    });
+      this.m_setupDisplay()
+    })
   }
 
   protected updated(changedProperties: PropertyValues): void {
     changedProperties.forEach((oldValue, propName) => {
       switch (propName) {
         case 'opened':
-          this.m_openedChanged(this.opened, oldValue as boolean);
-          break;
+          this.m_openedChanged(this.opened, oldValue as boolean)
+          break
       }
-    });
+    })
   }
 
   //----------------------------------------------------------------------
@@ -352,28 +352,28 @@ export class CommTreeNode extends CommBaseElement {
   //----------------------------------------------------------------------
 
   m_openedChanged(newValue: boolean, oldValue: boolean): void {
-    this.m_toggleIconKind = newValue ? 'icons:expand-more' : 'icons:chevron-right';
+    this.m_toggleIconKind = newValue ? 'icons:expand-more' : 'icons:chevron-right'
   }
 
   /**
    * 表示関連の設定処理を行います。
    */
   m_setupDisplay(): void {
-    this.m_setupAppropriateIcon();
-    this.m_setDistance();
+    this.m_setupAppropriateIcon()
+    this.m_setDistance()
   }
 
   /**
    * ノードアイテムの左側に適切なアイコン(トグルまたはポイントアイコン)を設定します。
    */
   m_setupAppropriateIcon(): void {
-    const childNodes = this.m_getChildNodes();
+    const childNodes = this.m_getChildNodes()
     if (childNodes.length === 0) {
-      this.m_toggleIcon.style.display = 'none';
-      this.m_pointIcon.style.display = 'block';
+      this.m_toggleIcon.style.display = 'none'
+      this.m_pointIcon.style.display = 'block'
     } else {
-      this.m_toggleIcon.style.display = 'block';
-      this.m_pointIcon.style.display = 'none';
+      this.m_toggleIcon.style.display = 'block'
+      this.m_pointIcon.style.display = 'none'
     }
   }
 
@@ -382,20 +382,20 @@ export class CommTreeNode extends CommBaseElement {
    */
   m_setDistance(): void {
     // 現ノードが親から見た最初の子の場合、上下間隔は0pxに設定する
-    const parent = this.m_getParent();
+    const parent = this.m_getParent()
     if (parent) {
-      const children = Array.prototype.slice.call(parent.children);
+      const children = Array.prototype.slice.call(parent.children)
       if (children.length && children[0] === this) {
-        this.m_itemContainer.style.setProperty('--comm-tree-node-distance', '0px');
+        this.m_itemContainer.style.setProperty('--comm-tree-node-distance', '0px')
       }
     }
 
     // 現ノードと子ノードの上下間隔を設定する
-    const childNodes = this.m_getChildNodes();
+    const childNodes = this.m_getChildNodes()
     for (const childNode of childNodes) {
-      const style = document.defaultView!.getComputedStyle(childNode);
-      const distance = style.getPropertyValue('--comm-tree-node-distance').trim();
-      childNode.style.setProperty('--comm-tree-node-distance', distance);
+      const style = document.defaultView!.getComputedStyle(childNode)
+      const distance = style.getPropertyValue('--comm-tree-node-distance').trim()
+      childNode.style.setProperty('--comm-tree-node-distance', distance)
     }
   }
 
@@ -404,9 +404,9 @@ export class CommTreeNode extends CommBaseElement {
    */
   m_getParent(): CommTreeView | CommTreeNode | undefined {
     if (this.parentElement instanceof CommTreeView || this.parentElement instanceof CommTreeNode) {
-      return this.parentElement;
+      return this.parentElement
     }
-    return undefined;
+    return undefined
   }
 
   /**
@@ -414,8 +414,8 @@ export class CommTreeNode extends CommBaseElement {
    */
   m_getChildNodes(): CommTreeNode[] {
     return this.m_childSlot.assignedNodes().filter((node) => {
-      return node instanceof CommTreeNode;
-    }) as CommTreeNode[];
+      return node instanceof CommTreeNode
+    }) as CommTreeNode[]
   }
 
   //----------------------------------------------------------------------
@@ -429,11 +429,11 @@ export class CommTreeNode extends CommBaseElement {
    * @param e
    */
   m_itemSlotOnSlotChange(e) {
-    const diff = this.f_getDistributedChildDiff(this.m_itemSlot);
+    const diff = this.f_getDistributedChildDiff(this.m_itemSlot)
 
     // 追加されたアイテムの処理
     for (const addedItem of diff.added) {
-      if (!(addedItem instanceof HTMLElement)) continue;
+      if (!(addedItem instanceof HTMLElement)) continue
       if (addedItem instanceof CommTreeItem) {
       }
     }
@@ -444,18 +444,18 @@ export class CommTreeNode extends CommBaseElement {
    * @param e
    */
   m_childSlotOnSlotChange(e) {
-    const diff = this.f_getDistributedChildDiff(this.m_childSlot);
+    const diff = this.f_getDistributedChildDiff(this.m_childSlot)
 
     // 追加されたアイテムの処理
     for (const addedItem of diff.added) {
-      if (!(addedItem instanceof HTMLElement)) continue;
+      if (!(addedItem instanceof HTMLElement)) continue
       if (!(addedItem instanceof CommTreeNode)) {
-        throw new Error('Light DOM must be CommTreeNode.');
+        throw new Error('Light DOM must be CommTreeNode.')
       }
     }
 
     // 表示関連の設定処理
-    this.m_setupDisplay();
+    this.m_setupDisplay()
   }
 
   /**
@@ -463,11 +463,11 @@ export class CommTreeNode extends CommBaseElement {
    * @param e
    */
   m_toggleIconOnClick(e) {
-    this.opened = !this.opened;
-    this.dispatchEvent(new CustomEvent('toggle-node'));
+    this.opened = !this.opened
+    this.dispatchEvent(new CustomEvent('toggle-node'))
   }
 }
-customElements.define('comm-tree-node', CommTreeNode);
+customElements.define('comm-tree-node', CommTreeNode)
 
 export class CommTreeItem extends CommBaseElement {
   render() {
@@ -508,7 +508,7 @@ export class CommTreeItem extends CommBaseElement {
         ${this.f_extraStyle}
       </style>
       <span class="item" @click="${this.f_itemOnClick}">${this.f_itemTemplate}</span>
-    `;
+    `
   }
 
   //----------------------------------------------------------------------
@@ -518,7 +518,7 @@ export class CommTreeItem extends CommBaseElement {
   //----------------------------------------------------------------------
 
   constructor() {
-    super();
+    super()
   }
 
   //----------------------------------------------------------------------
@@ -531,19 +531,19 @@ export class CommTreeItem extends CommBaseElement {
    * 選択されているか否かです。
    */
   @property({ type: Boolean, reflect: true })
-  selected: boolean = false;
+  selected: boolean = false
 
   /**
    * 選択値です。
    */
   @property({ type: String })
-  selectedValue: string = '';
+  selectedValue: string = ''
 
   /**
    * 選択不可フラグです。
    */
   @property({ type: Boolean, reflect: true })
-  unselectable: boolean = false;
+  unselectable: boolean = false
 
   //----------------------------------------------------------------------
   //
@@ -555,7 +555,7 @@ export class CommTreeItem extends CommBaseElement {
    * 本クラスを継承した際に拡張可能なCSSです。
    * 継承した際は必要に応じてスタイルを変更することができます。
    */
-  f_extraStyle = html``;
+  f_extraStyle = html``
 
   /**
    * 本クラスを継承した際に拡張可能なHTMLテンプレートです。
@@ -563,7 +563,7 @@ export class CommTreeItem extends CommBaseElement {
    */
   f_itemTemplate = html`
     <slot></slot>
-  `;
+  `
 
   //----------------------------------------------------------------------
   //
@@ -572,10 +572,10 @@ export class CommTreeItem extends CommBaseElement {
   //----------------------------------------------------------------------
 
   f_itemOnClick(e) {
-    this.selected = true;
+    this.selected = true
     if (!this.unselectable) {
-      this.dispatchEvent(new CustomEvent('item-selected', { bubbles: true, composed: true }));
+      this.dispatchEvent(new CustomEvent('item-selected', { bubbles: true, composed: true }))
     }
   }
 }
-customElements.define('comm-tree-item', CommTreeItem);
+customElements.define('comm-tree-item', CommTreeItem)

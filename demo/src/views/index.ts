@@ -1,21 +1,21 @@
-import '@polymer/app-layout/app-drawer-layout/app-drawer-layout';
-import '@polymer/app-layout/app-drawer/app-drawer';
-import '@polymer/app-layout/app-header-layout/app-header-layout';
-import '@polymer/app-layout/app-header/app-header';
-import '@polymer/app-layout/app-toolbar/app-toolbar';
-import '@polymer/iron-pages/iron-pages';
-import { html, query, property } from 'lit-element';
+import '@polymer/app-layout/app-drawer-layout/app-drawer-layout'
+import '@polymer/app-layout/app-drawer/app-drawer'
+import '@polymer/app-layout/app-header-layout/app-header-layout'
+import '@polymer/app-layout/app-header/app-header'
+import '@polymer/app-layout/app-toolbar/app-toolbar'
+import '@polymer/iron-pages/iron-pages'
+import { html, query, property } from 'lit-element'
 
-import '../../../lib/elements/comm-tree-view';
-import './comm-awesome-element-demo';
-import './comm-collapse-view-demo';
-import './comm-image-demo';
-import './comm-tree-view-demo';
-import { CommBaseElement } from '../../../lib/elements/comm-base-element';
-import { CommResizableMixin } from '../../../lib/elements/mixins/comm-resizable-mixin';
-import { CommTreeItem, CommTreeView } from '../../../lib/elements/comm-tree-view';
-import { baseStyles } from '../../../lib/styles/polymer/base-styles';
-import { mix } from '../../../lib';
+import '../../../lib/elements/comm-tree-view'
+import './comm-awesome-element-demo'
+import './comm-collapse-view-demo'
+import './comm-image-demo'
+import './comm-tree-view-demo'
+import { CommBaseElement } from '../../../lib/elements/comm-base-element'
+import { CommResizableMixin } from '../../../lib/elements/mixins/comm-resizable-mixin'
+import { CommTreeItem, CommTreeView } from '../../../lib/elements/comm-tree-view'
+import { baseStyles } from '../../../lib/styles/polymer/base-styles'
+import { mix } from '../../../lib'
 
 class AppView extends mix(CommBaseElement).with(CommResizableMixin) {
   render() {
@@ -52,9 +52,7 @@ class AppView extends mix(CommBaseElement).with(CommResizableMixin) {
 
       <app-drawer-layout responsive-width="960px">
         <app-drawer ref="drawer" slot="drawer" :swipe-open="m_narrow">
-          <app-toolbar class="drawer-toolbar">
-            <div main-title class="comm-ml-8">DEMO</div>
-          </app-toolbar>
+          <app-toolbar class="drawer-toolbar"><div main-title class="comm-ml-8">DEMO</div></app-toolbar>
           <div class="tree-view-wrapper">
             <comm-tree-view id="treeView" @item-selected="${this.m_treeViewOnItemSelected}"></comm-tree-view>
           </div>
@@ -67,12 +65,10 @@ class AppView extends mix(CommBaseElement).with(CommResizableMixin) {
           <div page-name="">Page 1</div>
           <div page-name="">Page 2</div>
           <div page-name="">Page 3</div>
-          <div page-name="fallback">
-            Change pages by typing 'page-1', 'page-2', or 'page-3' in the input above.
-          </div>
+          <div page-name="fallback">Change pages by typing 'page-1', 'page-2', or 'page-3' in the input above.</div>
         </iron-pages>
       </app-drawer-layout>
-    `;
+    `
   }
 
   //----------------------------------------------------------------------
@@ -82,14 +78,14 @@ class AppView extends mix(CommBaseElement).with(CommResizableMixin) {
   //----------------------------------------------------------------------
 
   @property({ type: String })
-  m_pageName: string = '';
+  m_pageName: string = ''
 
   //--------------------------------------------------
   //  Elements
   //--------------------------------------------------
 
   @query('#treeView')
-  m_treeView!: CommTreeView;
+  m_treeView!: CommTreeView
 
   //----------------------------------------------------------------------
   //
@@ -98,7 +94,7 @@ class AppView extends mix(CommBaseElement).with(CommResizableMixin) {
   //----------------------------------------------------------------------
 
   connectedCallback(): void {
-    super.connectedCallback();
+    super.connectedCallback()
 
     setTimeout(() => {
       this.m_treeView.buildTree([
@@ -118,8 +114,8 @@ class AppView extends mix(CommBaseElement).with(CommResizableMixin) {
           itemHTML: 'comm-collapse-view',
           selectedValue: 'comm-collapse-view-demo',
         },
-      ]);
-    });
+      ])
+    })
   }
 
   //----------------------------------------------------------------------
@@ -131,9 +127,9 @@ class AppView extends mix(CommBaseElement).with(CommResizableMixin) {
   m_treeNodeOnToggleNode(e) {}
 
   m_treeViewOnItemSelected(e) {
-    const item = e.detail.item as CommTreeItem;
-    this.m_pageName = item.selectedValue;
-    this.f_async(this.notifyResize);
+    const item = e.detail.item as CommTreeItem
+    this.m_pageName = item.selectedValue
+    this.f_async(this.notifyResize)
   }
 }
-customElements.define('app-view', AppView);
+customElements.define('app-view', AppView)

@@ -1,3 +1,3 @@
-import '@babel/polyfill';
-import './index.css';
-import './views';
+import '@babel/polyfill'
+import './index.css'
+import './views'

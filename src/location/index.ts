@@ -1,4 +1,4 @@
-import * as qs from 'qs';
+import * as qs from 'qs'
 
 /**
  * ロケーション情報を格納するデータクラスです。
@@ -6,44 +6,44 @@ import * as qs from 'qs';
 export class LocationData {
   constructor(src?: Location | HTMLAnchorElement) {
     if (!src) {
-      return;
+      return
     }
 
-    const REG_BASE = /([^/?#]*)$/;
-    const REG_DIR = /(?:([^?#]*)\/)*/;
-    const REG_EXT = /(?:[^./]+)(\.[^/.]+)$/;
+    const REG_BASE = /([^/?#]*)$/
+    const REG_DIR = /(?:([^?#]*)\/)*/
+    const REG_EXT = /(?:[^./]+)(\.[^/.]+)$/
 
-    this.url = src.href;
-    this.protocol = src.protocol;
-    this.domain = src.hostname;
-    this.port = src.port;
-    this.path = decodeURIComponent(src.pathname);
-    this.hash = decodeURIComponent(src.hash.substring(1));
-    this.host = src.host;
+    this.url = src.href
+    this.protocol = src.protocol
+    this.domain = src.hostname
+    this.port = src.port
+    this.path = decodeURIComponent(src.pathname)
+    this.hash = decodeURIComponent(src.hash.substring(1))
+    this.host = src.host
 
-    const testedDir = REG_DIR.exec(this.path);
-    this.dir = testedDir ? decodeURIComponent(testedDir[1]) : '';
+    const testedDir = REG_DIR.exec(this.path)
+    this.dir = testedDir ? decodeURIComponent(testedDir[1]) : ''
 
-    const testedBase = REG_BASE.exec(this.path);
-    this.base = testedBase ? decodeURIComponent(testedBase[1]) : '';
+    const testedBase = REG_BASE.exec(this.path)
+    this.base = testedBase ? decodeURIComponent(testedBase[1]) : ''
 
-    const testedExt = REG_EXT.exec(this.path);
-    this.ext = testedExt ? decodeURIComponent(testedExt[1]) : '';
+    const testedExt = REG_EXT.exec(this.path)
+    this.ext = testedExt ? decodeURIComponent(testedExt[1]) : ''
 
-    this.query = qs.parse(src.search.substring(1));
+    this.query = qs.parse(src.search.substring(1))
   }
 
-  url: string = '';
-  protocol: string = '';
-  domain: string = '';
-  port: string = '';
-  host: string = '';
-  path: string = '';
-  hash: string = '';
-  dir: string = '';
-  base: string = '';
-  ext: string = '';
-  query: {} = {};
+  url: string = ''
+  protocol: string = ''
+  domain: string = ''
+  port: string = ''
+  host: string = ''
+  path: string = ''
+  hash: string = ''
+  dir: string = ''
+  base: string = ''
+  ext: string = ''
+  query: {} = {}
 }
 
 /**
@@ -52,12 +52,12 @@ export class LocationData {
  * @param query 変更するパスに付与するクエリオブジェクトを指定します。
  */
 export function moveTo(path: string, query = {}): void {
-  let url = path;
+  let url = path
   if (Object.keys(query).length) {
-    url += `?${qs.stringify(query)}`;
+    url += `?${qs.stringify(query)}`
   }
-  window.history.pushState({}, '', url);
-  window.dispatchEvent(new CustomEvent('location-changed'));
+  window.history.pushState({}, '', url)
+  window.dispatchEvent(new CustomEvent('location-changed'))
 }
 
 /**
@@ -65,9 +65,9 @@ export function moveTo(path: string, query = {}): void {
  * @param url
  */
 export function parse(url): LocationData {
-  const anchor = document.createElement('a');
-  anchor.href = url;
-  return new LocationData(anchor);
+  const anchor = document.createElement('a')
+  anchor.href = url
+  return new LocationData(anchor)
 }
 
 /**
@@ -76,7 +76,7 @@ export function parse(url): LocationData {
  * @param path パスを指定します。
  */
 export function getBase(path: string): string {
-  return parse(path).base;
+  return parse(path).base
 }
 
 /**
@@ -85,7 +85,7 @@ export function getBase(path: string): string {
  * @param path パスを指定します。
  */
 export function getExt(path: string): string {
-  return parse(path).ext;
+  return parse(path).ext
 }
 
 /**
@@ -94,7 +94,7 @@ export function getExt(path: string): string {
  * @param path パスを指定します。
  */
 export function getDir(path: string): string {
-  return parse(path).dir;
+  return parse(path).dir
 }
 
 /**
@@ -102,7 +102,7 @@ export function getDir(path: string): string {
  * @param path
  */
 export function toUrl(path: string): string {
-  return parse(path).url;
+  return parse(path).url
 }
 
 /**
@@ -112,7 +112,7 @@ export function toUrl(path: string): string {
  * @param url
  */
 export function toPath(url: string): string {
-  return parse(url).path;
+  return parse(url).path
 }
 
 /**
@@ -121,9 +121,9 @@ export function toPath(url: string): string {
  *   例: ワーキングディレクトが /root/foo/var で、引数に｢2｣を指定した場合、戻り値は /root になる。
  */
 export function cwd(climbSteps: number = 0): string {
-  let dir = getDir(parse(window.location.href).path);
-  dir = dir.replace(new RegExp(`(?:\\\/+[^\\\/]*){0,${climbSteps}}$`), '');
-  return dir;
+  let dir = getDir(parse(window.location.href).path)
+  dir = dir.replace(new RegExp(`(?:\\\/+[^\\\/]*){0,${climbSteps}}$`), '')
+  return dir
 }
 
 /**
@@ -132,19 +132,19 @@ export function cwd(climbSteps: number = 0): string {
  */
 export function join(...args: string[]): string {
   if (args.length <= 1) {
-    args.unshift(cwd());
+    args.unshift(cwd())
   }
 
-  let path = '';
+  let path = ''
   for (const segment of args) {
     if (!path) {
-      path += segment;
+      path += segment
     } else {
-      path += '/' + segment;
+      path += '/' + segment
     }
   }
 
-  return __normalize(path);
+  return __normalize(path)
 }
 
 /**
@@ -152,8 +152,8 @@ export function join(...args: string[]): string {
  * @param path
  */
 export function split(path: string): string[] {
-  const isAbsolutePath = __isAbsolute(path);
-  return __normalizeArray(path.split('/'), !isAbsolutePath);
+  const isAbsolutePath = __isAbsolute(path)
+  return __normalizeArray(path.split('/'), !isAbsolutePath)
 }
 
 //----------------------------------------------------------------------
@@ -166,18 +166,18 @@ export function split(path: string): string[] {
  * normalize path
  */
 function __normalize(path: string): string {
-  const isAbsolutePath = __isAbsolute(path);
-  const trailingSlash = path && path[path.length - 1] === '/';
+  const isAbsolutePath = __isAbsolute(path)
+  const trailingSlash = path && path[path.length - 1] === '/'
 
-  let pathStr = __normalizeArray(path.split('/'), !isAbsolutePath).join('/');
+  let pathStr = __normalizeArray(path.split('/'), !isAbsolutePath).join('/')
 
   if (!pathStr && !isAbsolutePath) {
-    pathStr += '.';
+    pathStr += '.'
   }
   if (pathStr && trailingSlash) {
-    pathStr += '/';
+    pathStr += '/'
   }
-  return (isAbsolutePath ? '/' : '') + pathStr;
+  return (isAbsolutePath ? '/' : '') + pathStr
 }
 
 /**
@@ -186,29 +186,29 @@ function __normalize(path: string): string {
  * @param allowAboveRoot
  */
 function __normalizeArray(parts: string[], allowAboveRoot: boolean): string[] {
-  const res: string[] = [];
+  const res: string[] = []
 
   for (const p of parts) {
-    if (!p || p === '.') continue;
+    if (!p || p === '.') continue
     if (p === '..') {
       if (res.length && res[res.length - 1] !== '..') {
-        res.pop();
+        res.pop()
       } else if (allowAboveRoot) {
-        res.push('..');
+        res.push('..')
       }
     } else if (/^http(s)?:/.test(p)) {
-      res.push(p + '/');
+      res.push(p + '/')
     } else {
-      res.push(p);
+      res.push(p)
     }
   }
 
-  return res;
+  return res
 }
 
 /**
  * 指定されたパスが絶対パスかを否かを取得します。
  */
 function __isAbsolute(path) {
-  return path.charAt(0) === '/';
+  return path.charAt(0) === '/'
 }

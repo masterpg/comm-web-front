@@ -1,8 +1,8 @@
-import { html, query } from 'lit-element';
+import { html, query } from 'lit-element'
 
-import { baseStyles } from '../../styles/polymer/base-styles';
-import { CommBaseElement } from '../comm-base-element';
-import { CommCollapseItem } from './comm-collapse-item';
+import { baseStyles } from '../../styles/polymer/base-styles'
+import { CommBaseElement } from '../comm-base-element'
+import { CommCollapseItem } from './comm-collapse-item'
 
 /**
  * # comm-collapse-view
@@ -41,7 +41,7 @@ export class CommCollapseView extends CommBaseElement {
         }
       </style>
       <div class="container"><slot id="slot" @slotchange="${this.m_slotOnSlotChange}"></slot></div>
-    `;
+    `
   }
 
   //----------------------------------------------------------------------
@@ -50,16 +50,16 @@ export class CommCollapseView extends CommBaseElement {
   //
   //----------------------------------------------------------------------
 
-  m_toggleCollapseItemListeners = new WeakMap<CommCollapseItem, EventListener>();
+  m_toggleCollapseItemListeners = new WeakMap<CommCollapseItem, EventListener>()
 
-  m_initialDividerStyle: string | null = null;
+  m_initialDividerStyle: string | null = null
 
   //--------------------------------------------------
   //  Elements
   //--------------------------------------------------
 
   @query('#slot')
-  m_slot!: HTMLSlotElement;
+  m_slot!: HTMLSlotElement
 
   //----------------------------------------------------------------------
   //
@@ -68,7 +68,7 @@ export class CommCollapseView extends CommBaseElement {
   //----------------------------------------------------------------------
 
   constructor() {
-    super();
+    super()
   }
 
   //----------------------------------------------------------------------
@@ -81,17 +81,17 @@ export class CommCollapseView extends CommBaseElement {
    * アイテム間のボーダーを設定します。
    */
   m_setupCollapseBorder(): void {
-    const items = this.m_getCollapseItems();
+    const items = this.m_getCollapseItems()
     for (let i = 0; i < items.length; i++) {
-      const item = items[i];
+      const item = items[i]
       // 外部から仕切りボーダーが非表示に設定された、または最下部のアイテムの場合
       if (this.m_initialDividerStyle === 'none' || i === items.length - 1) {
         // 仕切りボーダーは非表示にする(アイテムのボーダーとコンテナの枠線がかぶるため)
-        (window as any).ShadyCSS.styleSubtree(item, { '--comm-collapse-divider-border-style': 'none' });
+        (window as any).ShadyCSS.styleSubtree(item, { '--comm-collapse-divider-border-style': 'none' })
       }
       // 上記以外の場合
       else {
-        (window as any).ShadyCSS.styleSubtree(item, { '--comm-collapse-divider-border-style': 'solid' });
+        (window as any).ShadyCSS.styleSubtree(item, { '--comm-collapse-divider-border-style': 'solid' })
       }
     }
   }
@@ -100,11 +100,11 @@ export class CommCollapseView extends CommBaseElement {
    * slotタグに挿入されたアイテムを取得します。
    */
   m_getCollapseItems(): CommCollapseItem[] {
-    if (!this.m_slot) return [];
-    const assignedNodes = this.m_slot.assignedNodes({ flatten: false });
+    if (!this.m_slot) return []
+    const assignedNodes = this.m_slot.assignedNodes({ flatten: false })
     return assignedNodes.filter((node) => {
-      return node instanceof CommCollapseItem;
-    }) as CommCollapseItem[];
+      return node instanceof CommCollapseItem
+    }) as CommCollapseItem[]
   }
 
   //----------------------------------------------------------------------
@@ -122,31 +122,31 @@ export class CommCollapseView extends CommBaseElement {
       this.m_initialDividerStyle = (window as any).ShadyCSS.getComputedStyleValue(
         this,
         '--comm-collapse-divider-border-style',
-      );
+      )
     }
 
-    const diff = this.f_getDistributedChildDiff(this.m_slot);
+    const diff = this.f_getDistributedChildDiff(this.m_slot)
 
     // 追加されたアイテムの処理
     for (const addedItem of diff.added) {
-      if (!(addedItem instanceof HTMLElement)) continue;
+      if (!(addedItem instanceof HTMLElement)) continue
       if (!(addedItem instanceof CommCollapseItem)) {
-        throw new Error('Light DOM must be CommCollapseItem.');
+        throw new Error('Light DOM must be CommCollapseItem.')
       }
-      const listener = this.m_collapseItemOnToggleCollapseItem.bind(this);
-      this.m_toggleCollapseItemListeners.set(addedItem, listener);
-      addedItem.addEventListener('toggle-item', listener);
+      const listener = this.m_collapseItemOnToggleCollapseItem.bind(this)
+      this.m_toggleCollapseItemListeners.set(addedItem, listener)
+      addedItem.addEventListener('toggle-item', listener)
     }
     // 削除されたアイテムの処理
     for (const removedItem of diff.removed as CommCollapseItem[]) {
-      const listener = this.m_toggleCollapseItemListeners.get(removedItem);
-      this.m_toggleCollapseItemListeners.delete(removedItem);
+      const listener = this.m_toggleCollapseItemListeners.get(removedItem)
+      this.m_toggleCollapseItemListeners.delete(removedItem)
       if (listener) {
-        removedItem.removeEventListener('toggle-item', listener);
+        removedItem.removeEventListener('toggle-item', listener)
       }
     }
     // アイテム間のボーダー設定
-    this.m_setupCollapseBorder();
+    this.m_setupCollapseBorder()
   }
 
   /**
@@ -157,4 +157,4 @@ export class CommCollapseView extends CommBaseElement {
     // 必要があれば用のプレースホルダ
   }
 }
-customElements.define('comm-collapse-view', CommCollapseView);
+customElements.define('comm-collapse-view', CommCollapseView)

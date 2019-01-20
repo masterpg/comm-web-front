@@ -1,5 +1,5 @@
-import { LitElement } from 'lit-element';
-import { timeOut, microTask } from '@polymer/polymer/lib/utils/async.js';
+import { LitElement } from 'lit-element'
+import { timeOut, microTask } from '@polymer/polymer/lib/utils/async.js'
 
 export class CommBaseElement extends LitElement {
   //----------------------------------------------------------------------
@@ -8,7 +8,7 @@ export class CommBaseElement extends LitElement {
   //
   //----------------------------------------------------------------------
 
-  m_slotElementsAssignedNodes: WeakMap<HTMLSlotElement, Node[]> = new WeakMap();
+  m_slotElementsAssignedNodes: WeakMap<HTMLSlotElement, Node[]> = new WeakMap()
 
   //----------------------------------------------------------------------
   //
@@ -21,43 +21,43 @@ export class CommBaseElement extends LitElement {
    * @param slot
    */
   f_getDistributedChildDiff(slot: HTMLSlotElement): { removed: Node[]; added: Node[] } {
-    let previousNodes: Node[];
+    let previousNodes: Node[]
 
     if (this.m_slotElementsAssignedNodes.has(slot)) {
-      previousNodes = this.m_slotElementsAssignedNodes.get(slot)!;
+      previousNodes = this.m_slotElementsAssignedNodes.get(slot)!
     } else {
-      previousNodes = [];
+      previousNodes = []
     }
 
-    const newNodes = slot.assignedNodes({ flatten: true });
+    const newNodes = slot.assignedNodes({ flatten: true })
 
     // 新しいノード(newNodes)を保存する。このノードは次回から前のノードとして扱われる
-    this.m_slotElementsAssignedNodes.set(slot, newNodes);
+    this.m_slotElementsAssignedNodes.set(slot, newNodes)
 
     const diff = {
       removed: [] as Node[],
       added: [] as Node[],
-    };
+    }
 
     for (let i = 0; i < previousNodes.length; i++) {
-      const oldNode = previousNodes[i];
-      const newIndex = newNodes.indexOf(oldNode);
+      const oldNode = previousNodes[i]
+      const newIndex = newNodes.indexOf(oldNode)
 
       // 前のノードがnewNodesに存在しない場合、前のノードは削除されたことになる
       if (!(newIndex >= 0)) {
-        diff.removed.push(oldNode);
+        diff.removed.push(oldNode)
       }
       // otherwise the node wasn't added or removed.
       // 上記以外の場合、前のノードは既に追加されているのでnewNodesから削除する
       else {
-        newNodes.splice(i, 1);
+        newNodes.splice(i, 1)
       }
     }
 
     // ここまででnewNodesには新たに追加されたノードのみに絞られている
-    diff.added = newNodes;
+    diff.added = newNodes
 
-    return diff;
+    return diff
   }
 
   /**
@@ -74,7 +74,7 @@ export class CommBaseElement extends LitElement {
    */
   f_async(callback: () => any, waitTime: number = 0): number {
     // tslint:disable-next-line
-    return waitTime > 0 ? timeOut.run(callback.bind(this), waitTime) : ~microTask.run(callback.bind(this));
+    return waitTime > 0 ? timeOut.run(callback.bind(this), waitTime) : ~microTask.run(callback.bind(this))
   }
 
   /**
@@ -86,6 +86,6 @@ export class CommBaseElement extends LitElement {
    */
   f_cancelAsync(handle) {
     // tslint:disable-next-line
-    handle < 0 ? microTask.cancel(~handle) : timeOut.cancel(handle);
+    handle < 0 ? microTask.cancel(~handle) : timeOut.cancel(handle)
   }
 }

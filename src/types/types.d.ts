@@ -6,15 +6,15 @@ declare namespace qs {
   function parse(
     str: string,
     options?: {
-      allowDots?: boolean;
-      allowPrototypes?: boolean;
-      arrayLimit?: number;
-      decoder?: Function;
-      delimiter?: string;
-      depth?: number;
-      parameterLimit?: number;
-      plainObjects?: boolean;
-      strictNullHandling?: boolean;
+      allowDots?: boolean
+      allowPrototypes?: boolean
+      arrayLimit?: number
+      decoder?: () => void
+      delimiter?: string
+      depth?: number
+      parameterLimit?: number
+      plainObjects?: boolean
+      strictNullHandling?: boolean,
     },
-  ): any;
+  ): any
 }

@@ -1,14 +1,14 @@
-import { LitElement } from 'lit-element';
-import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import { Constructor } from '../../../base';
+import { LitElement } from 'lit-element'
+import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js'
+import { Constructor } from '../../../base'
 
 export interface CommResizableElement extends HTMLElement {
-  notifyResize(): void;
-  assignParentResizable(parentResizable: CommResizableElement | null): void;
-  stopResizeNotificationsFor(target: CommResizableElement): void;
-  _interestedResizables: CommResizableElement[];
-  _findParent(): void;
-  _subscribeIronResize(target: HTMLElement): void;
+  notifyResize(): void
+  assignParentResizable(parentResizable: CommResizableElement | null): void
+  stopResizeNotificationsFor(target: CommResizableElement): void
+  _interestedResizables: CommResizableElement[]
+  _findParent(): void
+  _subscribeIronResize(target: HTMLElement): void
 }
 
 /**
@@ -17,57 +17,57 @@ export interface CommResizableElement extends HTMLElement {
  */
 export function CommResizableMixin(superclass: Constructor<LitElement>): Constructor<CommResizableElement> {
   // Contains all connected resizables that do not have a parent.
-  const ORPHANS = new Set<CommResizableElement>();
+  const ORPHANS = new Set<CommResizableElement>()
 
   return class extends superclass implements CommResizableElement {
     constructor(...args: any[]) {
-      super(args);
+      super(args)
 
-      this.addEventListener('comm-request-resize-notifications', this._onIronRequestResizeNotifications);
-      this._boundNotifyResize = this.notifyResize.bind(this);
-      this._boundOnDescendantIronResize = this._onDescendantIronResize.bind(this);
+      this.addEventListener('comm-request-resize-notifications', this._onIronRequestResizeNotifications)
+      this._boundNotifyResize = this.notifyResize.bind(this)
+      this._boundOnDescendantIronResize = this._onDescendantIronResize.bind(this)
     }
 
-    isAttached: boolean = false;
+    isAttached: boolean = false
 
-    _notifyingDescendant: boolean = false;
+    _notifyingDescendant: boolean = false
 
-    _interestedResizables: CommResizableElement[] = [];
+    _interestedResizables: CommResizableElement[] = []
 
-    _boundNotifyResize: (event) => void;
+    _boundNotifyResize: (event) => void
 
-    _boundOnDescendantIronResize: (event) => void;
+    _boundOnDescendantIronResize: (event) => void
 
-    __parentResizable: CommResizableElement | null = null;
+    __parentResizable: CommResizableElement | null = null
 
     get _parentResizable(): CommResizableElement | null {
-      return this.__parentResizable;
+      return this.__parentResizable
     }
 
     set _parentResizable(value: CommResizableElement | null) {
-      if (this.__parentResizable === value) return;
-      this.__parentResizable = value;
-      this._parentResizableChanged(this.__parentResizable);
+      if (this.__parentResizable === value) return
+      this.__parentResizable = value
+      this._parentResizableChanged(this.__parentResizable)
     }
 
     connectedCallback() {
-      super.connectedCallback();
-      this.isAttached = true;
-      this._requestResizeNotifications();
+      super.connectedCallback()
+      this.isAttached = true
+      this._requestResizeNotifications()
     }
 
     disconnectedCallback() {
-      super.disconnectedCallback();
-      this.isAttached = false;
+      super.disconnectedCallback()
+      this.isAttached = false
 
       if (this._parentResizable) {
-        this._parentResizable.stopResizeNotificationsFor(this);
+        this._parentResizable.stopResizeNotificationsFor(this)
       } else {
-        ORPHANS.delete(this);
-        window.removeEventListener('resize', this._boundNotifyResize);
+        ORPHANS.delete(this)
+        window.removeEventListener('resize', this._boundNotifyResize)
       }
 
-      this._parentResizable = null;
+      this._parentResizable = null
     }
 
     /**
@@ -76,16 +76,16 @@ export function CommResizableMixin(superclass: Constructor<LitElement>): Constru
      */
     notifyResize(): void {
       if (!this.isAttached) {
-        return;
+        return
       }
 
       this._interestedResizables.forEach((resizable) => {
         if (this.resizerShouldNotify(resizable)) {
-          this._notifyDescendant(resizable);
+          this._notifyDescendant(resizable)
         }
-      });
+      })
 
-      this._fireResize();
+      this._fireResize()
     }
 
     /**
@@ -94,14 +94,14 @@ export function CommResizableMixin(superclass: Constructor<LitElement>): Constru
      */
     assignParentResizable(parentResizable: CommResizableElement | null): void {
       if (this._parentResizable) {
-        this._parentResizable.stopResizeNotificationsFor(this);
+        this._parentResizable.stopResizeNotificationsFor(this)
       }
 
-      this._parentResizable = parentResizable;
+      this._parentResizable = parentResizable
 
       if (parentResizable && parentResizable._interestedResizables.indexOf(this) === -1) {
-        parentResizable._interestedResizables.push(this);
-        parentResizable._subscribeIronResize(this);
+        parentResizable._interestedResizables.push(this)
+        parentResizable._subscribeIronResize(this)
       }
     }
 
@@ -110,11 +110,11 @@ export function CommResizableMixin(superclass: Constructor<LitElement>): Constru
      * that should be notified of a resize change.
      */
     stopResizeNotificationsFor(target: CommResizableElement): void {
-      const index = this._interestedResizables.indexOf(target);
+      const index = this._interestedResizables.indexOf(target)
 
       if (index > -1) {
-        this._interestedResizables.splice(index, 1);
-        this._unsubscribeIronResize(target);
+        this._interestedResizables.splice(index, 1)
+        this._unsubscribeIronResize(target)
       }
     }
 
@@ -127,7 +127,7 @@ export function CommResizableMixin(superclass: Constructor<LitElement>): Constru
      * @param {!HTMLElement} target Element to listen to for comm-resize events.
      */
     _subscribeIronResize(target: HTMLElement): void {
-      target.addEventListener('comm-resize', this._boundOnDescendantIronResize);
+      target.addEventListener('comm-resize', this._boundOnDescendantIronResize)
     }
 
     /**
@@ -140,7 +140,7 @@ export function CommResizableMixin(superclass: Constructor<LitElement>): Constru
      * @param {!HTMLElement} target Element to listen to for comm-resize events.
      */
     _unsubscribeIronResize(target: HTMLElement): void {
-      target.removeEventListener('comm-resize', this._boundOnDescendantIronResize);
+      target.removeEventListener('comm-resize', this._boundOnDescendantIronResize)
     }
 
     /**
@@ -153,41 +153,41 @@ export function CommResizableMixin(superclass: Constructor<LitElement>): Constru
      * @return {boolean} True if the `element` should be notified of resize.
      */
     resizerShouldNotify(element: HTMLElement): boolean {
-      return true;
+      return true
     }
 
     _onDescendantIronResize(event): void {
       if (this._notifyingDescendant) {
-        event.stopPropagation();
-        return;
+        event.stopPropagation()
+        return
       }
 
       // no need to use this during shadow dom because of event retargeting
-      const useShadow = !(window as any).ShadyDOM;
+      const useShadow = !(window as any).ShadyDOM
       if (!useShadow) {
-        this._fireResize();
+        this._fireResize()
       }
     }
 
     _fireResize(): void {
-      this.dispatchEvent(new CustomEvent('comm-resize', { detail: {}, bubbles: false, composed: true }));
+      this.dispatchEvent(new CustomEvent('comm-resize', { detail: {}, bubbles: false, composed: true }))
     }
 
     _onIronRequestResizeNotifications(event): void {
-      const target = (dom(event) as any).rootTarget as CommResizableElement;
+      const target = (dom(event) as any).rootTarget as CommResizableElement
       if (target === this) {
-        return;
+        return
       }
 
-      target.assignParentResizable(this);
-      this._notifyDescendant(target);
+      target.assignParentResizable(this)
+      this._notifyDescendant(target)
 
-      event.stopPropagation();
+      event.stopPropagation()
     }
 
     _parentResizableChanged(parentResizable: CommResizableElement | null): void {
       if (parentResizable) {
-        window.removeEventListener('resize', this._boundNotifyResize);
+        window.removeEventListener('resize', this._boundNotifyResize)
       }
     }
 
@@ -196,63 +196,68 @@ export function CommResizableMixin(superclass: Constructor<LitElement>): Constru
       // important not to notify them if the parent is not attached yet (or
       // else they will get redundantly notified when the parent attaches).
       if (!this.isAttached) {
-        return;
+        return
       }
 
-      this._notifyingDescendant = true;
-      descendant.notifyResize();
-      this._notifyingDescendant = false;
+      this._notifyingDescendant = true
+      descendant.notifyResize()
+      this._notifyingDescendant = false
     }
 
     _requestResizeNotifications(): void {
       if (!this.isAttached) {
-        return;
+        return
       }
 
       if (document.readyState === 'loading') {
-        const _requestResizeNotifications = this._requestResizeNotifications.bind(this);
+        const _requestResizeNotifications = this._requestResizeNotifications.bind(this)
         document.addEventListener('readystatechange', function readystatechanged() {
-          document.removeEventListener('readystatechange', readystatechanged);
-          _requestResizeNotifications();
-        });
+          document.removeEventListener('readystatechange', readystatechanged)
+          _requestResizeNotifications()
+        })
       } else {
-        this._findParent();
+        this._findParent()
 
         if (!this._parentResizable) {
           // If this resizable is an orphan, tell other orphans to try to find
           // their parent again, in case it's this resizable.
           ORPHANS.forEach((orphan) => {
             if (orphan !== this) {
-              orphan._findParent();
+              orphan._findParent()
             }
-          });
+          })
 
-          window.addEventListener('resize', this._boundNotifyResize);
-          this.notifyResize();
+          window.addEventListener('resize', this._boundNotifyResize)
+          this.notifyResize()
         } else {
           // If this resizable has a parent, tell other child resizables of
           // that parent to try finding their parent again, in case it's this
           // resizable.
           this._parentResizable._interestedResizables.forEach((resizable) => {
             if (resizable !== this) {
-              resizable._findParent();
+              resizable._findParent()
             }
-          });
+          })
         }
       }
     }
 
     _findParent(): void {
-      this.assignParentResizable(null);
+      this.assignParentResizable(null)
       this.dispatchEvent(
-        new CustomEvent('comm-request-resize-notifications', { detail: {}, bubbles: true, cancelable: true, composed: true }),
-      );
+        new CustomEvent('comm-request-resize-notifications', {
+          detail: {},
+          bubbles: true,
+          cancelable: true,
+          composed: true,
+        }),
+      )
 
       if (!this._parentResizable) {
-        ORPHANS.add(this);
+        ORPHANS.add(this)
       } else {
-        ORPHANS.delete(this);
+        ORPHANS.delete(this)
       }
     }
-  };
+  }
 }

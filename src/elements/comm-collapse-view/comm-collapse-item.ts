@@ -1,9 +1,9 @@
-import '@polymer/iron-collapse/iron-collapse';
-import '@polymer/iron-icon/iron-icon';
-import '@polymer/iron-icons/iron-icons';
-import { LitElement, html, property, query, PropertyValues } from 'lit-element';
+import '@polymer/iron-collapse/iron-collapse'
+import '@polymer/iron-icon/iron-icon'
+import '@polymer/iron-icons/iron-icons'
+import { LitElement, html, property, query, PropertyValues } from 'lit-element'
 
-import { baseStyles } from '../../styles/polymer/base-styles';
+import { baseStyles } from '../../styles/polymer/base-styles'
 
 export class CommCollapseItem extends LitElement {
   protected render() {
@@ -77,12 +77,10 @@ export class CommCollapseItem extends LitElement {
           </div>
         </div>
         <iron-collapse class="content" ?opened="${this.opened}">
-          <div class="inner">
-            <slot></slot>
-          </div>
+          <div class="inner"><slot></slot></div>
         </iron-collapse>
       </div>
-    `;
+    `
   }
 
   //----------------------------------------------------------------------
@@ -92,14 +90,14 @@ export class CommCollapseItem extends LitElement {
   //----------------------------------------------------------------------
 
   @property({ type: String })
-  m_toggleIcon: string = '';
+  m_toggleIcon: string = ''
 
   //--------------------------------------------------
   //  Elements
   //--------------------------------------------------
 
   @query('#icon')
-  m_icon!: HTMLElement;
+  m_icon!: HTMLElement
 
   //----------------------------------------------------------------------
   //
@@ -111,14 +109,14 @@ export class CommCollapseItem extends LitElement {
    * タイトルです。
    */
   @property({ type: String })
-  title: string = '';
+  title: string = ''
 
   /**
    * アイコンです。
    * 例: "icons:info"
    */
   @property({ type: String })
-  icon: string = '';
+  icon: string = ''
 
   /**
    * アイコンのURLです。
@@ -126,13 +124,13 @@ export class CommCollapseItem extends LitElement {
    * iconプロパティではなくこのプロパティでアイコンのURLを指定してください。
    */
   @property({ type: String })
-  src: string = '';
+  src: string = ''
 
   /**
    * アイテムの開閉です。
    */
   @property({ type: Boolean })
-  opened: boolean = false;
+  opened: boolean = false
 
   //----------------------------------------------------------------------
   //
@@ -141,25 +139,25 @@ export class CommCollapseItem extends LitElement {
   //----------------------------------------------------------------------
 
   constructor() {
-    super();
+    super()
   }
 
   protected updated(changedProperties: PropertyValues): void {
     changedProperties.forEach((oldValue, propName) => {
       switch (propName) {
         case 'opened':
-          this.m_openedChanged(this.opened);
-          break;
+          this.m_openedChanged(this.opened)
+          break
         case 'icon':
         case 'src':
-          this.m_displayIcon();
-          break;
+          this.m_displayIcon()
+          break
       }
-    });
+    })
   }
 
   attributeChangedCallback(name: string, old: string, value: string): void {
-    super.attributeChangedCallback(name, old, value);
+    super.attributeChangedCallback(name, old, value)
   }
 
   //----------------------------------------------------------------------
@@ -169,17 +167,17 @@ export class CommCollapseItem extends LitElement {
   //----------------------------------------------------------------------
 
   m_openedChanged(opened: boolean): void {
-    this.m_toggleIcon = opened ? 'icons:expand-less' : 'icons:expand-more';
+    this.m_toggleIcon = opened ? 'icons:expand-less' : 'icons:expand-more'
   }
 
   m_displayIcon(): void {
     // アイコン指定がない場合
     if (!this.icon && !this.src) {
-      this.m_icon.style.display = 'none';
+      this.m_icon.style.display = 'none'
     }
     // アイコンの指定がある場合
     else {
-      this.m_icon.style.display = 'block';
+      this.m_icon.style.display = 'block'
     }
   }
 
@@ -190,8 +188,8 @@ export class CommCollapseItem extends LitElement {
   //----------------------------------------------------------------------
 
   m_titleWrapperOnClick(event) {
-    this.opened = !this.opened;
-    this.dispatchEvent(new CustomEvent('toggle-item'));
+    this.opened = !this.opened
+    this.dispatchEvent(new CustomEvent('toggle-item'))
   }
 }
-customElements.define('comm-collapse-item', CommCollapseItem);
+customElements.define('comm-collapse-item', CommCollapseItem)

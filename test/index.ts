@@ -1,7 +1,7 @@
 (async () => {
-  mocha.setup({ ui: 'tdd' });
+  mocha.setup({ ui: 'tdd' })
 
-  await Promise.all([import('./location')]);
+  await Promise.all([import('./location')])
 
-  mocha.run();
-})();
+  mocha.run()
+})()
