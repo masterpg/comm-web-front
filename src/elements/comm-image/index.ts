@@ -1,5 +1,5 @@
 import { html, property, query, PropertyValues } from 'lit-element';
-import * as anime from 'animejs';
+import * as anime from 'animejs/lib/anime';
 
 import { baseStyles } from '../../styles/polymer/base-styles';
 import { mix } from '../../base';
