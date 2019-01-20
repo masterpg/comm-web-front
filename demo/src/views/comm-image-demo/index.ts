@@ -3,11 +3,11 @@ import '@polymer/paper-button/paper-button';
 import '@polymer/paper-radio-group/paper-radio-group';
 import { html, property, query } from 'lit-element';
 
-import '../../../lib/elements/comm-image';
-import '../../../lib/styles/polymer/base-styles';
-import { CommBaseElement } from '../../../lib/elements/comm-base-element';
-import { CommImage } from '../../../lib/elements/comm-image';
-import { baseStyles } from '../../../lib/styles/polymer/base-styles';
+import '../../../../lib/elements/comm-image';
+import '../../../../lib/styles/polymer/base-styles';
+import { CommBaseElement } from '../../../../lib/elements/comm-base-element';
+import { CommImage } from '../../../../lib/elements/comm-image';
+import { baseStyles } from '../../../../lib/styles/polymer/base-styles';
 
 class CommImageDemo extends CommBaseElement {
   render() {

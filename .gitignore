@@ -4,10 +4,6 @@ node_modules/
 *.log
 *.tmp
 
-/demo/**/*.js
-/demo/**/*.js.map
-/demo/src/**/*.d.ts
-
 /lib/**/*.js.map
 
 /src/**/*.js

@@ -3,7 +3,7 @@ import '@polymer/iron-icon/iron-icon';
 import '@polymer/iron-icons/iron-icons';
 import { LitElement, PropertyValues } from 'lit-element';
 export declare class CommCollapseItem extends LitElement {
-    protected render(): import("lit-html/lib/template-result").TemplateResult;
+    protected render(): import("lit-element").TemplateResult;
     m_toggleIcon: string;
     m_icon: HTMLElement;
     /**

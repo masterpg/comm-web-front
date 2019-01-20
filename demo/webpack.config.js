@@ -39,8 +39,8 @@ const config = {
   stats,
 
   entry: {
-    demo: path.resolve(__dirname, './demo/index.ts'),
-    test: path.resolve(__dirname, './test/index.ts'),
+    demo: path.resolve(__dirname, './src/index.ts'),
+    test: path.resolve(__dirname, '../test/index.ts'),
   },
 
   output: {
@@ -50,7 +50,7 @@ const config = {
 
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
-    plugins: [new TsconfigPathsPlugin({ configFile: 'tsconfig.json' })],
+    plugins: [new TsconfigPathsPlugin({ configFile: path.resolve(__dirname, '../tsconfig.json') })],
   },
 
   module: {
@@ -85,6 +85,7 @@ const config = {
         test: /\.tsx?$/,
         enforce: 'pre',
         loader: 'tslint-loader',
+        options: { configFile: path.resolve(__dirname, '../tslint.json') },
       },
       {
         test: /\.tsx?$/,
@@ -107,6 +108,7 @@ const config = {
           'style-loader',
           {
             loader: 'postcss-loader',
+            options: { config: { path: __dirname } },
           },
         ],
       },
@@ -116,14 +118,14 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'demo.html', // パスは`output.path`を基準
-      template: './demo/index.html',
+      template: path.resolve(__dirname, './src/index.html'),
       inject: false,
       bundledScript: 'demo.bundle.js',
     }),
 
     new HtmlWebpackPlugin({
       filename: 'test.html', // パスは`output.path`を基準
-      template: './test/index.html',
+      template: path.resolve(__dirname, '../test/index.html'),
       inject: false,
       bundledScript: 'test.bundle.js',
     }),

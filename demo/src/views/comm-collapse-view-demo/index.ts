@@ -1,9 +1,9 @@
 import '@polymer/paper-card/paper-card';
 import { html, property } from 'lit-element';
 
-import '../../../lib/elements/comm-collapse-view';
-import { CommBaseElement } from '../../../lib/elements/comm-base-element';
-import { baseStyles } from '../../../lib/styles/polymer/base-styles';
+import '../../../../lib/elements/comm-collapse-view';
+import { CommBaseElement } from '../../../../lib/elements/comm-base-element';
+import { baseStyles } from '../../../../lib/styles/polymer/base-styles';
 
 class CommCollapseViewDemo extends CommBaseElement {
   render() {

@@ -6,16 +6,16 @@ import '@polymer/app-layout/app-toolbar/app-toolbar';
 import '@polymer/iron-pages/iron-pages';
 import { html, query, property } from 'lit-element';
 
-import '../../lib/elements/comm-tree-view';
+import '../../../lib/elements/comm-tree-view';
 import './comm-awesome-element-demo';
 import './comm-collapse-view-demo';
 import './comm-image-demo';
 import './comm-tree-view-demo';
-import { CommBaseElement } from '../../lib/elements/comm-base-element';
-import { CommResizableMixin } from '../../lib/elements/mixins/comm-resizable-mixin';
-import { CommTreeItem, CommTreeView } from '../../lib/elements/comm-tree-view';
-import { baseStyles } from '../../lib/styles/polymer/base-styles';
-import { mix } from '../../lib';
+import { CommBaseElement } from '../../../lib/elements/comm-base-element';
+import { CommResizableMixin } from '../../../lib/elements/mixins/comm-resizable-mixin';
+import { CommTreeItem, CommTreeView } from '../../../lib/elements/comm-tree-view';
+import { baseStyles } from '../../../lib/styles/polymer/base-styles';
+import { mix } from '../../../lib';
 
 class AppView extends mix(CommBaseElement).with(CommResizableMixin) {
   render() {

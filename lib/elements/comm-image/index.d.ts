@@ -1,9 +1,9 @@
 import { PropertyValues } from 'lit-element';
 import { CommBaseElement } from '../comm-base-element';
 declare type AlignType = 'start' | 'center' | 'end';
-declare const CommImage_base: import("src/base").Constructor<CommBaseElement> & import("src/base").Constructor<import("src/elements/mixins/comm-resizable-mixin").CommResizableElement>;
+declare const CommImage_base: import("../../base").Constructor<CommBaseElement> & import("../../base").Constructor<import("../mixins/comm-resizable-mixin").CommResizableElement>;
 export declare class CommImage extends CommImage_base {
-    protected render(): import("lit-html/lib/template-result").TemplateResult;
+    protected render(): import("lit-element").TemplateResult;
     m_container: HTMLDivElement;
     m_img: HTMLImageElement;
     m_loading: HTMLDivElement;

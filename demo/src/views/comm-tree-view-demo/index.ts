@@ -4,10 +4,10 @@ import { PaperCheckboxElement } from '@polymer/paper-checkbox/paper-checkbox';
 import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import { html, query } from 'lit-element';
 
-import '../../../lib/elements/comm-tree-view';
-import { CommTreeItem, CommTreeView } from '../../../lib/elements/comm-tree-view';
-import { CommBaseElement } from '../../../lib/elements/comm-base-element';
-import { baseStyles } from '../../../lib/styles/polymer/base-styles';
+import '../../../../lib/elements/comm-tree-view';
+import { CommTreeItem, CommTreeView } from '../../../../lib/elements/comm-tree-view';
+import { CommBaseElement } from '../../../../lib/elements/comm-base-element';
+import { baseStyles } from '../../../../lib/styles/polymer/base-styles';
 
 class CommTreeViewDemo extends CommBaseElement {
   render() {

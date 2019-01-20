@@ -25,7 +25,7 @@ import { CommCollapseItem } from './comm-collapse-item';
  * `--comm-collapse-transition-duration` | 展開/収縮アニメーションの時間です | `300ms`
  */
 export declare class CommCollapseView extends CommBaseElement {
-    protected render(): import("lit-html/lib/template-result").TemplateResult;
+    protected render(): import("lit-element").TemplateResult;
     m_toggleCollapseItemListeners: WeakMap<CommCollapseItem, EventListener>;
     m_initialDividerStyle: string | null;
     m_slot: HTMLSlotElement;

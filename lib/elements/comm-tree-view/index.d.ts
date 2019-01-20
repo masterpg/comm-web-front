@@ -5,13 +5,13 @@ import '@polymer/iron-icon/iron-icon';
 import '@polymer/iron-icons/iron-icons';
 import { PropertyValues } from 'lit-element';
 import { CommBaseElement } from '../comm-base-element';
-export interface TreeStructureNode<T extends TreeStructureNode = TreeStructureNode<any>> {
+export interface TreeStructureNode {
     itemClass?: string;
     itemHTML: string;
     selectedValue?: string;
     unselectable?: boolean;
     opened?: boolean;
-    children?: T[];
+    children?: TreeStructureNode[];
 }
 /**
  * # comm-tree-view
@@ -35,7 +35,7 @@ export interface TreeStructureNode<T extends TreeStructureNode = TreeStructureNo
  * `--comm-tree-item-unselectable-color` | ノードアイテムが非選択ノードの場合のカラー | `var(--comm-grey900)`
  */
 export declare class CommTreeView extends CommBaseElement {
-    render(): import("lit-html/lib/template-result").TemplateResult;
+    render(): import("lit-element").TemplateResult;
     m_selectedItem?: CommTreeItem;
     m_slot: HTMLSlotElement;
     constructor();
@@ -83,7 +83,7 @@ export declare class CommTreeView extends CommBaseElement {
     m_slotOnSlotChange(e: any): void;
 }
 export declare class CommTreeNode extends CommBaseElement {
-    render(): import("lit-html/lib/template-result").TemplateResult;
+    render(): import("lit-element").TemplateResult;
     m_toggleIconKind: string;
     m_itemContainer: HTMLElement;
     m_itemSlot: HTMLSlotElement;
@@ -135,7 +135,7 @@ export declare class CommTreeNode extends CommBaseElement {
     m_toggleIconOnClick(e: any): void;
 }
 export declare class CommTreeItem extends CommBaseElement {
-    render(): import("lit-html/lib/template-result").TemplateResult;
+    render(): import("lit-element").TemplateResult;
     constructor();
     /**
      * 選択されているか否かです。
@@ -153,11 +153,11 @@ export declare class CommTreeItem extends CommBaseElement {
      * 本クラスを継承した際に拡張可能なCSSです。
      * 継承した際は必要に応じてスタイルを変更することができます。
      */
-    f_extraStyle: import("lit-html/lib/template-result").TemplateResult;
+    f_extraStyle: import("lit-element").TemplateResult;
     /**
      * 本クラスを継承した際に拡張可能なHTMLテンプレートです。
      * 継承した際は必要に応じてHTMLテンプレートを変更することができます。
      */
-    f_itemTemplate: import("lit-html/lib/template-result").TemplateResult;
+    f_itemTemplate: import("lit-element").TemplateResult;
     f_itemOnClick(e: any): void;
 }

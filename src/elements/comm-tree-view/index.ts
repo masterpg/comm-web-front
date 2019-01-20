@@ -8,13 +8,13 @@ import { html, property, query, PropertyValues } from 'lit-element';
 import { baseStyles } from '../../styles/polymer/base-styles';
 import { CommBaseElement } from '../comm-base-element';
 
-export interface TreeStructureNode<T extends TreeStructureNode = TreeStructureNode<any>> {
+export interface TreeStructureNode {
   itemClass?: string;
   itemHTML: string;
   selectedValue?: string;
   unselectable?: boolean;
   opened?: boolean;
-  children?: T[];
+  children?: TreeStructureNode[];
 }
 
 /**
@@ -393,7 +393,7 @@ export class CommTreeNode extends CommBaseElement {
     // 現ノードと子ノードの上下間隔を設定する
     const childNodes = this.m_getChildNodes();
     for (const childNode of childNodes) {
-      const style = document.defaultView.getComputedStyle(childNode);
+      const style = document.defaultView!.getComputedStyle(childNode);
       const distance = style.getPropertyValue('--comm-tree-node-distance').trim();
       childNode.style.setProperty('--comm-tree-node-distance', distance);
     }
