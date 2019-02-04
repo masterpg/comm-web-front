@@ -1,4 +1,4 @@
-# lived-web-front
+# comm-web-front
 
 ## 環境構築
 

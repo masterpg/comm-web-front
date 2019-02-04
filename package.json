@@ -1,5 +1,5 @@
 {
-  "name": "lived-web-front",
+  "name": "comm-web-front",
   "version": "0.0.1",
   "license": "BSD-3-Clause",
   "author": "masterpg",
@@ -8,7 +8,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://masterpg@bitbucket.org/masterpg/lived-web-front.git"
+    "url": "https://github.com/masterpg/comm-web-front.git"
   },
   "scripts": {
     "build:styles": "cpx \"src/styles/placeholder/*.css\" lib/styles/placeholder & cpx \"src/styles/variables/*.css\" lib/styles/variables & cpx \"src/styles/polymer/**/*.js\" lib/styles/polymer & postcss --config postcss.config.js src/styles/classes/**/*.css --base src --dir lib",
