@@ -1,9 +1,9 @@
 import '@polymer/paper-card/paper-card'
-import { html, property } from 'lit-element'
+import {html, property} from 'lit-element'
 
 import '../../../../lib/elements/comm-collapse-view'
-import { CommBaseElement } from '../../../../lib/elements/comm-base-element'
-import { baseStyles } from '../../../../lib/styles/polymer/base-styles'
+import {CommBaseElement} from '../../../../lib/elements/comm-base-element'
+import {baseStyles} from '../../../../lib/styles/polymer/base-styles'
 
 class CommCollapseViewDemo extends CommBaseElement {
   render() {
@@ -72,7 +72,7 @@ class CommCollapseViewDemo extends CommBaseElement {
   //
   //----------------------------------------------------------------------
 
-  @property({ type: String })
+  @property({type: String})
   m_text =
     'Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea, id minim maiestatis incorrupte duo. Dolorum verterem ad ius, his et nullam verterem. Eu alia debet usu, an doming tritani est. Vix ad ponderum petentium suavitate, eum eu tempor populo, graece sententiae constituam vim ex. Cu torquatos reprimique neglegentur nec, voluptua periculis has ut, at eos discere deleniti sensibus. Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea, id minim maiestatis incorrupte duo. Dolorum verterem ad ius, his et nullam verterem. Eu alia debet usu, an doming tritani est. Vix ad ponderum petentium suavitate, eum eu tempor populo, graece sententiae constituam vim ex. Cu torquatos reprimique neglegentur nec, voluptua periculis has ut, at eos discere deleniti sensibus.'
 }

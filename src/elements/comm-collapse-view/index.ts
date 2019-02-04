@@ -1,8 +1,8 @@
-import { html, query } from 'lit-element'
+import {html, query} from 'lit-element'
 
-import { baseStyles } from '../../styles/polymer/base-styles'
-import { CommBaseElement } from '../comm-base-element'
-import { CommCollapseItem } from './comm-collapse-item'
+import {baseStyles} from '../../styles/polymer/base-styles'
+import {CommBaseElement} from '../comm-base-element'
+import {CommCollapseItem} from './comm-collapse-item'
 
 /**
  * # comm-collapse-view
@@ -87,11 +87,11 @@ export class CommCollapseView extends CommBaseElement {
       // 外部から仕切りボーダーが非表示に設定された、または最下部のアイテムの場合
       if (this.m_initialDividerStyle === 'none' || i === items.length - 1) {
         // 仕切りボーダーは非表示にする(アイテムのボーダーとコンテナの枠線がかぶるため)
-        (window as any).ShadyCSS.styleSubtree(item, { '--comm-collapse-divider-border-style': 'none' })
+        (window as any).ShadyCSS.styleSubtree(item, {'--comm-collapse-divider-border-style': 'none'})
       }
       // 上記以外の場合
       else {
-        (window as any).ShadyCSS.styleSubtree(item, { '--comm-collapse-divider-border-style': 'solid' })
+        (window as any).ShadyCSS.styleSubtree(item, {'--comm-collapse-divider-border-style': 'solid'})
       }
     }
   }
@@ -101,8 +101,8 @@ export class CommCollapseView extends CommBaseElement {
    */
   m_getCollapseItems(): CommCollapseItem[] {
     if (!this.m_slot) return []
-    const assignedNodes = this.m_slot.assignedNodes({ flatten: false })
-    return assignedNodes.filter((node) => {
+    const assignedNodes = this.m_slot.assignedNodes({flatten: false})
+    return assignedNodes.filter(node => {
       return node instanceof CommCollapseItem
     }) as CommCollapseItem[]
   }
@@ -119,10 +119,7 @@ export class CommCollapseView extends CommBaseElement {
    */
   m_slotOnSlotChange(e) {
     if (this.m_initialDividerStyle === null) {
-      this.m_initialDividerStyle = (window as any).ShadyCSS.getComputedStyleValue(
-        this,
-        '--comm-collapse-divider-border-style',
-      )
+      this.m_initialDividerStyle = (window as any).ShadyCSS.getComputedStyleValue(this, '--comm-collapse-divider-border-style')
     }
 
     const diff = this.f_getDistributedChildDiff(this.m_slot)

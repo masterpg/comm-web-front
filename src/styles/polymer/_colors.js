@@ -1,5 +1,5 @@
-import '@polymer/polymer/polymer-legacy.js';
-import { html } from '@polymer/polymer/lib/utils/html-tag.js';
+import '@polymer/polymer/polymer-legacy.js'
+import {html} from '@polymer/polymer/lib/utils/html-tag.js'
 
 const template = html`
   <dom-module id="comm-colors">
@@ -284,6 +284,6 @@ const template = html`
       </style>
     </template>
   </dom-module>
-`;
-template.setAttribute('style', 'display: none;');
-document.head.appendChild(template.content);
+`
+template.setAttribute('style', 'display: none;')
+document.head.appendChild(template.content)

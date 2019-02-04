@@ -1,9 +1,9 @@
 import '@polymer/iron-collapse/iron-collapse'
 import '@polymer/iron-icon/iron-icon'
 import '@polymer/iron-icons/iron-icons'
-import { LitElement, html, property, query, PropertyValues } from 'lit-element'
+import {LitElement, html, property, query, PropertyValues} from 'lit-element'
 
-import { baseStyles } from '../../styles/polymer/base-styles'
+import {baseStyles} from '../../styles/polymer/base-styles'
 
 export class CommCollapseItem extends LitElement {
   protected render() {
@@ -89,7 +89,7 @@ export class CommCollapseItem extends LitElement {
   //
   //----------------------------------------------------------------------
 
-  @property({ type: String })
+  @property({type: String})
   m_toggleIcon: string = ''
 
   //--------------------------------------------------
@@ -108,14 +108,14 @@ export class CommCollapseItem extends LitElement {
   /**
    * タイトルです。
    */
-  @property({ type: String })
+  @property({type: String})
   title: string = ''
 
   /**
    * アイコンです。
    * 例: "icons:info"
    */
-  @property({ type: String })
+  @property({type: String})
   icon: string = ''
 
   /**
@@ -123,13 +123,13 @@ export class CommCollapseItem extends LitElement {
    * Polymerで用意されている以外のアイコンを使用したい場合は
    * iconプロパティではなくこのプロパティでアイコンのURLを指定してください。
    */
-  @property({ type: String })
+  @property({type: String})
   src: string = ''
 
   /**
    * アイテムの開閉です。
    */
-  @property({ type: Boolean })
+  @property({type: Boolean})
   opened: boolean = false
 
   //----------------------------------------------------------------------

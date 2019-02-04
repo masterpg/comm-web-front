@@ -13,7 +13,7 @@ suite('location', () => {
     assert.equal(actual.dir, '/foo/bar')
     assert.equal(actual.base, 'index.html')
     assert.equal(actual.ext, '.html')
-    assert.deepEqual(actual.query, { name: 'taro', age: '21' })
+    assert.deepEqual(actual.query, {name: 'taro', age: '21'})
   })
 
   test('parse(): 日本語', () => {
@@ -23,34 +23,34 @@ suite('location', () => {
     assert.equal(actual.dir, '/ホゲ/フガ')
     assert.equal(actual.base, 'インデックス.html')
     assert.equal(actual.ext, '.html')
-    assert.deepEqual(actual.query, { name: '太郎', age: '21' })
+    assert.deepEqual(actual.query, {name: '太郎', age: '21'})
   })
 
   test('parse(): 日本語(エスケープ)', () => {
     const actual = location.parse(
-      '/%E3%83%9B%E3%82%B2/%E3%83%95%E3%82%AC/%E3%82%A4%E3%83%B3%E3%83%87%E3%83%83%E3%82%AF%E3%82%B9.html?name=%E5%A4%AA%E9%83%8E&age=21#%E7%9B%AE%E6%AC%A1',
+      '/%E3%83%9B%E3%82%B2/%E3%83%95%E3%82%AC/%E3%82%A4%E3%83%B3%E3%83%87%E3%83%83%E3%82%AF%E3%82%B9.html?name=%E5%A4%AA%E9%83%8E&age=21#%E7%9B%AE%E6%AC%A1'
     )
     assert.equal(actual.path, '/ホゲ/フガ/インデックス.html')
     assert.equal(actual.hash, '目次')
     assert.equal(actual.dir, '/ホゲ/フガ')
     assert.equal(actual.base, 'インデックス.html')
     assert.equal(actual.ext, '.html')
-    assert.deepEqual(actual.query, { name: '太郎', age: '21' })
+    assert.deepEqual(actual.query, {name: '太郎', age: '21'})
   })
 
   test('parse(): クエリにスペースを含んだ場合', () => {
     const actual = location.parse('/index.html?a=b c')
-    assert.deepEqual(actual.query, { a: 'b c' })
+    assert.deepEqual(actual.query, {a: 'b c'})
   })
 
   test('parse(): クエリにスペース(エスケープ)を含んだ場合', () => {
     const actual = location.parse('/index.html?a=b%20c')
-    assert.deepEqual(actual.query, { a: 'b c' })
+    assert.deepEqual(actual.query, {a: 'b c'})
   })
 
   test('parse(): クエリに"+"を含んだ場合', () => {
     const actual = location.parse('/index.html?a=b+c')
-    assert.deepEqual(actual.query, { a: 'b c' })
+    assert.deepEqual(actual.query, {a: 'b c'})
   })
 
   test('getBase()', () => {

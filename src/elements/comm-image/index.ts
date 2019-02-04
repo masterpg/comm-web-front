@@ -1,10 +1,10 @@
-import { html, property, query, PropertyValues } from 'lit-element'
+import {html, property, query, PropertyValues} from 'lit-element'
 import * as anime from 'animejs/lib/anime'
 
-import { baseStyles } from '../../styles/polymer/base-styles'
-import { mix } from '../../base'
-import { CommResizableMixin } from '../mixins/comm-resizable-mixin'
-import { CommBaseElement } from '../comm-base-element'
+import {baseStyles} from '../../styles/polymer/base-styles'
+import {mix} from '../../base'
+import {CommResizableMixin} from '../mixins/comm-resizable-mixin'
+import {CommBaseElement} from '../comm-base-element'
 
 type AlignType = 'start' | 'center' | 'end'
 
@@ -108,16 +108,16 @@ export class CommImage extends mix(CommBaseElement).with(CommResizableMixin) {
   //
   //----------------------------------------------------------------------
 
-  @property({ type: String, reflect: true })
+  @property({type: String, reflect: true})
   src: string = ''
 
-  @property({ type: String, reflect: true })
+  @property({type: String, reflect: true})
   alt: string = ''
 
-  @property({ type: String, reflect: true })
+  @property({type: String, reflect: true})
   hAlign: AlignType = 'center'
 
-  @property({ type: String, reflect: true })
+  @property({type: String, reflect: true})
   vAlign: AlignType = 'center'
 
   //----------------------------------------------------------------------
@@ -129,7 +129,7 @@ export class CommImage extends mix(CommBaseElement).with(CommResizableMixin) {
   constructor() {
     super()
 
-    this.addEventListener('comm-resize', (e) => this.m_onCommResize(e))
+    this.addEventListener('comm-resize', e => this.m_onCommResize(e))
   }
 
   protected updated(changedProperties: PropertyValues): void {

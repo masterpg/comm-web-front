@@ -2,7 +2,7 @@
 
 ## 環境構築
 
-yarnをインストールします。
+yarn をインストールします。
 
 ```console
 $ npm install -g yarn
@@ -14,7 +14,6 @@ $ npm install -g yarn
 $ yarn install
 ```
 
-
 ## コンパイル
 
 次のコマンドでソースファイルのビルドを行います。
@@ -25,7 +24,6 @@ $ yarn build
 
 コンパイル結果が`lib/`に出力されます。
 
-
 ## 開発サーバー
 
 開発サーバーを起動します。
@@ -34,11 +32,10 @@ $ yarn build
 $ yarn dev
 ```
 
-起動したらブラウザで下記URLにアクセスすることで各画面を確認できます。
+起動したらブラウザで下記 URL にアクセスすることで各画面を確認できます。
 
-* コンポーネントのデモ画面: http://localhost:5000/demo.html
-* 単体テスト実行画面: http://localhost:5000/test.html
-
+- コンポーネントのデモ画面: http://localhost:5000/demo.html
+- 単体テスト実行画面: http://localhost:5000/test.html
 
 ## 単体テスト
 
@@ -47,4 +44,3 @@ $ yarn dev
 ```console
 $ yarn test
 ```
-

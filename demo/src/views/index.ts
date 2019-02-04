@@ -4,18 +4,18 @@ import '@polymer/app-layout/app-header-layout/app-header-layout'
 import '@polymer/app-layout/app-header/app-header'
 import '@polymer/app-layout/app-toolbar/app-toolbar'
 import '@polymer/iron-pages/iron-pages'
-import { html, query, property } from 'lit-element'
+import {html, query, property} from 'lit-element'
 
 import '../../../lib/elements/comm-tree-view'
 import './comm-awesome-element-demo'
 import './comm-collapse-view-demo'
 import './comm-image-demo'
 import './comm-tree-view-demo'
-import { CommBaseElement } from '../../../lib/elements/comm-base-element'
-import { CommResizableMixin } from '../../../lib/elements/mixins/comm-resizable-mixin'
-import { CommTreeItem, CommTreeView } from '../../../lib/elements/comm-tree-view'
-import { baseStyles } from '../../../lib/styles/polymer/base-styles'
-import { mix } from '../../../lib'
+import {CommBaseElement} from '../../../lib/elements/comm-base-element'
+import {CommResizableMixin} from '../../../lib/elements/mixins/comm-resizable-mixin'
+import {CommTreeItem, CommTreeView} from '../../../lib/elements/comm-tree-view'
+import {baseStyles} from '../../../lib/styles/polymer/base-styles'
+import {mix} from '../../../lib'
 
 class AppView extends mix(CommBaseElement).with(CommResizableMixin) {
   render() {
@@ -53,9 +53,7 @@ class AppView extends mix(CommBaseElement).with(CommResizableMixin) {
       <app-drawer-layout responsive-width="960px">
         <app-drawer ref="drawer" slot="drawer" :swipe-open="m_narrow">
           <app-toolbar class="drawer-toolbar"><div main-title class="comm-ml-8">DEMO</div></app-toolbar>
-          <div class="tree-view-wrapper">
-            <comm-tree-view id="treeView" @item-selected="${this.m_treeViewOnItemSelected}"></comm-tree-view>
-          </div>
+          <div class="tree-view-wrapper"><comm-tree-view id="treeView" @item-selected="${this.m_treeViewOnItemSelected}"></comm-tree-view></div>
         </app-drawer>
         <iron-pages selected="${this.m_pageName}" attr-for-selected="page-name" fallback-selection="fallback">
           <comm-awesome-element-demo page-name="comm-awesome-element-demo"></comm-awesome-element-demo>
@@ -77,7 +75,7 @@ class AppView extends mix(CommBaseElement).with(CommResizableMixin) {
   //
   //----------------------------------------------------------------------
 
-  @property({ type: String })
+  @property({type: String})
   m_pageName: string = ''
 
   //--------------------------------------------------

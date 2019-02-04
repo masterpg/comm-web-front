@@ -1,9 +1,7 @@
-const path = require('path');
-const webpack = require('webpack');
-const merge = require('webpack-merge');
-const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path')
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 /**
  * バンドル時の出力情報設定
@@ -28,7 +26,7 @@ const stats = {
   errors: true,
   errorDetails: true,
   warnings: true,
-};
+}
 
 /**
  * Webpack設定
@@ -50,7 +48,7 @@ const config = {
 
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
-    plugins: [new TsconfigPathsPlugin({ configFile: path.resolve(__dirname, '../tsconfig.json') })],
+    plugins: [new TsconfigPathsPlugin({configFile: path.resolve(__dirname, '../tsconfig.json')})],
   },
 
   module: {
@@ -84,8 +82,7 @@ const config = {
       {
         test: /\.tsx?$/,
         enforce: 'pre',
-        loader: 'tslint-loader',
-        options: { configFile: path.resolve(__dirname, '../tslint.json') },
+        loader: 'eslint-loader',
       },
       {
         test: /\.tsx?$/,
@@ -108,7 +105,7 @@ const config = {
           'style-loader',
           {
             loader: 'postcss-loader',
-            options: { config: { path: __dirname } },
+            options: {config: {path: __dirname}},
           },
         ],
       },
@@ -132,10 +129,10 @@ const config = {
 
     // `to: xxx`の`xxx`は`output.path`が基準になる
     new CopyWebpackPlugin([
-      { from: 'node_modules/mocha/mocha.css', to: 'node_modules/mocha' },
-      { from: 'node_modules/mocha/mocha.js', to: 'node_modules/mocha' },
-      { from: 'node_modules/chai/chai.js', to: 'node_modules/chai' },
-      { from: 'node_modules/@webcomponents/webcomponentsjs/**/*.js' },
+      {from: 'node_modules/mocha/mocha.css', to: 'node_modules/mocha'},
+      {from: 'node_modules/mocha/mocha.js', to: 'node_modules/mocha'},
+      {from: 'node_modules/chai/chai.js', to: 'node_modules/chai'},
+      {from: 'node_modules/@webcomponents/webcomponentsjs/**/*.js'},
     ]),
   ],
 
@@ -153,6 +150,6 @@ const config = {
       rewrites: [],
     },
   },
-};
+}
 
-module.exports = config;
+module.exports = config

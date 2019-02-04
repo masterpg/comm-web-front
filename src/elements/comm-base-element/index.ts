@@ -1,5 +1,5 @@
-import { LitElement } from 'lit-element'
-import { timeOut, microTask } from '@polymer/polymer/lib/utils/async.js'
+import {LitElement} from 'lit-element'
+import {timeOut, microTask} from '@polymer/polymer/lib/utils/async.js'
 
 export class CommBaseElement extends LitElement {
   //----------------------------------------------------------------------
@@ -20,7 +20,7 @@ export class CommBaseElement extends LitElement {
    * 指定されたスロットに対して、前回配置されたノードと現在配置されているノードの差分を取得します。
    * @param slot
    */
-  f_getDistributedChildDiff(slot: HTMLSlotElement): { removed: Node[]; added: Node[] } {
+  f_getDistributedChildDiff(slot: HTMLSlotElement): {removed: Node[]; added: Node[]} {
     let previousNodes: Node[]
 
     if (this.m_slotElementsAssignedNodes.has(slot)) {
@@ -29,7 +29,7 @@ export class CommBaseElement extends LitElement {
       previousNodes = []
     }
 
-    const newNodes = slot.assignedNodes({ flatten: true })
+    const newNodes = slot.assignedNodes({flatten: true})
 
     // 新しいノード(newNodes)を保存する。このノードは次回から前のノードとして扱われる
     this.m_slotElementsAssignedNodes.set(slot, newNodes)

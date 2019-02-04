@@ -14,7 +14,7 @@ declare namespace qs {
       depth?: number
       parameterLimit?: number
       plainObjects?: boolean
-      strictNullHandling?: boolean,
-    },
+      strictNullHandling?: boolean
+    }
   ): any
 }

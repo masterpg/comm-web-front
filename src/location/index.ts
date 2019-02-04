@@ -122,7 +122,7 @@ export function toPath(url: string): string {
  */
 export function cwd(climbSteps: number = 0): string {
   let dir = getDir(parse(window.location.href).path)
-  dir = dir.replace(new RegExp(`(?:\\\/+[^\\\/]*){0,${climbSteps}}$`), '')
+  dir = dir.replace(new RegExp(`(?:\\/+[^\\/]*){0,${climbSteps}}$`), '')
   return dir
 }
 

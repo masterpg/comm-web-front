@@ -3,10 +3,10 @@ import '@polymer/iron-flex-layout/iron-flex-layout'
 import '@polymer/iron-flex-layout/iron-flex-layout-classes'
 import '@polymer/iron-icon/iron-icon'
 import '@polymer/iron-icons/iron-icons'
-import { html, property, query, PropertyValues } from 'lit-element'
+import {html, property, query, PropertyValues} from 'lit-element'
 
-import { baseStyles } from '../../styles/polymer/base-styles'
-import { CommBaseElement } from '../comm-base-element'
+import {baseStyles} from '../../styles/polymer/base-styles'
+import {CommBaseElement} from '../comm-base-element'
 
 export interface TreeStructureNode {
   itemClass?: string
@@ -86,13 +86,10 @@ export class CommTreeView extends CommBaseElement {
    *   itemClasses: ツリービューの構築に必要なノードアイテムのクラスリスト
    *   itemEvents: ツリービューが集約すべきノードアイテムのイベント名のリスト
    */
-  buildTree<T extends TreeStructureNode>(
-    tree: T[],
-    options?: { itemClasses?: { [index: string]: object }; itemEvents?: string[] },
-  ): void {
+  buildTree<T extends TreeStructureNode>(tree: T[], options?: {itemClasses?: {[index: string]: object}; itemEvents?: string[]}): void {
     options = options || {}
 
-    const itemClasses = Object.assign({ CommTreeItem }, options.itemClasses)
+    const itemClasses = Object.assign({CommTreeItem}, options.itemClasses)
     const itemEvents = options.itemEvents ? options.itemEvents : []
 
     for (const eventName of itemEvents) {
@@ -116,9 +113,9 @@ export class CommTreeView extends CommBaseElement {
    * @param parentOfNode ノードの親エレメント
    */
   f_recursiveBuildTree<T extends TreeStructureNode>(
-    itemClasses: { [index: string]: object },
+    itemClasses: {[index: string]: object},
     item: T,
-    parentOfNode: CommTreeView | CommTreeNode,
+    parentOfNode: CommTreeView | CommTreeNode
   ): void {
     // ノードアイテムエレメントの作成
     const itemClassName = item.itemClass ? item.itemClass : 'CommTreeItem'
@@ -157,17 +154,17 @@ export class CommTreeView extends CommBaseElement {
   m_addAnyEventListener(eventName: string) {
     this.addEventListener(
       eventName,
-      (e) => {
+      e => {
         if (e.target instanceof CommTreeItem) {
           // 選択されたノードアイテムを取得
           const item = e.target as CommTreeItem
           // ノードアイテムのイベントを伝搬しないようここでストップする
           e.stopImmediatePropagation()
           // ツリービューが代わりにそのイベントを発火
-          this.dispatchEvent(new CustomEvent(eventName, { detail: { item } }))
+          this.dispatchEvent(new CustomEvent(eventName, {detail: {item}}))
         }
       },
-      true,
+      true
     )
   }
 
@@ -179,7 +176,7 @@ export class CommTreeView extends CommBaseElement {
     const EVENT_ITEM_SELECTED = 'item-selected'
     this.addEventListener(
       EVENT_ITEM_SELECTED,
-      (e) => {
+      e => {
         if (e.target instanceof CommTreeItem) {
           // 選択されたノードアイテムを取得
           const item = e.target as CommTreeItem
@@ -191,10 +188,10 @@ export class CommTreeView extends CommBaseElement {
           // ノードアイテムのイベントを伝搬しないようここでストップする
           e.stopImmediatePropagation()
           // ツリービューが代わりにそのイベントを発火
-          this.dispatchEvent(new CustomEvent(EVENT_ITEM_SELECTED, { detail: { item } }))
+          this.dispatchEvent(new CustomEvent(EVENT_ITEM_SELECTED, {detail: {item}}))
         }
       },
-      true,
+      true
     )
   }
 
@@ -202,7 +199,7 @@ export class CommTreeView extends CommBaseElement {
    * 子ノードを取得します。
    */
   m_getChildNodes(): CommTreeNode[] {
-    return this.m_slot.assignedNodes().filter((node) => {
+    return this.m_slot.assignedNodes().filter(node => {
       return node instanceof CommTreeNode
     }) as CommTreeNode[]
   }
@@ -253,19 +250,8 @@ export class CommTreeNode extends CommBaseElement {
       </style>
 
       <div id="itemContainer" class="layout horizontal center">
-        <iron-icon
-          id="toggleIcon"
-          class="toggle-icon"
-          icon="${this.m_toggleIconKind}"
-          @click="${this.m_toggleIconOnClick}"
-        ></iron-icon>
-        <svg
-          id="pointIcon"
-          width="24"
-          height="24"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-        >
+        <iron-icon id="toggleIcon" class="toggle-icon" icon="${this.m_toggleIconKind}" @click="${this.m_toggleIconOnClick}"></iron-icon>
+        <svg id="pointIcon" width="24" height="24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
           <circle cx="12" cy="12" r="3" stroke="blue" fill="#9b9b9b" stroke-width="0" />
         </svg>
         <div class="flex"><slot id="itemSlot" name="item" @slotchange="${this.m_itemSlotOnSlotChange}"></slot></div>
@@ -282,7 +268,7 @@ export class CommTreeNode extends CommBaseElement {
   //
   //----------------------------------------------------------------------
 
-  @property({ type: String })
+  @property({type: String})
   m_toggleIconKind: string = ''
 
   //--------------------------------------------------
@@ -313,7 +299,7 @@ export class CommTreeNode extends CommBaseElement {
   /**
    * アイテムの開閉です。
    */
-  @property({ type: Boolean, reflect: true })
+  @property({type: Boolean, reflect: true})
   opened: boolean = false
 
   //----------------------------------------------------------------------
@@ -413,7 +399,7 @@ export class CommTreeNode extends CommBaseElement {
    * 子ノードを取得します。
    */
   m_getChildNodes(): CommTreeNode[] {
-    return this.m_childSlot.assignedNodes().filter((node) => {
+    return this.m_childSlot.assignedNodes().filter(node => {
       return node instanceof CommTreeNode
     }) as CommTreeNode[]
   }
@@ -530,19 +516,19 @@ export class CommTreeItem extends CommBaseElement {
   /**
    * 選択されているか否かです。
    */
-  @property({ type: Boolean, reflect: true })
+  @property({type: Boolean, reflect: true})
   selected: boolean = false
 
   /**
    * 選択値です。
    */
-  @property({ type: String })
+  @property({type: String})
   selectedValue: string = ''
 
   /**
    * 選択不可フラグです。
    */
-  @property({ type: Boolean, reflect: true })
+  @property({type: Boolean, reflect: true})
   unselectable: boolean = false
 
   //----------------------------------------------------------------------
@@ -574,7 +560,7 @@ export class CommTreeItem extends CommBaseElement {
   f_itemOnClick(e) {
     this.selected = true
     if (!this.unselectable) {
-      this.dispatchEvent(new CustomEvent('item-selected', { bubbles: true, composed: true }))
+      this.dispatchEvent(new CustomEvent('item-selected', {bubbles: true, composed: true}))
     }
   }
 }

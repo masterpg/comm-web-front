@@ -1,6 +1,6 @@
-import { LitElement } from 'lit-element'
-import { dom } from '@polymer/polymer/lib/legacy/polymer.dom.js'
-import { Constructor } from '../../../base'
+import {LitElement} from 'lit-element'
+import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js'
+import {Constructor} from '../../../base'
 
 export interface CommResizableElement extends HTMLElement {
   notifyResize(): void
@@ -79,7 +79,7 @@ export function CommResizableMixin(superclass: Constructor<LitElement>): Constru
         return
       }
 
-      this._interestedResizables.forEach((resizable) => {
+      this._interestedResizables.forEach(resizable => {
         if (this.resizerShouldNotify(resizable)) {
           this._notifyDescendant(resizable)
         }
@@ -170,7 +170,7 @@ export function CommResizableMixin(superclass: Constructor<LitElement>): Constru
     }
 
     _fireResize(): void {
-      this.dispatchEvent(new CustomEvent('comm-resize', { detail: {}, bubbles: false, composed: true }))
+      this.dispatchEvent(new CustomEvent('comm-resize', {detail: {}, bubbles: false, composed: true}))
     }
 
     _onIronRequestResizeNotifications(event): void {
@@ -221,7 +221,7 @@ export function CommResizableMixin(superclass: Constructor<LitElement>): Constru
         if (!this._parentResizable) {
           // If this resizable is an orphan, tell other orphans to try to find
           // their parent again, in case it's this resizable.
-          ORPHANS.forEach((orphan) => {
+          ORPHANS.forEach(orphan => {
             if (orphan !== this) {
               orphan._findParent()
             }
@@ -233,7 +233,7 @@ export function CommResizableMixin(superclass: Constructor<LitElement>): Constru
           // If this resizable has a parent, tell other child resizables of
           // that parent to try finding their parent again, in case it's this
           // resizable.
-          this._parentResizable._interestedResizables.forEach((resizable) => {
+          this._parentResizable._interestedResizables.forEach(resizable => {
             if (resizable !== this) {
               resizable._findParent()
             }
@@ -250,7 +250,7 @@ export function CommResizableMixin(superclass: Constructor<LitElement>): Constru
           bubbles: true,
           cancelable: true,
           composed: true,
-        }),
+        })
       )
 
       if (!this._parentResizable) {
