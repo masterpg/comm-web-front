@@ -84,14 +84,15 @@ export class CommCollapseView extends CommBaseElement {
     const items = this.m_getCollapseItems()
     for (let i = 0; i < items.length; i++) {
       const item = items[i]
+      const shadyCSS = (window as any).ShadyCSS
       // 外部から仕切りボーダーが非表示に設定された、または最下部のアイテムの場合
       if (this.m_initialDividerStyle === 'none' || i === items.length - 1) {
         // 仕切りボーダーは非表示にする(アイテムのボーダーとコンテナの枠線がかぶるため)
-        (window as any).ShadyCSS.styleSubtree(item, {'--comm-collapse-divider-border-style': 'none'})
+        shadyCSS.styleSubtree(item, {'--comm-collapse-divider-border-style': 'none'})
       }
       // 上記以外の場合
       else {
-        (window as any).ShadyCSS.styleSubtree(item, {'--comm-collapse-divider-border-style': 'solid'})
+        shadyCSS.styleSubtree(item, {'--comm-collapse-divider-border-style': 'solid'})
       }
     }
   }

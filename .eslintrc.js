@@ -11,8 +11,9 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
   ],
-  'plugins': ['@typescript-eslint'],
+  'plugins': ['@typescript-eslint', 'prettier'],
   'rules': {
+    'prettier/prettier': 'error',
     'array-bracket-spacing': ['error', 'never'],
     'comma-dangle': [
       'error',
@@ -67,7 +68,7 @@ module.exports = {
         },
         'singleline': {
           'delimiter': 'semi',
-          "requireLast": false,
+          'requireLast': false,
         },
       },
     ],
