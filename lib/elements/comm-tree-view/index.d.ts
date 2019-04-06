@@ -6,11 +6,34 @@ import '@polymer/iron-icons/iron-icons';
 import { PropertyValues } from 'lit-element';
 import { CommBaseElement } from '../comm-base-element';
 export interface TreeStructureNode {
-    itemClass?: string;
-    itemHTML: string;
-    selectedValue?: string;
+    /**
+     * ノードアイテムのコンテンツを指定します。
+     * 文字列またはHTML文字列で指定できます。
+     */
+    content: string;
+    /**
+     * ノードアイテムが選択された際にアイテムを特定するための値を指定します。
+     */
+    value?: string;
+    /**
+     * 非選択なノードアイテムか否かを指定します。
+     * デフォルトは選択可能なので、非選択にしたい場合にtrueを設定します。
+     */
     unselectable?: boolean;
+    /**
+     * ノードが開いているか否かを指定します。
+     * デフォルトは閉じているので、開いた状態にしたい場合にtrueを設定します。
+     */
     opened?: boolean;
+    /**
+     * CommTreeNodeItemを拡張した場合、拡張したノードアイテムのクラスを指定します。
+     */
+    itemClass?: {
+        new (): CommTreeNodeItem;
+    };
+    /**
+     * 子ノードを指定します。
+     */
     children?: TreeStructureNode[];
 }
 /**
@@ -26,41 +49,34 @@ export interface TreeStructureNode {
  * ----------------|-------------|----------
  * `--comm-tree-node-distance` | ノードとノードの縦の間隔です | `10px`
  * `--comm-tree-node-indent` | ノードの左インデントです | `12px`
- * `--comm-tree-item-font-size` | ノードアイテムのフォントサイズです | `16px`
- * `--comm-tree-item-font-weight` | ノードアイテムのフォントの太さです | `500`
- * `--comm-tree-item-line-height` | ノードアイテムの行の高さです | `24px`
- * `--comm-tree-item` |  | `{}`
- * `--comm-tree-item-link-color` | ノードアイテムのリンクカラーです | `var(--comm-indigo-800)`
- * `--comm-tree-item-selected-color` | ノードアイテムの選択時のカラーです | `var(--comm-pink-500)`
- * `--comm-tree-item-unselectable-color` | ノードアイテムが非選択ノードの場合のカラー | `var(--comm-grey900)`
+ * `--comm-tree-node-item-font-size` | ノードアイテムのフォントサイズです | `16px`
+ * `--comm-tree-node-item-font-weight` | ノードアイテムのフォントの太さです | `500`
+ * `--comm-tree-node-item-line-height` | ノードアイテムの行の高さです | `24px`
+ * `--comm-tree-node-item` |  | `{}`
+ * `--comm-tree-node-item-link-color` | ノードアイテムのリンクカラーです | `var(--comm-indigo-800)`
+ * `--comm-tree-node-item-selected-color` | ノードアイテムの選択時のカラーです | `var(--comm-pink-500)`
+ * `--comm-tree-node-item-unselectable-color` | ノードアイテムが非選択ノードの場合のカラーです | `var(--comm-grey900)`
  */
 export declare class CommTreeView extends CommBaseElement {
     render(): import("lit-element").TemplateResult;
-    m_selectedItem?: CommTreeItem;
+    m_selectedItem?: CommTreeNodeItem;
     m_slot: HTMLSlotElement;
     constructor();
     /**
      * ツリービューを指定されたツリーデータで構築します。
      * @param tree ツリービューを構築するためのデータ
      * @param options
-     *   itemClasses: ツリービューの構築に必要なノードアイテムのクラスリスト
      *   itemEvents: ツリービューが集約すべきノードアイテムのイベント名のリスト
      */
     buildTree<T extends TreeStructureNode>(tree: T[], options?: {
-        itemClasses?: {
-            [index: string]: object;
-        };
         itemEvents?: string[];
     }): void;
     /**
      * ツリービューのノードとアイテムを再帰的に構築します。
-     * @param itemClasses ツリービューの構築に必要なアイテムのクラスリスト
      * @param item ツリービューを構築するためのノードアイテムのデータ
      * @param parentOfNode ノードの親エレメント
      */
-    f_recursiveBuildTree<T extends TreeStructureNode>(itemClasses: {
-        [index: string]: object;
-    }, item: T, parentOfNode: CommTreeView | CommTreeNode): void;
+    f_recursiveBuildTree<T extends TreeStructureNode>(item: T, parentOfNode: CommTreeView | CommTreeNode): void;
     /**
      * 指定されたイベントのリスナーを登録します。
      * 登録されたリスナーではイベントを集約し、ツリービューが代わりにそのイベントを発火します。
@@ -134,7 +150,7 @@ export declare class CommTreeNode extends CommBaseElement {
      */
     m_toggleIconOnClick(e: any): void;
 }
-export declare class CommTreeItem extends CommBaseElement {
+export declare class CommTreeNodeItem extends CommBaseElement {
     render(): import("lit-element").TemplateResult;
     constructor();
     /**
@@ -144,7 +160,7 @@ export declare class CommTreeItem extends CommBaseElement {
     /**
      * 選択値です。
      */
-    selectedValue: string;
+    value?: string;
     /**
      * 選択不可フラグです。
      */

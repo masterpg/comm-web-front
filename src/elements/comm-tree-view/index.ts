@@ -3,17 +3,38 @@ import '@polymer/iron-flex-layout/iron-flex-layout'
 import '@polymer/iron-flex-layout/iron-flex-layout-classes'
 import '@polymer/iron-icon/iron-icon'
 import '@polymer/iron-icons/iron-icons'
-import {html, property, query, PropertyValues} from 'lit-element'
+import {customElement, html, property, query, PropertyValues} from 'lit-element'
 
 import {baseStyles} from '../../styles/polymer/base-styles'
 import {CommBaseElement} from '../comm-base-element'
 
 export interface TreeStructureNode {
-  itemClass?: string
-  itemHTML: string
-  selectedValue?: string
+  /**
+   * ノードアイテムのコンテンツを指定します。
+   * 文字列またはHTML文字列で指定できます。
+   */
+  content: string
+  /**
+   * ノードアイテムが選択された際にアイテムを特定するための値を指定します。
+   */
+  value?: string
+  /**
+   * 非選択なノードアイテムか否かを指定します。
+   * デフォルトは選択可能なので、非選択にしたい場合にtrueを設定します。
+   */
   unselectable?: boolean
+  /**
+   * ノードが開いているか否かを指定します。
+   * デフォルトは閉じているので、開いた状態にしたい場合にtrueを設定します。
+   */
   opened?: boolean
+  /**
+   * CommTreeNodeItemを拡張した場合、拡張したノードアイテムのクラスを指定します。
+   */
+  itemClass?: {new (): CommTreeNodeItem}
+  /**
+   * 子ノードを指定します。
+   */
   children?: TreeStructureNode[]
 }
 
@@ -30,14 +51,15 @@ export interface TreeStructureNode {
  * ----------------|-------------|----------
  * `--comm-tree-node-distance` | ノードとノードの縦の間隔です | `10px`
  * `--comm-tree-node-indent` | ノードの左インデントです | `12px`
- * `--comm-tree-item-font-size` | ノードアイテムのフォントサイズです | `16px`
- * `--comm-tree-item-font-weight` | ノードアイテムのフォントの太さです | `500`
- * `--comm-tree-item-line-height` | ノードアイテムの行の高さです | `24px`
- * `--comm-tree-item` |  | `{}`
- * `--comm-tree-item-link-color` | ノードアイテムのリンクカラーです | `var(--comm-indigo-800)`
- * `--comm-tree-item-selected-color` | ノードアイテムの選択時のカラーです | `var(--comm-pink-500)`
- * `--comm-tree-item-unselectable-color` | ノードアイテムが非選択ノードの場合のカラー | `var(--comm-grey900)`
+ * `--comm-tree-node-item-font-size` | ノードアイテムのフォントサイズです | `16px`
+ * `--comm-tree-node-item-font-weight` | ノードアイテムのフォントの太さです | `500`
+ * `--comm-tree-node-item-line-height` | ノードアイテムの行の高さです | `24px`
+ * `--comm-tree-node-item` |  | `{}`
+ * `--comm-tree-node-item-link-color` | ノードアイテムのリンクカラーです | `var(--comm-indigo-800)`
+ * `--comm-tree-node-item-selected-color` | ノードアイテムの選択時のカラーです | `var(--comm-pink-500)`
+ * `--comm-tree-node-item-unselectable-color` | ノードアイテムが非選択ノードの場合のカラーです | `var(--comm-grey900)`
  */
+@customElement('comm-tree-view')
 export class CommTreeView extends CommBaseElement {
   render() {
     return html`
@@ -51,7 +73,7 @@ export class CommTreeView extends CommBaseElement {
   //
   //----------------------------------------------------------------------
 
-  m_selectedItem?: CommTreeItem
+  m_selectedItem?: CommTreeNodeItem
 
   //--------------------------------------------------
   //  Elements
@@ -83,20 +105,18 @@ export class CommTreeView extends CommBaseElement {
    * ツリービューを指定されたツリーデータで構築します。
    * @param tree ツリービューを構築するためのデータ
    * @param options
-   *   itemClasses: ツリービューの構築に必要なノードアイテムのクラスリスト
    *   itemEvents: ツリービューが集約すべきノードアイテムのイベント名のリスト
    */
-  buildTree<T extends TreeStructureNode>(tree: T[], options?: {itemClasses?: {[index: string]: object}; itemEvents?: string[]}): void {
+  buildTree<T extends TreeStructureNode>(tree: T[], options?: {itemEvents?: string[]}): void {
     options = options || {}
 
-    const itemClasses = Object.assign({CommTreeItem}, options.itemClasses)
     const itemEvents = options.itemEvents ? options.itemEvents : []
 
     for (const eventName of itemEvents) {
       this.m_addAnyEventListener(eventName)
     }
     for (const structureNode of tree) {
-      this.f_recursiveBuildTree(itemClasses, structureNode, this)
+      this.f_recursiveBuildTree(structureNode, this)
     }
   }
 
@@ -108,25 +128,18 @@ export class CommTreeView extends CommBaseElement {
 
   /**
    * ツリービューのノードとアイテムを再帰的に構築します。
-   * @param itemClasses ツリービューの構築に必要なアイテムのクラスリスト
    * @param item ツリービューを構築するためのノードアイテムのデータ
    * @param parentOfNode ノードの親エレメント
    */
-  f_recursiveBuildTree<T extends TreeStructureNode>(
-    itemClasses: {[index: string]: object},
-    item: T,
-    parentOfNode: CommTreeView | CommTreeNode
-  ): void {
+  f_recursiveBuildTree<T extends TreeStructureNode>(item: T, parentOfNode: CommTreeView | CommTreeNode): void {
     // ノードアイテムエレメントの作成
-    const itemClassName = item.itemClass ? item.itemClass : 'CommTreeItem'
-    const itemClass = itemClasses[itemClassName]
-    // @ts-ignore
+    const itemClass = item.itemClass || CommTreeNodeItem
     const nodeItem = new itemClass()
     nodeItem.setAttribute('slot', 'item')
-    nodeItem.selectedValue = item.selectedValue
+    nodeItem.value = item.value
     nodeItem.unselectable = Boolean(item.unselectable)
     const el = document.createElement('span')
-    el.innerHTML = item.itemHTML
+    el.innerHTML = item.content
     nodeItem.appendChild(el)
 
     // ノードエレメントの作成
@@ -138,7 +151,7 @@ export class CommTreeView extends CommBaseElement {
     // ノードエレメントの子ノードを作成
     if (item.children) {
       for (const childStructureItem of item.children) {
-        this.f_recursiveBuildTree(itemClasses, childStructureItem, node)
+        this.f_recursiveBuildTree(childStructureItem, node)
       }
     }
 
@@ -155,9 +168,9 @@ export class CommTreeView extends CommBaseElement {
     this.addEventListener(
       eventName,
       e => {
-        if (e.target instanceof CommTreeItem) {
+        if (e.target instanceof CommTreeNodeItem) {
           // 選択されたノードアイテムを取得
-          const item = e.target as CommTreeItem
+          const item = e.target as CommTreeNodeItem
           // ノードアイテムのイベントを伝搬しないようここでストップする
           e.stopImmediatePropagation()
           // ツリービューが代わりにそのイベントを発火
@@ -177,9 +190,9 @@ export class CommTreeView extends CommBaseElement {
     this.addEventListener(
       EVENT_ITEM_SELECTED,
       e => {
-        if (e.target instanceof CommTreeItem) {
+        if (e.target instanceof CommTreeNodeItem) {
           // 選択されたノードアイテムを取得
-          const item = e.target as CommTreeItem
+          const item = e.target as CommTreeNodeItem
           // 選択されたノードアイテム以外の選択を解除
           if (this.m_selectedItem && this.m_selectedItem !== item) {
             this.m_selectedItem.selected = false
@@ -226,14 +239,16 @@ export class CommTreeView extends CommBaseElement {
     }
   }
 }
-customElements.define('comm-tree-view', CommTreeView)
 
+@customElement('comm-tree-node')
 export class CommTreeNode extends CommBaseElement {
   render() {
     return html`
       <style>
         ${baseStyles}
+      </style>
 
+      <style>
         #itemContainer {
           padding-top: var(--comm-tree-node-distance, 10px);
         }
@@ -420,7 +435,7 @@ export class CommTreeNode extends CommBaseElement {
     // 追加されたアイテムの処理
     for (const addedItem of diff.added) {
       if (!(addedItem instanceof HTMLElement)) continue
-      if (addedItem instanceof CommTreeItem) {
+      if (addedItem instanceof CommTreeNodeItem) {
       }
     }
   }
@@ -453,25 +468,27 @@ export class CommTreeNode extends CommBaseElement {
     this.dispatchEvent(new CustomEvent('toggle-node'))
   }
 }
-customElements.define('comm-tree-node', CommTreeNode)
 
-export class CommTreeItem extends CommBaseElement {
+@customElement('comm-tree-node-item')
+export class CommTreeNodeItem extends CommBaseElement {
   render() {
     return html`
       <style>
         ${baseStyles}
+      </style>
 
+      <style>
         ::slotted(*) {
         }
 
         .item {
           @apply(--comm-font-common-base);
-          font-size: var(--comm-tree-item-font-size, 16px);
-          color: var(--comm-tree-item-link-color, var(--comm-indigo-800));
-          font-weight: var(--comm-tree-item-font-weight, 500);
-          line-height: var(--comm-tree-item-line-height, 24px);
+          font-size: var(--comm-tree-node-item-font-size, 16px);
+          color: var(--comm-tree-node-item-link-color, var(--comm-indigo-800));
+          font-weight: var(--comm-tree-node-item-font-weight, 500);
+          line-height: var(--comm-tree-node-item-line-height, 24px);
           cursor: pointer;
-          @apply(--comm-tree-item);
+          @apply(--comm-tree-node-item);
         }
 
         .item:hover {
@@ -479,11 +496,11 @@ export class CommTreeItem extends CommBaseElement {
         }
 
         :host([selected]) .item {
-          color: var(--comm-tree-item-selected-color, var(--comm-pink-500));
+          color: var(--comm-tree-node-item-selected-color, var(--comm-pink-500));
         }
 
         :host([unselectable]) .item {
-          color: var(--comm-tree-item-unselectable-color, var(--comm-grey900));
+          color: var(--comm-tree-node-item-unselectable-color, var(--comm-grey900));
           cursor: default;
         }
 
@@ -523,7 +540,7 @@ export class CommTreeItem extends CommBaseElement {
    * 選択値です。
    */
   @property({type: String})
-  selectedValue: string = ''
+  value?: string
 
   /**
    * 選択不可フラグです。
@@ -564,4 +581,3 @@ export class CommTreeItem extends CommBaseElement {
     }
   }
 }
-customElements.define('comm-tree-item', CommTreeItem)

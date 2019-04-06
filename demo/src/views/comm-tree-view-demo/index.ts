@@ -2,19 +2,22 @@ import '@polymer/paper-card/paper-card'
 import '@polymer/paper-checkbox/paper-checkbox'
 import {PaperCheckboxElement} from '@polymer/paper-checkbox/paper-checkbox'
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js'
-import {html, query} from 'lit-element'
+import {customElement, html, query} from 'lit-element'
 
 import '../../../../lib/elements/comm-tree-view'
-import {CommTreeItem, CommTreeView} from '../../../../lib/elements/comm-tree-view'
+import {CommTreeNodeItem, CommTreeView} from '../../../../lib/elements/comm-tree-view'
 import {CommBaseElement} from '../../../../lib/elements/comm-base-element'
 import {baseStyles} from '../../../../lib/styles/polymer/base-styles'
 
+@customElement('comm-tree-view-demo')
 class CommTreeViewDemo extends CommBaseElement {
   render() {
     return html`
       <style>
         ${baseStyles}
+      </style>
 
+      <style>
         .main-container {
           padding: 48px;
         }
@@ -24,7 +27,7 @@ class CommTreeViewDemo extends CommBaseElement {
           padding: 12px;
           /*--comm-tree-node-distance: 0px;*/
           /*--comm-tree-node-indent: 30px;*/
-          --comm-tree-item: {
+          --comm-tree-node-item: {
             @apply (--comm-font-code1);
           }
         }
@@ -36,18 +39,21 @@ class CommTreeViewDemo extends CommBaseElement {
 
       <div class="layout vertical center main-container">
         <paper-card class="tree-container">
-          <comm-tree-view id="regularTree" on-item-selected="m_treeNodeOnItemSelected">
+          <comm-tree-view id="regularTree"
+            @item-selected="${this.m_treeNodeOnItemSelected}"
+            @item-checkbox-changed="${this.m_treeNodeOnItemCheckboxChanged}"
+          >
             <comm-tree-node slot="child">
-              <comm-tree-item slot="item">Item 1</comm-tree-item>
+              <comm-tree-node-item slot="item" value="item1-1">Item 1</comm-tree-node-item>
               <comm-tree-node slot="child" opened>
-                <comm-tree-item slot="item">Item 1-1</comm-tree-item>
-                <comm-tree-node slot="child"> <custom-tree-item slot="item">Item 1-1-1</custom-tree-item> </comm-tree-node>
-                <comm-tree-node slot="child"> <custom-tree-item slot="item">Item 1-1-2</custom-tree-item> </comm-tree-node>
+                <comm-tree-node-item slot="item">Item 1-1</comm-tree-node-item>
+                <comm-tree-node slot="child"><custom-tree-node-item slot="item" value="item1-1-1">Item 1-1-1</custom-tree-node-item></comm-tree-node>
+                <comm-tree-node slot="child"><custom-tree-node-item slot="item" value="item1-1-2">Item 1-1-2</custom-tree-node-item></comm-tree-node>
               </comm-tree-node>
               <comm-tree-node slot="child">
-                <comm-tree-item slot="item" unselectable>Item 1-2</comm-tree-item>
-                <comm-tree-node slot="child"><comm-tree-item slot="item">Item 1-2-1</comm-tree-item></comm-tree-node>
-                <comm-tree-node slot="child"><comm-tree-item slot="item">Item 1-2-2</comm-tree-item></comm-tree-node>
+                <comm-tree-node-item slot="item" unselectable>Item 1-2</comm-tree-node-item>
+                <comm-tree-node slot="child"><comm-tree-node-item slot="item" value=""item1-2-1">Item 1-2-1</comm-tree-node-item></comm-tree-node>
+                <comm-tree-node slot="child"><comm-tree-node-item slot="item" value=""item1-2-2">Item 1-2-2</comm-tree-node-item></comm-tree-node>
               </comm-tree-node>
             </comm-tree-node>
           </comm-tree-view>
@@ -93,28 +99,28 @@ class CommTreeViewDemo extends CommBaseElement {
       this.m_customTree.buildTree(
         [
           {
-            itemHTML: 'Item 1',
-            selectedValue: 'item-1',
+            content: 'Item 1',
+            value: 'item-1',
             children: [
               {
-                itemHTML: 'Item 1-1',
-                selectedValue: 'item-1-1',
+                content: 'Item 1-1',
+                value: 'item-1-1',
                 opened: true,
                 children: [
-                  {itemHTML: 'Item 1-1-1', selectedValue: 'item-1-1-1', itemClass: 'CustomTreeItem'},
-                  {itemHTML: 'Item 1-1-2', selectedValue: 'item-1-1-2', itemClass: 'CustomTreeItem'},
+                  {content: 'Item 1-1-1', value: 'item-1-1-1', itemClass: CustomTreeNodeItem},
+                  {content: 'Item 1-1-2', value: 'item-1-1-2', itemClass: CustomTreeNodeItem},
                 ],
               },
               {
-                itemHTML: 'Item 1-2',
-                selectedValue: 'item-1-2',
+                content: 'Item 1-2',
+                value: 'item-1-2',
                 unselectable: true,
-                children: [{itemHTML: 'Item 1-2-1', selectedValue: 'item-1-2-1'}, {itemHTML: 'Item 1-2-2', selectedValue: 'item-1-2-2'}],
+                children: [{content: 'Item 1-2-1', value: 'item-1-2-1'}, {content: 'Item 1-2-2', value: 'item-1-2-2'}],
               },
             ],
           },
         ],
-        {itemClasses: {CustomTreeItem}, itemEvents: ['item-checkbox-changed']}
+        {itemEvents: ['item-checkbox-changed']}
       )
     })
   }
@@ -137,9 +143,9 @@ class CommTreeViewDemo extends CommBaseElement {
     console.log(e)
   }
 }
-customElements.define('comm-tree-view-demo', CommTreeViewDemo)
 
-class CustomTreeItem extends CommTreeItem {
+@customElement('custom-tree-node-item')
+class CustomTreeNodeItem extends CommTreeNodeItem {
   //----------------------------------------------------------------------
   //
   //  Variables
@@ -184,4 +190,3 @@ class CustomTreeItem extends CommTreeItem {
     this.dispatchEvent(new CustomEvent('item-checkbox-changed', {bubbles: true, composed: true}))
   }
 }
-customElements.define('custom-tree-item', CustomTreeItem)

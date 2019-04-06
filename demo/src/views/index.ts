@@ -13,7 +13,7 @@ import './comm-image-demo'
 import './comm-tree-view-demo'
 import {CommBaseElement} from '../../../lib/elements/comm-base-element'
 import {CommResizableMixin} from '../../../lib/elements/mixins/comm-resizable-mixin'
-import {CommTreeItem, CommTreeView} from '../../../lib/elements/comm-tree-view'
+import {CommTreeNodeItem, CommTreeView} from '../../../lib/elements/comm-tree-view'
 import {baseStyles} from '../../../lib/styles/polymer/base-styles'
 import {mix} from '../../../lib'
 
@@ -97,20 +97,20 @@ class AppView extends mix(CommBaseElement).with(CommResizableMixin) {
     setTimeout(() => {
       this.m_treeView.buildTree([
         {
-          itemHTML: 'comm-awesome-element',
-          selectedValue: 'comm-awesome-element-demo',
+          content: 'comm-awesome-element',
+          value: 'comm-awesome-element-demo',
         },
         {
-          itemHTML: 'comm-tree-view',
-          selectedValue: 'comm-tree-view-demo',
+          content: 'comm-tree-view',
+          value: 'comm-tree-view-demo',
         },
         {
-          itemHTML: 'comm-image',
-          selectedValue: 'comm-image-demo',
+          content: 'comm-image',
+          value: 'comm-image-demo',
         },
         {
-          itemHTML: 'comm-collapse-view',
-          selectedValue: 'comm-collapse-view-demo',
+          content: 'comm-collapse-view',
+          value: 'comm-collapse-view-demo',
         },
       ])
     })
@@ -125,8 +125,8 @@ class AppView extends mix(CommBaseElement).with(CommResizableMixin) {
   m_treeNodeOnToggleNode(e) {}
 
   m_treeViewOnItemSelected(e) {
-    const item = e.detail.item as CommTreeItem
-    this.m_pageName = item.selectedValue
+    const item = e.detail.item as CommTreeNodeItem
+    this.m_pageName = item.value!
     this.f_async(this.notifyResize)
   }
 }
