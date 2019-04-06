@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes" />
     <title>comm-web-front</title>
+    <!--
+      IE11ではwebcomponents-loader.jsを読み込む前にSymbolのPolyfillを読み込む必要がある
+      参照: https://github.com/webcomponents/webcomponentsjs/issues/972#issuecomment-406477046
+    -->
+    <script src="//cdn.polyfill.io/v3/polyfill.min.js?features=Symbol"></script>
     <script src="node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
     <script src="node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
   </head>
