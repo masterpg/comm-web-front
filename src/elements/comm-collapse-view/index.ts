@@ -1,4 +1,4 @@
-import {html, query} from 'lit-element'
+import {customElement, html, query} from 'lit-element'
 
 import {baseStyles} from '../../styles/polymer/base-styles'
 import {CommBaseElement} from '../comm-base-element'
@@ -28,12 +28,15 @@ import {CommCollapseItem} from './comm-collapse-item'
  * `--comm-collapse-title` | アイテムタイトルのミックスインです | `{}`
  * `--comm-collapse-transition-duration` | 展開/収縮アニメーションの時間です | `300ms`
  */
+@customElement('comm-collapse-view')
 export class CommCollapseView extends CommBaseElement {
   protected render() {
     return html`
       <style>
         ${baseStyles}
+      </style>
 
+      <style>
         .container {
           border-style: var(--comm-collapse-frame-border-style, none);
           border-color: var(--comm-collapse-frame-border-color, var(--comm-grey-300));
@@ -155,4 +158,3 @@ export class CommCollapseView extends CommBaseElement {
     // 必要があれば用のプレースホルダ
   }
 }
-customElements.define('comm-collapse-view', CommCollapseView)

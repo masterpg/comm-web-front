@@ -1,12 +1,15 @@
-import {LitElement, html, property} from 'lit-element'
+import {customElement, LitElement, html, property} from 'lit-element'
 import {baseStyles} from '../../styles/polymer/base-styles'
 
+@customElement('comm-awesome-element')
 export class CommAwesomeElement extends LitElement {
   render() {
     return html`
       <style>
         ${baseStyles}
+      </style>
 
+      <style>
         :host {
           width: 100%;
         }
@@ -36,4 +39,3 @@ export class CommAwesomeElement extends LitElement {
   @property({type: Boolean, reflect: true})
   hot = false
 }
-customElements.define('comm-awesome-element', CommAwesomeElement)

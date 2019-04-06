@@ -1,16 +1,19 @@
 import '@polymer/iron-collapse/iron-collapse'
 import '@polymer/iron-icon/iron-icon'
 import '@polymer/iron-icons/iron-icons'
-import {LitElement, html, property, query, PropertyValues} from 'lit-element'
+import {customElement, LitElement, html, property, query, PropertyValues} from 'lit-element'
 
 import {baseStyles} from '../../styles/polymer/base-styles'
 
+@customElement('comm-collapse-item')
 export class CommCollapseItem extends LitElement {
   protected render() {
     return html`
       <style>
         ${baseStyles}
+      </style>
 
+      <style>
         .container {
           border-bottom-style: var(--comm-collapse-divider-border-style, solid);
           border-bottom-color: var(--comm-collapse-divider-border-color, var(--comm-grey-300));
@@ -192,4 +195,3 @@ export class CommCollapseItem extends LitElement {
     this.dispatchEvent(new CustomEvent('toggle-item'))
   }
 }
-customElements.define('comm-collapse-item', CommCollapseItem)

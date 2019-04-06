@@ -1,7 +1,7 @@
 import '@polymer/paper-card/paper-card'
 import '@polymer/paper-button/paper-button'
 import '@polymer/paper-radio-group/paper-radio-group'
-import {html, property, query} from 'lit-element'
+import {customElement, html, property, query} from 'lit-element'
 
 import '../../../../lib/elements/comm-image'
 import '../../../../lib/styles/polymer/base-styles'
@@ -9,12 +9,15 @@ import {CommBaseElement} from '../../../../lib/elements/comm-base-element'
 import {CommImage} from '../../../../lib/elements/comm-image'
 import {baseStyles} from '../../../../lib/styles/polymer/base-styles'
 
+@customElement('comm-image-demo')
 class CommImageDemo extends CommBaseElement {
   render() {
     return html`
       <style>
         ${baseStyles}
+      </style>
 
+      <style>
         .main-container {
           padding: 48px;
         }
@@ -90,4 +93,3 @@ class CommImageDemo extends CommBaseElement {
     this.m_vAlignSelected = e.detail.value
   }
 }
-customElements.define('comm-image-demo', CommImageDemo)

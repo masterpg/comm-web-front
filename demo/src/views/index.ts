@@ -4,7 +4,7 @@ import '@polymer/app-layout/app-header-layout/app-header-layout'
 import '@polymer/app-layout/app-header/app-header'
 import '@polymer/app-layout/app-toolbar/app-toolbar'
 import '@polymer/iron-pages/iron-pages'
-import {html, query, property} from 'lit-element'
+import {customElement, html, query, property} from 'lit-element'
 
 import '../../../lib/elements/comm-tree-view'
 import './comm-awesome-element-demo'
@@ -17,12 +17,15 @@ import {CommTreeNodeItem, CommTreeView} from '../../../lib/elements/comm-tree-vi
 import {baseStyles} from '../../../lib/styles/polymer/base-styles'
 import {mix} from '../../../lib'
 
+@customElement('app-view')
 class AppView extends mix(CommBaseElement).with(CommResizableMixin) {
   render() {
     return html`
       <style>
         ${baseStyles}
+      </style>
 
+      <style>
         app-drawer-layout {
           --app-drawer-width: 256px;
         }
@@ -130,4 +133,3 @@ class AppView extends mix(CommBaseElement).with(CommResizableMixin) {
     this.f_async(this.notifyResize)
   }
 }
-customElements.define('app-view', AppView)

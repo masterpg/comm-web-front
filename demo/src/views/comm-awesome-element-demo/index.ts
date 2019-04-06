@@ -1,4 +1,4 @@
-import {html} from 'lit-element'
+import {customElement, html} from 'lit-element'
 
 import '../../../../lib/styles/polymer/base-styles'
 import '../../../../lib/elements/comm-awesome-element'
@@ -8,12 +8,15 @@ import {CommResizableMixin} from '../../../../lib/elements/mixins/comm-resizable
 import {baseStyles} from '../../../../lib/styles/polymer/base-styles'
 import {mix} from '../../../../lib'
 
+@customElement('comm-awesome-element-demo')
 export class CommAwesomeElementDemo extends mix(CommBaseElement).with(CommResizableMixin) {
   render() {
     return html`
       <style>
         ${baseStyles}
+      </style>
 
+      <style>
         :host {
           display: block;
           padding: 48px;
@@ -24,4 +27,3 @@ export class CommAwesomeElementDemo extends mix(CommBaseElement).with(CommResiza
     `
   }
 }
-customElements.define('comm-awesome-element-demo', CommAwesomeElementDemo)

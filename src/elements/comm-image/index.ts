@@ -1,4 +1,4 @@
-import {html, property, query, PropertyValues} from 'lit-element'
+import {customElement, html, property, query, PropertyValues} from 'lit-element'
 import * as anime from 'animejs/lib/anime'
 
 import {baseStyles} from '../../styles/polymer/base-styles'
@@ -8,12 +8,15 @@ import {CommBaseElement} from '../comm-base-element'
 
 type AlignType = 'start' | 'center' | 'end'
 
+@customElement('comm-image')
 export class CommImage extends mix(CommBaseElement).with(CommResizableMixin) {
   protected render() {
     return html`
       <style>
         ${baseStyles}
+      </style>
 
+      <style>
         #container {
           box-sizing: border-box;
           height: 100%;
@@ -306,4 +309,3 @@ export class CommImage extends mix(CommBaseElement).with(CommResizableMixin) {
     })
   }
 }
-customElements.define('comm-image', CommImage)
