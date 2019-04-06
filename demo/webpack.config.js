@@ -72,6 +72,7 @@ const config = {
                       ],
                     },
                     useBuiltIns: 'entry',
+                    corejs: 3,
                   },
                 ],
               ],
