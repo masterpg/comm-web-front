@@ -1,9 +1,14 @@
-.comm-font-display4, .comm-font-display3, .comm-font-display2, .comm-font-display1, .comm-font-headline, .comm-font-title, .comm-font-subhead2, .comm-font-subhead1, .comm-font-body2, .comm-font-body1, .comm-font-caption, .comm-font-menu, .comm-font-button, .comm-font-code2, .comm-font-code1 {
+.comm-font-common-base, .comm-font-display4, .comm-font-display3, .comm-font-display2, .comm-font-display1, .comm-font-headline, .comm-font-title, .comm-font-subhead2, .comm-font-subhead1, .comm-font-body2, .comm-font-body1, .comm-font-caption, .comm-font-menu, .comm-font-button, .comm-font-code2, .comm-font-code1 {
   font-family: 'Roboto', 'Noto', sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
-.comm-font-display4, .comm-font-display3, .comm-font-title, .comm-font-caption, .comm-font-menu, .comm-font-button {
+.comm-font-common-code {
+  font-family: 'Roboto Mono', 'Consolas', 'Menlo', monospace;
+  -webkit-font-smoothing: antialiased;
+}
+
+.comm-font-common-nowrap, .comm-font-display4, .comm-font-display3, .comm-font-title, .comm-font-caption, .comm-font-menu, .comm-font-button {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

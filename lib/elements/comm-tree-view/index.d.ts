@@ -58,9 +58,9 @@ export interface TreeStructureNode {
  * `--comm-tree-node-item-unselectable-color` | ノードアイテムが非選択ノードの場合のカラーです | `var(--comm-grey900)`
  */
 export declare class CommTreeView extends CommBaseElement {
-    render(): import("lit-element").TemplateResult;
-    m_selectedItem?: CommTreeNodeItem;
-    m_slot: HTMLSlotElement;
+    protected render(): import("lit-element").TemplateResult;
+    private m_selectedItem?;
+    private m_slot;
     constructor();
     /**
      * ツリービューを指定されたツリーデータで構築します。
@@ -76,36 +76,37 @@ export declare class CommTreeView extends CommBaseElement {
      * @param item ツリービューを構築するためのノードアイテムのデータ
      * @param parentOfNode ノードの親エレメント
      */
-    f_recursiveBuildTree<T extends TreeStructureNode>(item: T, parentOfNode: CommTreeView | CommTreeNode): void;
+    protected recursiveBuildTree<T extends TreeStructureNode>(item: T, parentOfNode: CommTreeView | CommTreeNode): void;
     /**
      * 指定されたイベントのリスナーを登録します。
      * 登録されたリスナーではイベントを集約し、ツリービューが代わりにそのイベントを発火します。
      * @param eventName
      */
-    m_addAnyEventListener(eventName: string): void;
+    private m_addAnyEventListener;
     /**
      * item-selectedイベントのリスナーを登録します。
      * 登録されたリスナーではイベントを集約し、ツリービューが代わりにそのイベントを発火します。
      */
-    m_addItemSelectedEventListener(): void;
+    private m_addItemSelectedEventListener;
     /**
      * 子ノードを取得します。
      */
-    m_getChildNodes(): CommTreeNode[];
+    private m_getChildNodes;
     /**
      * slotにノードが配置(削除含む)された際のハンドラです。
      * @param e
      */
-    m_slotOnSlotChange(e: any): void;
+    private m_slotOnSlotChange;
 }
 export declare class CommTreeNode extends CommBaseElement {
-    render(): import("lit-element").TemplateResult;
-    m_toggleIconKind: string;
-    m_itemContainer: HTMLElement;
-    m_itemSlot: HTMLSlotElement;
-    m_childSlot: HTMLSlotElement;
-    m_toggleIcon: HTMLElement;
-    m_pointIcon: HTMLElement;
+    static readonly styles: import("lit-element").CSSResult;
+    protected render(): import("lit-element").TemplateResult;
+    private m_toggleIconKind;
+    private m_itemContainer;
+    private m_itemSlot;
+    private m_childSlot;
+    private m_toggleIcon;
+    private m_pointIcon;
     /**
      * アイテムの開閉です。
      */
@@ -113,45 +114,46 @@ export declare class CommTreeNode extends CommBaseElement {
     constructor();
     connectedCallback(): void;
     protected updated(changedProperties: PropertyValues): void;
-    m_openedChanged(newValue: boolean, oldValue: boolean): void;
+    private m_openedChanged;
     /**
      * 表示関連の設定処理を行います。
      */
-    m_setupDisplay(): void;
+    private m_setupDisplay;
     /**
      * ノードアイテムの左側に適切なアイコン(トグルまたはポイントアイコン)を設定します。
      */
-    m_setupAppropriateIcon(): void;
+    private m_setupAppropriateIcon;
     /**
      * 現ノードと隣接するノードの上下間隔を設定します。
      */
-    m_setDistance(): void;
+    private m_setDistance;
     /**
      * 親エレメントを取得します。
      */
-    m_getParent(): CommTreeView | CommTreeNode | undefined;
+    private m_getParent;
     /**
      * 子ノードを取得します。
      */
-    m_getChildNodes(): CommTreeNode[];
+    private m_getChildNodes;
     /**
      * アイテムスロットにノードが配置(削除含む)された際のハンドラです。
      * @param e
      */
-    m_itemSlotOnSlotChange(e: any): void;
+    private m_itemSlotOnSlotChange;
     /**
      * チャイルドスロットにノードが配置(削除含む)された際のハンドラです。
      * @param e
      */
-    m_childSlotOnSlotChange(e: any): void;
+    private m_childSlotOnSlotChange;
     /**
      * トグルアイコンがクリックされた際のハンドラです。
      * @param e
      */
-    m_toggleIconOnClick(e: any): void;
+    private m_toggleIconOnClick;
 }
 export declare class CommTreeNodeItem extends CommBaseElement {
-    render(): import("lit-element").TemplateResult;
+    static readonly styles: import("lit-element").CSSResult;
+    protected render(): import("lit-element").TemplateResult;
     constructor();
     /**
      * 選択されているか否かです。
@@ -166,14 +168,9 @@ export declare class CommTreeNodeItem extends CommBaseElement {
      */
     unselectable: boolean;
     /**
-     * 本クラスを継承した際に拡張可能なCSSです。
-     * 継承した際は必要に応じてスタイルを変更することができます。
-     */
-    f_extraStyle: import("lit-element").TemplateResult;
-    /**
      * 本クラスを継承した際に拡張可能なHTMLテンプレートです。
      * 継承した際は必要に応じてHTMLテンプレートを変更することができます。
      */
-    f_itemTemplate: import("lit-element").TemplateResult;
-    f_itemOnClick(e: any): void;
+    protected readonly itemTemplate: import("lit-element").TemplateResult;
+    protected itemOnClick(e: any): void;
 }

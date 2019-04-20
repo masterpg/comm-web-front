@@ -3,10 +3,9 @@ import '@polymer/iron-flex-layout/iron-flex-layout'
 import '@polymer/iron-flex-layout/iron-flex-layout-classes'
 import '@polymer/iron-icon/iron-icon'
 import '@polymer/iron-icons/iron-icons'
-import {customElement, html, property, query, PropertyValues} from 'lit-element'
+import {css, customElement, html, property, query, PropertyValues, unsafeCSS} from 'lit-element'
 
-import {baseStyles} from '../../styles/polymer/base-styles'
-import {CommBaseElement} from '../comm-base-element'
+import {CommBaseElement, CommCSSStyle} from '../comm-base-element'
 
 export interface TreeStructureNode {
   /**
@@ -61,7 +60,7 @@ export interface TreeStructureNode {
  */
 @customElement('comm-tree-view')
 export class CommTreeView extends CommBaseElement {
-  render() {
+  protected render() {
     return html`
       <slot id="slot" name="child" @slotchange="${this.m_slotOnSlotChange}"></slot>
     `
@@ -73,14 +72,14 @@ export class CommTreeView extends CommBaseElement {
   //
   //----------------------------------------------------------------------
 
-  m_selectedItem?: CommTreeNodeItem
+  private m_selectedItem?: CommTreeNodeItem
 
   //--------------------------------------------------
   //  Elements
   //--------------------------------------------------
 
   @query('#slot')
-  m_slot!: HTMLSlotElement
+  private m_slot!: HTMLSlotElement
 
   //----------------------------------------------------------------------
   //
@@ -116,7 +115,7 @@ export class CommTreeView extends CommBaseElement {
       this.m_addAnyEventListener(eventName)
     }
     for (const structureNode of tree) {
-      this.f_recursiveBuildTree(structureNode, this)
+      this.recursiveBuildTree(structureNode, this)
     }
   }
 
@@ -131,7 +130,7 @@ export class CommTreeView extends CommBaseElement {
    * @param item ツリービューを構築するためのノードアイテムのデータ
    * @param parentOfNode ノードの親エレメント
    */
-  f_recursiveBuildTree<T extends TreeStructureNode>(item: T, parentOfNode: CommTreeView | CommTreeNode): void {
+  protected recursiveBuildTree<T extends TreeStructureNode>(item: T, parentOfNode: CommTreeView | CommTreeNode): void {
     // ノードアイテムエレメントの作成
     const itemClass = item.itemClass || CommTreeNodeItem
     const nodeItem = new itemClass()
@@ -151,7 +150,7 @@ export class CommTreeView extends CommBaseElement {
     // ノードエレメントの子ノードを作成
     if (item.children) {
       for (const childStructureItem of item.children) {
-        this.f_recursiveBuildTree(childStructureItem, node)
+        this.recursiveBuildTree(childStructureItem, node)
       }
     }
 
@@ -164,7 +163,7 @@ export class CommTreeView extends CommBaseElement {
    * 登録されたリスナーではイベントを集約し、ツリービューが代わりにそのイベントを発火します。
    * @param eventName
    */
-  m_addAnyEventListener(eventName: string) {
+  private m_addAnyEventListener(eventName: string) {
     this.addEventListener(
       eventName,
       e => {
@@ -185,7 +184,7 @@ export class CommTreeView extends CommBaseElement {
    * item-selectedイベントのリスナーを登録します。
    * 登録されたリスナーではイベントを集約し、ツリービューが代わりにそのイベントを発火します。
    */
-  m_addItemSelectedEventListener() {
+  private m_addItemSelectedEventListener() {
     const EVENT_ITEM_SELECTED = 'item-selected'
     this.addEventListener(
       EVENT_ITEM_SELECTED,
@@ -211,7 +210,7 @@ export class CommTreeView extends CommBaseElement {
   /**
    * 子ノードを取得します。
    */
-  m_getChildNodes(): CommTreeNode[] {
+  private m_getChildNodes(): CommTreeNode[] {
     return this.m_slot.assignedNodes().filter(node => {
       return node instanceof CommTreeNode
     }) as CommTreeNode[]
@@ -227,8 +226,8 @@ export class CommTreeView extends CommBaseElement {
    * slotにノードが配置(削除含む)された際のハンドラです。
    * @param e
    */
-  m_slotOnSlotChange(e) {
-    const diff = this.f_getDistributedChildDiff(this.m_slot)
+  private m_slotOnSlotChange(e) {
+    const diff = this.getDistributedChildDiff(this.m_slot)
 
     // 追加されたアイテムの処理
     for (const addedItem of diff.added) {
@@ -242,28 +241,28 @@ export class CommTreeView extends CommBaseElement {
 
 @customElement('comm-tree-node')
 export class CommTreeNode extends CommBaseElement {
-  render() {
+  static get styles() {
+    return css`
+      ${CommCSSStyle.styles}
+
+      #itemContainer {
+        padding-top: var(--comm-tree-node-distance, 10px);
+      }
+
+      .toggle-icon {
+        margin-right: 2px;
+        color: var(--comm-grey-600);
+        cursor: pointer;
+      }
+
+      #collapse > div {
+        padding-left: var(--comm-tree-node-indent, 12px);
+      }
+    `
+  }
+
+  protected render() {
     return html`
-      <style>
-        ${baseStyles}
-      </style>
-
-      <style>
-        #itemContainer {
-          padding-top: var(--comm-tree-node-distance, 10px);
-        }
-
-        .toggle-icon {
-          margin-right: 2px;
-          color: var(--comm-grey-600);
-          cursor: pointer;
-        }
-
-        #collapse > div {
-          padding-left: var(--comm-tree-node-indent, 12px);
-        }
-      </style>
-
       <div id="itemContainer" class="layout horizontal center">
         <iron-icon id="toggleIcon" class="toggle-icon" icon="${this.m_toggleIconKind}" @click="${this.m_toggleIconOnClick}"></iron-icon>
         <svg id="pointIcon" width="24" height="24" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -284,26 +283,26 @@ export class CommTreeNode extends CommBaseElement {
   //----------------------------------------------------------------------
 
   @property({type: String})
-  m_toggleIconKind: string = ''
+  private m_toggleIconKind: string = ''
 
   //--------------------------------------------------
   //  Elements
   //--------------------------------------------------
 
   @query('#itemContainer')
-  m_itemContainer!: HTMLElement
+  private m_itemContainer!: HTMLElement
 
   @query('#itemSlot')
-  m_itemSlot!: HTMLSlotElement
+  private m_itemSlot!: HTMLSlotElement
 
   @query('#childSlot')
-  m_childSlot!: HTMLSlotElement
+  private m_childSlot!: HTMLSlotElement
 
   @query('#toggleIcon')
-  m_toggleIcon!: HTMLElement
+  private m_toggleIcon!: HTMLElement
 
   @query('#pointIcon')
-  m_pointIcon!: HTMLElement
+  private m_pointIcon!: HTMLElement
 
   //----------------------------------------------------------------------
   //
@@ -352,14 +351,14 @@ export class CommTreeNode extends CommBaseElement {
   //
   //----------------------------------------------------------------------
 
-  m_openedChanged(newValue: boolean, oldValue: boolean): void {
+  private m_openedChanged(newValue: boolean, oldValue: boolean): void {
     this.m_toggleIconKind = newValue ? 'icons:expand-more' : 'icons:chevron-right'
   }
 
   /**
    * 表示関連の設定処理を行います。
    */
-  m_setupDisplay(): void {
+  private m_setupDisplay(): void {
     this.m_setupAppropriateIcon()
     this.m_setDistance()
   }
@@ -367,7 +366,7 @@ export class CommTreeNode extends CommBaseElement {
   /**
    * ノードアイテムの左側に適切なアイコン(トグルまたはポイントアイコン)を設定します。
    */
-  m_setupAppropriateIcon(): void {
+  private m_setupAppropriateIcon(): void {
     const childNodes = this.m_getChildNodes()
     if (childNodes.length === 0) {
       this.m_toggleIcon.style.display = 'none'
@@ -381,7 +380,7 @@ export class CommTreeNode extends CommBaseElement {
   /**
    * 現ノードと隣接するノードの上下間隔を設定します。
    */
-  m_setDistance(): void {
+  private m_setDistance(): void {
     // 現ノードが親から見た最初の子の場合、上下間隔は0pxに設定する
     const parent = this.m_getParent()
     if (parent) {
@@ -403,7 +402,7 @@ export class CommTreeNode extends CommBaseElement {
   /**
    * 親エレメントを取得します。
    */
-  m_getParent(): CommTreeView | CommTreeNode | undefined {
+  private m_getParent(): CommTreeView | CommTreeNode | undefined {
     if (this.parentElement instanceof CommTreeView || this.parentElement instanceof CommTreeNode) {
       return this.parentElement
     }
@@ -413,7 +412,7 @@ export class CommTreeNode extends CommBaseElement {
   /**
    * 子ノードを取得します。
    */
-  m_getChildNodes(): CommTreeNode[] {
+  private m_getChildNodes(): CommTreeNode[] {
     return this.m_childSlot.assignedNodes().filter(node => {
       return node instanceof CommTreeNode
     }) as CommTreeNode[]
@@ -429,8 +428,8 @@ export class CommTreeNode extends CommBaseElement {
    * アイテムスロットにノードが配置(削除含む)された際のハンドラです。
    * @param e
    */
-  m_itemSlotOnSlotChange(e) {
-    const diff = this.f_getDistributedChildDiff(this.m_itemSlot)
+  private m_itemSlotOnSlotChange(e) {
+    const diff = this.getDistributedChildDiff(this.m_itemSlot)
 
     // 追加されたアイテムの処理
     for (const addedItem of diff.added) {
@@ -444,8 +443,8 @@ export class CommTreeNode extends CommBaseElement {
    * チャイルドスロットにノードが配置(削除含む)された際のハンドラです。
    * @param e
    */
-  m_childSlotOnSlotChange(e) {
-    const diff = this.f_getDistributedChildDiff(this.m_childSlot)
+  private m_childSlotOnSlotChange(e) {
+    const diff = this.getDistributedChildDiff(this.m_childSlot)
 
     // 追加されたアイテムの処理
     for (const addedItem of diff.added) {
@@ -463,7 +462,7 @@ export class CommTreeNode extends CommBaseElement {
    * トグルアイコンがクリックされた際のハンドラです。
    * @param e
    */
-  m_toggleIconOnClick(e) {
+  private m_toggleIconOnClick(e) {
     this.opened = !this.opened
     this.dispatchEvent(new CustomEvent('toggle-node'))
   }
@@ -471,46 +470,45 @@ export class CommTreeNode extends CommBaseElement {
 
 @customElement('comm-tree-node-item')
 export class CommTreeNodeItem extends CommBaseElement {
-  render() {
+  static get styles() {
+    return css`
+      ${CommCSSStyle.styles}
+
+      ::slotted(*) {
+      }
+
+      ${CommCSSStyle.extendClass('.item', '.comm-font-common-base')}
+
+      .item {
+        font-size: var(--comm-tree-node-item-font-size, 16px);
+        color: var(--comm-tree-node-item-link-color, var(--comm-indigo-800));
+        font-weight: var(--comm-tree-node-item-font-weight, 500);
+        line-height: var(--comm-tree-node-item-line-height, 24px);
+        cursor: pointer;
+      }
+
+      .item:hover {
+        text-decoration: underline;
+      }
+
+      :host([selected]) .item {
+        color: var(--comm-tree-node-item-selected-color, var(--comm-pink-500));
+      }
+
+      :host([unselectable]) .item {
+        color: var(--comm-tree-node-item-unselectable-color, var(--comm-grey900));
+        cursor: default;
+      }
+
+      :host([unselectable]) .item:hover {
+        text-decoration: none;
+      }
+    `
+  }
+
+  protected render() {
     return html`
-      <style>
-        ${baseStyles}
-      </style>
-
-      <style>
-        ::slotted(*) {
-        }
-
-        .item {
-          @apply(--comm-font-common-base);
-          font-size: var(--comm-tree-node-item-font-size, 16px);
-          color: var(--comm-tree-node-item-link-color, var(--comm-indigo-800));
-          font-weight: var(--comm-tree-node-item-font-weight, 500);
-          line-height: var(--comm-tree-node-item-line-height, 24px);
-          cursor: pointer;
-          @apply(--comm-tree-node-item);
-        }
-
-        .item:hover {
-          text-decoration: underline;
-        }
-
-        :host([selected]) .item {
-          color: var(--comm-tree-node-item-selected-color, var(--comm-pink-500));
-        }
-
-        :host([unselectable]) .item {
-          color: var(--comm-tree-node-item-unselectable-color, var(--comm-grey900));
-          cursor: default;
-        }
-
-        :host([unselectable]) .item:hover {
-          text-decoration: none;
-        }
-
-        ${this.f_extraStyle}
-      </style>
-      <span class="item" @click="${this.f_itemOnClick}">${this.f_itemTemplate}</span>
+      <span class="item" @click="${this.itemOnClick}">${this.itemTemplate}</span>
     `
   }
 
@@ -555,16 +553,10 @@ export class CommTreeNodeItem extends CommBaseElement {
   //----------------------------------------------------------------------
 
   /**
-   * 本クラスを継承した際に拡張可能なCSSです。
-   * 継承した際は必要に応じてスタイルを変更することができます。
-   */
-  f_extraStyle = html``
-
-  /**
    * 本クラスを継承した際に拡張可能なHTMLテンプレートです。
    * 継承した際は必要に応じてHTMLテンプレートを変更することができます。
    */
-  f_itemTemplate = html`
+  protected readonly itemTemplate = html`
     <slot></slot>
   `
 
@@ -574,7 +566,7 @@ export class CommTreeNodeItem extends CommBaseElement {
   //
   //----------------------------------------------------------------------
 
-  f_itemOnClick(e) {
+  protected itemOnClick(e) {
     this.selected = true
     if (!this.unselectable) {
       this.dispatchEvent(new CustomEvent('item-selected', {bubbles: true, composed: true}))

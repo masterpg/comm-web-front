@@ -2,41 +2,43 @@ import '@polymer/paper-card/paper-card'
 import '@polymer/paper-checkbox/paper-checkbox'
 import {PaperCheckboxElement} from '@polymer/paper-checkbox/paper-checkbox'
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js'
-import {customElement, html, query} from 'lit-element'
+import {css, customElement, html, query} from 'lit-element'
 
 import '../../../../lib/elements/comm-tree-view'
 import {CommTreeNodeItem, CommTreeView} from '../../../../lib/elements/comm-tree-view'
-import {CommBaseElement} from '../../../../lib/elements/comm-base-element'
-import {baseStyles} from '../../../../lib/styles/polymer/base-styles'
+import {CommBaseElement, CommCSSStyle} from '../../../../lib/elements/comm-base-element'
 
-@customElement('comm-tree-view-demo')
-class CommTreeViewDemo extends CommBaseElement {
-  render() {
+@customElement('comm-tree-view-page')
+class CommTreeViewPage extends CommBaseElement {
+  static get styles() {
+    const commFontCode1 = CommCSSStyle.getClass('.comm-font-code1')
+    return css`
+      ${CommCSSStyle.styles}
+
+      .main-container {
+        padding: 48px;
+      }
+
+      .tree-container {
+        width: 100%;
+        padding: 12px;
+        --comm-tree-node-item-font-size: ${commFontCode1.properties['font-size']};
+        --comm-tree-node-item-font-weight: ${commFontCode1.properties['font-weight']};
+        --comm-tree-node-item-line-height: ${commFontCode1.properties['line-height']};
+        /*--comm-tree-node-distance: 0px;*/
+        /*--comm-tree-node-indent: 30px;*/
+      }
+
+      ${CommCSSStyle.extendClass('.tree-container', '.comm-font-code1')}
+
+      *.tree-container:not(:first-child) {
+        margin-top: 48px;
+      }
+    `
+  }
+
+  protected render() {
     return html`
-      <style>
-        ${baseStyles}
-      </style>
-
-      <style>
-        .main-container {
-          padding: 48px;
-        }
-
-        .tree-container {
-          width: 100%;
-          padding: 12px;
-          /*--comm-tree-node-distance: 0px;*/
-          /*--comm-tree-node-indent: 30px;*/
-          --comm-tree-node-item: {
-            @apply (--comm-font-code1);
-          }
-        }
-
-        *.tree-container:not(:first-child) {
-          margin-top: 48px;
-        }
-      </style>
-
       <div class="layout vertical center main-container">
         <paper-card class="tree-container">
           <comm-tree-view id="regularTree"
@@ -81,10 +83,10 @@ class CommTreeViewDemo extends CommBaseElement {
   //--------------------------------------------------
 
   @query('#regularTree')
-  m_regularView!: CommTreeView
+  private m_regularView!: CommTreeView
 
   @query('#customTree')
-  m_customTree!: CommTreeView
+  private m_customTree!: CommTreeView
 
   //----------------------------------------------------------------------
   //
@@ -131,14 +133,14 @@ class CommTreeViewDemo extends CommBaseElement {
   //
   //----------------------------------------------------------------------
 
-  m_treeNodeOnToggleNode(e) {}
+  private m_treeNodeOnToggleNode(e) {}
 
-  m_treeNodeOnItemSelected(e) {
+  private m_treeNodeOnItemSelected(e) {
     // tslint:disable-next-line
     console.log(e)
   }
 
-  m_treeNodeOnItemCheckboxChanged(e) {
+  private m_treeNodeOnItemCheckboxChanged(e) {
     // tslint:disable-next-line
     console.log(e)
   }
@@ -146,17 +148,23 @@ class CommTreeViewDemo extends CommBaseElement {
 
 @customElement('custom-tree-node-item')
 class CustomTreeNodeItem extends CommTreeNodeItem {
+  static get styles() {
+    return css`
+      ${CommTreeNodeItem.styles}
+
+      :host {
+        --paper-checkbox-checked-color: var(--comm-pink-500);
+      }
+    `
+  }
+
   //----------------------------------------------------------------------
   //
   //  Variables
   //
   //----------------------------------------------------------------------
 
-  f_extraStyle = html`
-    :host { --paper-checkbox-checked-color: var(--comm-pink-500); }
-  `
-
-  f_itemTemplate = html`
+  protected readonly itemTemplate = html`
     <paper-checkbox id="checkbox"></paper-checkbox><slot></slot>
   `
 
@@ -165,7 +173,7 @@ class CustomTreeNodeItem extends CommTreeNodeItem {
   //--------------------------------------------------
 
   @query('#checkbox')
-  m_checkbox!: PaperCheckboxElement
+  private m_checkbox!: PaperCheckboxElement
 
   //----------------------------------------------------------------------
   //
@@ -173,7 +181,7 @@ class CustomTreeNodeItem extends CommTreeNodeItem {
   //
   //----------------------------------------------------------------------
 
-  f_itemOnClick(e) {
+  protected itemOnClick(e) {
     const target = (dom(e) as any).localTarget
 
     // チェックボックスがクリックされた場合

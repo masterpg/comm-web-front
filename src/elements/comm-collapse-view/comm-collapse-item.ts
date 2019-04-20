@@ -1,72 +1,69 @@
 import '@polymer/iron-collapse/iron-collapse'
 import '@polymer/iron-icon/iron-icon'
 import '@polymer/iron-icons/iron-icons'
-import {customElement, LitElement, html, property, query, PropertyValues} from 'lit-element'
+import {css, customElement, html, property, query, PropertyValues} from 'lit-element'
 
-import {baseStyles} from '../../styles/polymer/base-styles'
+import {CommBaseElement, CommCSSStyle} from '../comm-base-element'
 
 @customElement('comm-collapse-item')
-export class CommCollapseItem extends LitElement {
+export class CommCollapseItem extends CommBaseElement {
+  static get styles() {
+    return css`
+      ${CommCSSStyle.styles}
+
+      .container {
+        border-bottom-style: var(--comm-collapse-divider-border-style, solid);
+        border-bottom-color: var(--comm-collapse-divider-border-color, var(--comm-grey-300));
+        border-bottom-width: var(--comm-collapse-divider-border-width, 1px);
+      }
+
+      .header-wrapper {
+        display: flex;
+      }
+
+      ${CommCSSStyle.extendClass('.header', '.comm-font-common-base')}
+      .header {
+        font-size: var(--comm-collapse-title-font-size, 16px);
+        color: var(--comm-collapse-title-color, var(--comm-grey-900));
+        font-weight: var(--comm-collapse-title-font-weight, 500);
+        line-height: var(--comm-collapse-title-line-height, normal);
+        width: 100%;
+        min-height: 48px;
+        padding-left: 16px;
+        text-align: left;
+        cursor: pointer;
+      }
+
+      .icon {
+        margin-right: 16px;
+        --iron-icon-height: 24px;
+        --iron-icon-width: 24px;
+      }
+
+      ${CommCSSStyle.extendClass('.title', '.flex')}
+
+      .toggle {
+        padding-right: 16px;
+        color: var(--comm-grey-500);
+      }
+
+      ${CommCSSStyle.extendClass('.content', '.comm-font-body1')}
+      .content {
+        padding-left: 16px;
+        padding-right: 16px;
+        text-align: left;
+        color: var(--comm-grey-900);
+        --iron-collapse-transition-duration: var(--comm-collapse-transition-duration, 300ms);
+      }
+
+      .content > .inner {
+        padding-bottom: 16px;
+      }
+    `
+  }
+
   protected render() {
     return html`
-      <style>
-        ${baseStyles}
-      </style>
-
-      <style>
-        .container {
-          border-bottom-style: var(--comm-collapse-divider-border-style, solid);
-          border-bottom-color: var(--comm-collapse-divider-border-color, var(--comm-grey-300));
-          border-bottom-width: var(--comm-collapse-divider-border-width, 1px);
-        }
-
-        .header-wrapper {
-          display: flex;
-        }
-
-        .header {
-          @apply (--comm-font-common-base);
-          font-size: var(--comm-collapse-title-font-size, 16px);
-          color: var(--comm-collapse-title-color, var(--comm-grey-900));
-          font-weight: var(--comm-collapse-title-font-weight, 500);
-          line-height: var(--comm-collapse-title-line-height, normal);
-          @apply (--comm-collapse-title);
-          width: 100%;
-          min-height: 48px;
-          padding-left: 16px;
-          text-align: left;
-          cursor: pointer;
-        }
-
-        .icon {
-          margin-right: 16px;
-          --iron-icon-height: 24px;
-          --iron-icon-width: 24px;
-        }
-
-        .title {
-          @apply (--layout-flex);
-        }
-
-        .toggle {
-          padding-right: 16px;
-          color: var(--comm-grey-500);
-        }
-
-        .content {
-          padding-left: 16px;
-          padding-right: 16px;
-          text-align: left;
-          color: var(--comm-grey-900);
-          --iron-collapse-transition-duration: var(--comm-collapse-transition-duration, 300ms);
-          @apply (--comm-font-body1);
-        }
-
-        .content > .inner {
-          padding-bottom: 16px;
-        }
-      </style>
-
       <div class="container">
         <!--
           IE11でflexboxとmin-heightの組み合わせが効かないのでラッパーで囲んでいる
@@ -93,14 +90,14 @@ export class CommCollapseItem extends LitElement {
   //----------------------------------------------------------------------
 
   @property({type: String})
-  m_toggleIcon: string = ''
+  private m_toggleIcon: string = ''
 
   //--------------------------------------------------
   //  Elements
   //--------------------------------------------------
 
   @query('#icon')
-  m_icon!: HTMLElement
+  private m_icon!: HTMLElement
 
   //----------------------------------------------------------------------
   //
@@ -169,11 +166,11 @@ export class CommCollapseItem extends LitElement {
   //
   //----------------------------------------------------------------------
 
-  m_openedChanged(opened: boolean): void {
+  private m_openedChanged(opened: boolean): void {
     this.m_toggleIcon = opened ? 'icons:expand-less' : 'icons:expand-more'
   }
 
-  m_displayIcon(): void {
+  private m_displayIcon(): void {
     // アイコン指定がない場合
     if (!this.icon && !this.src) {
       this.m_icon.style.display = 'none'
@@ -190,7 +187,7 @@ export class CommCollapseItem extends LitElement {
   //
   //----------------------------------------------------------------------
 
-  m_titleWrapperOnClick(event) {
+  private m_titleWrapperOnClick(event) {
     this.opened = !this.opened
     this.dispatchEvent(new CustomEvent('toggle-item'))
   }

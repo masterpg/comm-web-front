@@ -1,41 +1,42 @@
-import {customElement, LitElement, html, property} from 'lit-element'
-import {baseStyles} from '../../styles/polymer/base-styles'
+import {css, customElement, html, property} from 'lit-element'
+
+import {CommBaseElement, CommCSSStyle} from '../comm-base-element'
 
 @customElement('comm-awesome-element')
-export class CommAwesomeElement extends LitElement {
-  render() {
+export class CommAwesomeElement extends CommBaseElement {
+  static get styles() {
+    return css`
+      ${CommCSSStyle.styles}
+
+      :host {
+        width: 100%;
+      }
+
+      :host([hot]) {
+        color: var(--comm-red-500);
+      }
+
+      :host(:not([hot])) {
+        color: var(--comm-indigo-500);
+      }
+
+      ${CommCSSStyle.extendClass('.link', '.comm-pseudo-link')}
+    `
+  }
+
+  protected render() {
     return html`
-      <style>
-        ${baseStyles}
-      </style>
-
-      <style>
-        :host {
-          width: 100%;
-        }
-
-        :host([hot]) {
-          --comm-awesome-element-container: {
-            color: red;
-          }
-        }
-
-        :host(:not([hot])) {
-          --comm-awesome-element-container: {
-            color: blue;
-          }
-        }
-
-        .container {
-          @apply (--comm-font-display1);
-          @apply (--comm-awesome-element-container);
-        }
-      </style>
-
-      <div class="layout horizontal center-justified container">Hello World!</div>
+      <div class="layout horizontal center-justified">
+        <div>Hello World!</div>
+        <div @click="${this.m_linkOnClick}" class="link comm-ml-10">click</div>
+      </div>
     `
   }
 
   @property({type: Boolean, reflect: true})
   hot = false
+
+  private m_linkOnClick(e) {
+    alert('Hello World!')
+  }
 }

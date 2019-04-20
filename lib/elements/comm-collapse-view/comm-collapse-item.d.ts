@@ -1,11 +1,13 @@
 import '@polymer/iron-collapse/iron-collapse';
 import '@polymer/iron-icon/iron-icon';
 import '@polymer/iron-icons/iron-icons';
-import { LitElement, PropertyValues } from 'lit-element';
-export declare class CommCollapseItem extends LitElement {
+import { PropertyValues } from 'lit-element';
+import { CommBaseElement } from '../comm-base-element';
+export declare class CommCollapseItem extends CommBaseElement {
+    static readonly styles: import("lit-element").CSSResult;
     protected render(): import("lit-element").TemplateResult;
-    m_toggleIcon: string;
-    m_icon: HTMLElement;
+    private m_toggleIcon;
+    private m_icon;
     /**
      * タイトルです。
      */
@@ -28,7 +30,7 @@ export declare class CommCollapseItem extends LitElement {
     constructor();
     protected updated(changedProperties: PropertyValues): void;
     attributeChangedCallback(name: string, old: string, value: string): void;
-    m_openedChanged(opened: boolean): void;
-    m_displayIcon(): void;
-    m_titleWrapperOnClick(event: any): void;
+    private m_openedChanged;
+    private m_displayIcon;
+    private m_titleWrapperOnClick;
 }

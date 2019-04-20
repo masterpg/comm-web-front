@@ -1,7 +1,6 @@
-import {customElement, html, query} from 'lit-element'
+import {css, customElement, html, query} from 'lit-element'
 
-import {baseStyles} from '../../styles/polymer/base-styles'
-import {CommBaseElement} from '../comm-base-element'
+import {CommBaseElement, CommCSSStyle} from '../comm-base-element'
 import {CommCollapseItem} from './comm-collapse-item'
 
 /**
@@ -25,24 +24,24 @@ import {CommCollapseItem} from './comm-collapse-item'
  * `--comm-collapse-title-color` | アイテムタイトルのカラーです | `var(--comm-grey-900)`
  * `--comm-collapse-title-font-weight` | アイテムタイトルのフォントの太さです | `500`
  * `--comm-collapse-title-line-height` | アイテムタイトルの行の高さです | `normal`
- * `--comm-collapse-title` | アイテムタイトルのミックスインです | `{}`
  * `--comm-collapse-transition-duration` | 展開/収縮アニメーションの時間です | `300ms`
  */
 @customElement('comm-collapse-view')
 export class CommCollapseView extends CommBaseElement {
+  static get styles() {
+    return css`
+      ${CommCSSStyle.styles}
+
+      .container {
+        border-style: var(--comm-collapse-frame-border-style, none);
+        border-color: var(--comm-collapse-frame-border-color, var(--comm-grey-300));
+        border-width: var(--comm-collapse-frame-border-width, 1px);
+      }
+    `
+  }
+
   protected render() {
     return html`
-      <style>
-        ${baseStyles}
-      </style>
-
-      <style>
-        .container {
-          border-style: var(--comm-collapse-frame-border-style, none);
-          border-color: var(--comm-collapse-frame-border-color, var(--comm-grey-300));
-          border-width: var(--comm-collapse-frame-border-width, 1px);
-        }
-      </style>
       <div class="container"><slot id="slot" @slotchange="${this.m_slotOnSlotChange}"></slot></div>
     `
   }
@@ -53,16 +52,16 @@ export class CommCollapseView extends CommBaseElement {
   //
   //----------------------------------------------------------------------
 
-  m_toggleCollapseItemListeners = new WeakMap<CommCollapseItem, EventListener>()
+  private m_toggleCollapseItemListeners = new WeakMap<CommCollapseItem, EventListener>()
 
-  m_initialDividerStyle: string | null = null
+  private m_initialDividerStyle: string | null = null
 
   //--------------------------------------------------
   //  Elements
   //--------------------------------------------------
 
   @query('#slot')
-  m_slot!: HTMLSlotElement
+  private m_slot!: HTMLSlotElement
 
   //----------------------------------------------------------------------
   //
@@ -83,7 +82,7 @@ export class CommCollapseView extends CommBaseElement {
   /**
    * アイテム間のボーダーを設定します。
    */
-  m_setupCollapseBorder(): void {
+  private m_setupCollapseBorder(): void {
     const items = this.m_getCollapseItems()
     for (let i = 0; i < items.length; i++) {
       const item = items[i]
@@ -103,7 +102,7 @@ export class CommCollapseView extends CommBaseElement {
   /**
    * slotタグに挿入されたアイテムを取得します。
    */
-  m_getCollapseItems(): CommCollapseItem[] {
+  private m_getCollapseItems(): CommCollapseItem[] {
     if (!this.m_slot) return []
     const assignedNodes = this.m_slot.assignedNodes({flatten: false})
     return assignedNodes.filter(node => {
@@ -121,12 +120,12 @@ export class CommCollapseView extends CommBaseElement {
    * slotにノードが配置(削除含む)された際のハンドラです。
    * @param e
    */
-  m_slotOnSlotChange(e) {
+  private m_slotOnSlotChange(e) {
     if (this.m_initialDividerStyle === null) {
       this.m_initialDividerStyle = (window as any).ShadyCSS.getComputedStyleValue(this, '--comm-collapse-divider-border-style')
     }
 
-    const diff = this.f_getDistributedChildDiff(this.m_slot)
+    const diff = this.getDistributedChildDiff(this.m_slot)
 
     // 追加されたアイテムの処理
     for (const addedItem of diff.added) {
@@ -154,7 +153,7 @@ export class CommCollapseView extends CommBaseElement {
    * アイテムが開閉された際のハンドラです。
    * @param e
    */
-  m_collapseItemOnToggleCollapseItem(e) {
+  private m_collapseItemOnToggleCollapseItem(e) {
     // 必要があれば用のプレースホルダ
   }
 }

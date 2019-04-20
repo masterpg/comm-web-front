@@ -79,7 +79,7 @@ const config = {
           'style-loader',
           {
             loader: 'postcss-loader',
-            options: {config: {path: __dirname}},
+            options: {config: {path: path.resolve(__dirname, '..')}},
           },
         ],
       },

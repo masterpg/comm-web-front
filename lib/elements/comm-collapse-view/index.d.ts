@@ -1,5 +1,4 @@
 import { CommBaseElement } from '../comm-base-element';
-import { CommCollapseItem } from './comm-collapse-item';
 /**
  * # comm-collapse-view
  *
@@ -21,31 +20,31 @@ import { CommCollapseItem } from './comm-collapse-item';
  * `--comm-collapse-title-color` | アイテムタイトルのカラーです | `var(--comm-grey-900)`
  * `--comm-collapse-title-font-weight` | アイテムタイトルのフォントの太さです | `500`
  * `--comm-collapse-title-line-height` | アイテムタイトルの行の高さです | `normal`
- * `--comm-collapse-title` | アイテムタイトルのミックスインです | `{}`
  * `--comm-collapse-transition-duration` | 展開/収縮アニメーションの時間です | `300ms`
  */
 export declare class CommCollapseView extends CommBaseElement {
+    static readonly styles: import("lit-element").CSSResult;
     protected render(): import("lit-element").TemplateResult;
-    m_toggleCollapseItemListeners: WeakMap<CommCollapseItem, EventListener>;
-    m_initialDividerStyle: string | null;
-    m_slot: HTMLSlotElement;
+    private m_toggleCollapseItemListeners;
+    private m_initialDividerStyle;
+    private m_slot;
     constructor();
     /**
      * アイテム間のボーダーを設定します。
      */
-    m_setupCollapseBorder(): void;
+    private m_setupCollapseBorder;
     /**
      * slotタグに挿入されたアイテムを取得します。
      */
-    m_getCollapseItems(): CommCollapseItem[];
+    private m_getCollapseItems;
     /**
      * slotにノードが配置(削除含む)された際のハンドラです。
      * @param e
      */
-    m_slotOnSlotChange(e: any): void;
+    private m_slotOnSlotChange;
     /**
      * アイテムが開閉された際のハンドラです。
      * @param e
      */
-    m_collapseItemOnToggleCollapseItem(e: any): void;
+    private m_collapseItemOnToggleCollapseItem;
 }

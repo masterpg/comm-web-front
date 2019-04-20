@@ -4,35 +4,40 @@ import '@polymer/app-layout/app-header-layout/app-header-layout'
 import '@polymer/app-layout/app-header/app-header'
 import '@polymer/app-layout/app-toolbar/app-toolbar'
 import '@polymer/iron-pages/iron-pages'
-import {customElement, html, query, property} from 'lit-element'
+import {css, customElement, html, query, property} from 'lit-element'
 
 import '../../../lib/elements/comm-tree-view'
-import './comm-awesome-element-demo'
-import './comm-collapse-view-demo'
-import './comm-image-demo'
-import './comm-tree-view-demo'
-import {CommBaseElement} from '../../../lib/elements/comm-base-element'
+import './comm-awesome-element-page'
+import './comm-collapse-view-page'
+import './comm-image-page'
+import './comm-tree-view-page'
+import {CommBaseElement, CommCSSStyle} from '../../../lib/elements/comm-base-element'
 import {CommResizableMixin} from '../../../lib/elements/mixins/comm-resizable-mixin'
 import {CommTreeNodeItem, CommTreeView} from '../../../lib/elements/comm-tree-view'
-import {baseStyles} from '../../../lib/styles/polymer/base-styles'
 import {mix} from '../../../lib'
 
 @customElement('app-view')
 class AppView extends mix(CommBaseElement).with(CommResizableMixin) {
-  render() {
+  static get styles() {
+    return css`
+      ${CommCSSStyle.styles}
+
+      app-drawer-layout {
+        --app-drawer-width: 256px;
+      }
+      app-drawer-layout:not([narrow]) [drawer-toggle] {
+        display: none;
+      }
+
+      .tree-view-wrapper {
+        padding: 8px 16px;
+      }
+    `
+  }
+
+  protected render() {
     return html`
       <style>
-        ${baseStyles}
-      </style>
-
-      <style>
-        app-drawer-layout {
-          --app-drawer-width: 256px;
-        }
-        app-drawer-layout:not([narrow]) [drawer-toggle] {
-          display: none;
-        }
-
         app-drawer {
           --app-drawer-content-container: {
             background-color: var(--comm-grey-100);
@@ -47,10 +52,6 @@ class AppView extends mix(CommBaseElement).with(CommResizableMixin) {
             }
           }
         }
-
-        .tree-view-wrapper {
-          padding: 8px 16px;
-        }
       </style>
 
       <app-drawer-layout responsive-width="960px">
@@ -59,10 +60,10 @@ class AppView extends mix(CommBaseElement).with(CommResizableMixin) {
           <div class="tree-view-wrapper"><comm-tree-view id="treeView" @item-selected="${this.m_treeViewOnItemSelected}"></comm-tree-view></div>
         </app-drawer>
         <iron-pages selected="${this.m_pageName}" attr-for-selected="page-name" fallback-selection="fallback">
-          <comm-awesome-element-demo page-name="comm-awesome-element-demo"></comm-awesome-element-demo>
-          <comm-tree-view-demo page-name="comm-tree-view-demo"></comm-tree-view-demo>
-          <comm-image-demo page-name="comm-image-demo"></comm-image-demo>
-          <comm-collapse-view-demo page-name="comm-collapse-view-demo"></comm-collapse-view-demo>
+          <comm-awesome-element-page page-name="comm-awesome-element-page"></comm-awesome-element-page>
+          <comm-tree-view-page page-name="comm-tree-view-page"></comm-tree-view-page>
+          <comm-image-page page-name="comm-image-page"></comm-image-page>
+          <comm-collapse-view-page page-name="comm-collapse-view-page"></comm-collapse-view-page>
           <div page-name="">Page 1</div>
           <div page-name="">Page 2</div>
           <div page-name="">Page 3</div>
@@ -79,14 +80,14 @@ class AppView extends mix(CommBaseElement).with(CommResizableMixin) {
   //----------------------------------------------------------------------
 
   @property({type: String})
-  m_pageName: string = ''
+  private m_pageName: string = ''
 
   //--------------------------------------------------
   //  Elements
   //--------------------------------------------------
 
   @query('#treeView')
-  m_treeView!: CommTreeView
+  private m_treeView!: CommTreeView
 
   //----------------------------------------------------------------------
   //
@@ -101,19 +102,19 @@ class AppView extends mix(CommBaseElement).with(CommResizableMixin) {
       this.m_treeView.buildTree([
         {
           content: 'comm-awesome-element',
-          value: 'comm-awesome-element-demo',
+          value: 'comm-awesome-element-page',
         },
         {
           content: 'comm-tree-view',
-          value: 'comm-tree-view-demo',
+          value: 'comm-tree-view-page',
         },
         {
           content: 'comm-image',
-          value: 'comm-image-demo',
+          value: 'comm-image-page',
         },
         {
           content: 'comm-collapse-view',
-          value: 'comm-collapse-view-demo',
+          value: 'comm-collapse-view-page',
         },
       ])
     })
@@ -125,9 +126,9 @@ class AppView extends mix(CommBaseElement).with(CommResizableMixin) {
   //
   //----------------------------------------------------------------------
 
-  m_treeNodeOnToggleNode(e) {}
+  private m_treeNodeOnToggleNode(e) {}
 
-  m_treeViewOnItemSelected(e) {
+  private m_treeViewOnItemSelected(e) {
     const item = e.detail.item as CommTreeNodeItem
     this.m_pageName = item.value!
     this.f_async(this.notifyResize)

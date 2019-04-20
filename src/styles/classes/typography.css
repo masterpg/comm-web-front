@@ -1,5 +1,17 @@
 @import '../placeholder/typography.css';
 
+.comm-font-common-base {
+  @extend %comm-font-common-base;
+}
+
+.comm-font-common-code {
+  @extend %comm-font-common-code;
+ }
+
+.comm-font-common-nowrap {
+  @extend %comm-font-common-nowrap;
+ }
+
 .comm-font-display4 {
   @extend %comm-font-display4;
 }

@@ -1,41 +1,39 @@
 import '@polymer/paper-card/paper-card'
 import '@polymer/paper-button/paper-button'
 import '@polymer/paper-radio-group/paper-radio-group'
-import {customElement, html, property, query} from 'lit-element'
+import {css, customElement, html, property, query} from 'lit-element'
 
 import '../../../../lib/elements/comm-image'
-import '../../../../lib/styles/polymer/base-styles'
-import {CommBaseElement} from '../../../../lib/elements/comm-base-element'
+import {CommBaseElement, CommCSSStyle} from '../../../../lib/elements/comm-base-element'
 import {CommImage} from '../../../../lib/elements/comm-image'
-import {baseStyles} from '../../../../lib/styles/polymer/base-styles'
 
-@customElement('comm-image-demo')
-class CommImageDemo extends CommBaseElement {
-  render() {
+@customElement('comm-image-page')
+class CommImagePage extends CommBaseElement {
+  static get styles() {
+    return css`
+      ${CommCSSStyle.styles}
+
+      .main-container {
+        padding: 48px;
+      }
+
+      .settings-container {
+      }
+
+      .image-container {
+        width: 500px;
+        height: 500px;
+        border: solid 1px var(--comm-grey-300);
+      }
+
+      comm-image {
+        --comm-image-max-width: 400px;
+      }
+    `
+  }
+
+  protected render() {
     return html`
-      <style>
-        ${baseStyles}
-      </style>
-
-      <style>
-        .main-container {
-          padding: 48px;
-        }
-
-        .settings-container {
-        }
-
-        .image-container {
-          width: 500px;
-          height: 500px;
-          border: solid 1px var(--comm-grey-300);
-        }
-
-        comm-image {
-          --comm-image-max-width: 400px;
-        }
-      </style>
-
       <div class="layout vertical center main-container">
         <div class="layout vertical center-center comm-mb-20 settings-container">
           <div class="layout horizontal center">
@@ -70,26 +68,26 @@ class CommImageDemo extends CommBaseElement {
   }
 
   @query('#commImage')
-  m_commImage!: CommImage
+  private m_commImage!: CommImage
 
   @property({type: String})
-  m_hAlignSelected: string = 'center'
+  private m_hAlignSelected: string = 'center'
 
   @property({type: String})
-  m_vAlignSelected: string = 'center'
+  private m_vAlignSelected: string = 'center'
 
-  m_reloadButtonOnClick() {
+  private m_reloadButtonOnClick() {
     this.m_commImage.src = ''
     setTimeout(() => {
       this.m_commImage.src = 'https://dummyimage.com/300x200/000/fff'
     })
   }
 
-  m_hAlignGroupOnSelectedChanged(e) {
+  private m_hAlignGroupOnSelectedChanged(e) {
     this.m_hAlignSelected = e.detail.value
   }
 
-  m_vAlignGroupOnSelectedChanged(e) {
+  private m_vAlignGroupOnSelectedChanged(e) {
     this.m_vAlignSelected = e.detail.value
   }
 }
